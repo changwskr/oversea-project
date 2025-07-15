@@ -4,7 +4,7 @@ import com.skcc.oversea.common.entity.Common;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("mainCommonRepository")
 public interface CommonRepository extends JpaRepository<Common, String> {
     // Add custom query methods as needed
 }

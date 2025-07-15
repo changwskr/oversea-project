@@ -11,6 +11,7 @@ import com.skcc.oversea.eplatonframework.transfer.TPSVCINFODTO;
 import com.skcc.oversea.foundation.logej.LOGEJ;
 import com.skcc.oversea.foundation.constant.Constants;
 import com.skcc.oversea.eplatonframework.business.delegate.action.SPcommoBizAction.SPcommoService;
+import com.skcc.oversea.eplatonframework.business.repository.SPcommoRepository;
 
 /**
  * SP Commo Service Implementation for SKCC Oversea
@@ -383,12 +384,5 @@ public class SPcommoServiceImpl implements SPcommoService {
 
     private boolean isValidProcessSPCommoTransactionRequest(Object requestData) {
         return requestData != null;
-    }
-
-    /**
-     * SP Commo Repository interface
-     */
-    public interface SPcommoRepository {
-        // Define repository methods here
     }
 }

@@ -48,7 +48,7 @@ public class CashCardSBBean implements ICashCardSB {
                 cashCardDDTO.getBankCode(), cashCardDDTO.getPrimaryAccountNo());
 
         try {
-            return cashCardRepository.findByPrimaryKey(
+            return cashCardRepository.findById(
                     new CashCardPK(cashCardDDTO.getSequenceNo(), cashCardDDTO.getCardNumber()))
                     .orElseThrow(() -> new CosesAppException("ERR_0125_ACCOUNT_NUMBER_DOES_NOT_EXIST",
                             "Account number does not exist"));
@@ -67,7 +67,7 @@ public class CashCardSBBean implements ICashCardSB {
                 hotCardDDTO.getSequenceNo(), hotCardDDTO.getCardNumber());
 
         try {
-            return hotCardRepository.findByPrimaryKey(
+            return hotCardRepository.findById(
                     new HotCardPK(hotCardDDTO.getSequenceNo(), hotCardDDTO.getCardNumber()))
                     .orElseThrow(() -> new CosesAppException("ERR_0125_ACCOUNT_NUMBER_DOES_NOT_EXIST",
                             "Account number does not exist"));

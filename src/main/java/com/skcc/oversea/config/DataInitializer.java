@@ -62,7 +62,7 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         logger.info("Starting data initialization...");
-        
+
         try {
             // Check if data already exists
             if (isDataAlreadyInitialized()) {
@@ -72,9 +72,9 @@ public class DataInitializer implements CommandLineRunner {
 
             // Initialize test data
             initializeTestData();
-            
+
             logger.info("Data initialization completed successfully!");
-            
+
         } catch (Exception e) {
             logger.error("Error during data initialization", e);
             throw e;
@@ -82,33 +82,33 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private boolean isDataAlreadyInitialized() {
-        return cashCardRepository.count() > 0 || 
-               depositRepository.count() > 0 || 
-               commonRepository.count() > 0;
+        return cashCardRepository.count() > 0 ||
+                depositRepository.count() > 0 ||
+                commonRepository.count() > 0;
     }
 
     private void initializeTestData() {
         logger.info("Creating additional test data...");
-        
+
         String currentDate = LocalDateTime.now().format(DATE_FORMATTER);
         String currentTime = LocalDateTime.now().format(TIME_FORMATTER);
-        
+
         // Create additional test data if needed
         createAdditionalTestData(currentDate, currentTime);
-        
+
         logger.info("Additional test data created successfully!");
     }
 
     private void createAdditionalTestData(String currentDate, String currentTime) {
         // Create additional cash cards for testing
         createAdditionalCashCards(currentDate, currentTime);
-        
+
         // Create additional hot cards for testing
         createAdditionalHotCards(currentDate, currentTime);
-        
+
         // Create additional deposits for testing
         createAdditionalDeposits(currentDate, currentTime);
-        
+
         // Create additional transaction logs for testing
         createAdditionalTransactionLogs(currentDate, currentTime);
     }
@@ -116,6 +116,7 @@ public class DataInitializer implements CommandLineRunner {
     private void createAdditionalCashCards(String currentDate, String currentTime) {
         // Additional cash card for testing
         CashCard additionalCard = new CashCard(1, "9999999999999999", "001", "999999999999");
+        additionalCard.setCardNo("9999999999999999");
         additionalCard.setBankType("OVS");
         additionalCard.setBranchCode("001");
         additionalCard.setType("CASH");
@@ -130,7 +131,9 @@ public class DataInitializer implements CommandLineRunner {
         additionalCard.setRegisterDate(currentDate);
         additionalCard.setRegisterTime(currentTime);
         additionalCard.setRegisterBy("SYSTEM");
-        
+        additionalCard.setIsDeleted(false);
+        additionalCard.setCreatedDate(LocalDateTime.now());
+
         cashCardRepository.save(additionalCard);
         logger.info("Created additional cash card: {}", additionalCard.getCardNumber());
     }
@@ -145,7 +148,9 @@ public class DataInitializer implements CommandLineRunner {
         additionalHotCard.setRegisterDate(currentDate);
         additionalHotCard.setRegisterTime(currentTime);
         additionalHotCard.setRegisterBy("SYSTEM");
-        
+        additionalHotCard.setIsDeleted(false);
+        additionalHotCard.setCreatedDate(LocalDateTime.now());
+
         hotCardRepository.save(additionalHotCard);
         logger.info("Created additional hot card: {}", additionalHotCard.getCardNumber());
     }
@@ -161,13 +166,15 @@ public class DataInitializer implements CommandLineRunner {
         additionalDeposit.setCurrency("KRW");
         additionalDeposit.setBalance(new BigDecimal("10000000.00"));
         additionalDeposit.setInterestRate(new BigDecimal("3.50"));
-        additionalDeposit.setStatus("ACTIVE");
+        additionalDeposit.setStatus("A");
         additionalDeposit.setOpenDate(currentDate);
         additionalDeposit.setMaturityDate(LocalDateTime.of(2024, 12, 31, 0, 0));
         additionalDeposit.setRegisterDate(currentDate);
         additionalDeposit.setRegisterTime(currentTime);
         additionalDeposit.setRegisterBy("SYSTEM");
-        
+        additionalDeposit.setIsDeleted(false);
+        additionalDeposit.setCreatedDate(LocalDateTime.now());
+
         depositRepository.save(additionalDeposit);
         logger.info("Created additional deposit: {}", additionalDeposit.getAccountNumber());
     }
@@ -193,7 +200,8 @@ public class DataInitializer implements CommandLineRunner {
         additionalLog.setEventNo("TEST_EVT");
         additionalLog.setIpAddress("127.0.0.1");
         additionalLog.setUpdateDate(LocalDateTime.now());
-        
+        additionalLog.setCreatedDate(LocalDateTime.now());
+
         transactionLogRepository.save(additionalLog);
         logger.info("Created additional transaction log: {}", additionalLog.getTransactionId());
     }
@@ -203,12 +211,12 @@ public class DataInitializer implements CommandLineRunner {
      */
     public void createTestDataForTesting() {
         logger.info("Creating test data for testing purposes...");
-        
+
         String currentDate = LocalDateTime.now().format(DATE_FORMATTER);
         String currentTime = LocalDateTime.now().format(TIME_FORMATTER);
-        
+
         createAdditionalTestData(currentDate, currentTime);
-        
+
         logger.info("Test data created for testing purposes!");
     }
-} 
+}

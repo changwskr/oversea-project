@@ -12,7 +12,7 @@ import com.skcc.oversea.foundation.logej.LOGEJ;
  * Transaction control framework implementation
  * in the Spring Boot migration.
  */
-@Component
+@Component("tcfTCF")
 public class TCF {
 
     private static final Logger logger = LoggerFactory.getLogger(TCF.class);

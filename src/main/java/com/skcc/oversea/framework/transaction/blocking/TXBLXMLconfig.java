@@ -1,9 +1,9 @@
 package com.skcc.oversea.framework.transaction.blocking;
 
-
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import jakarta.annotation.PostConstruct;
 import com.skcc.oversea.foundation.base.*;
 
 /**
@@ -96,24 +96,22 @@ import com.skcc.oversea.framework.transaction.constant.TCFConstants;
 import com.skcc.oversea.foundation.config.Config;
 
 @Component
-public class TXBLXMLconfig
-{
+public class TXBLXMLconfig {
   private static TXBLXMLconfig instance;
-  public static long otxctlmode=0;
-  public static long ntxctlmode=0;
-  public static String xml_file_name=TCFConstants.TX_BLOCKING_CONFIG_FILE_NAME ;
+  public static long otxctlmode = 0;
+  public static long ntxctlmode = 0;
+  public static String xml_file_name = TCFConstants.TX_BLOCKING_CONFIG_FILE_NAME;
   public static Hashtable ht = new Hashtable();
   public EPlatonEvent in;
-  
+
   @Autowired
   private Config config;
 
   public static synchronized TXBLXMLconfig getInstance() {
     if (instance == null) {
-      try{
+      try {
         instance = new TXBLXMLconfig();
-      }
-      catch(Exception igex){
+      } catch (Exception igex) {
         igex.printStackTrace();
         System.out.println(igex);
       }
@@ -121,178 +119,164 @@ public class TXBLXMLconfig
     return instance;
   }
 
-  public void setInBound(EPlatonEvent in){
-     this.in = in;
+  public void setInBound(EPlatonEvent in) {
+    this.in = in;
   }
 
   public TXBLXMLconfig() throws IOException {
-    try{
-      ht.put("TXBLOCKCNT",TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXBLOCKCNT"));
-
-      ht.put("TMODE",TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TELLER","TMODE"));
-      for ( int ii=1 ; ii <= CommonUtil.Str2Int(TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXBLOCKCNT")) ; ii++ )
-      {
-        ht.put("TELLS"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TELLER","TELLS"+ii));
-        ht.put("TELLE"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TELLER","TELLE"+ii));
-        System.out.println((String)ht.get("TELLS"+ii));
-        System.out.println((String)ht.get("TELLE"+ii));
-      }
-
-      ht.put("EMODE",TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXCODE","EMODE"));
-      for ( int ii=1 ; ii <= CommonUtil.Str2Int(TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXBLOCKCNT")) ; ii++ )
-      {
-        ht.put("EVNTS"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXCODE","EVNTS"+ii));
-        ht.put("EVNTE"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXCODE","EVNTE"+ii));
-        System.out.println((String)ht.get("EVNTS"+ii));
-        System.out.println((String)ht.get("EVNTE"+ii));
-      }
-
-      ht.put("BMODE",TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","BRANCH","BMODE"));
-      for ( int ii=1 ; ii <= CommonUtil.Str2Int(TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXBLOCKCNT")) ; ii++ )
-      {
-        ht.put("BRCHS"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","BRANCH","BRCHS"+ii));
-        ht.put("BRCHE"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","BRANCH","BRCHE"+ii));
-        System.out.println((String)ht.get("BRCHS"+ii));
-        System.out.println((String)ht.get("BRCHE"+ii));
-      }
-
-    }
-    catch(Exception ex){}
+    // Initialize with default values to avoid recursion
+    // The actual configuration will be loaded when Spring injects the config
   }
 
-  public boolean changeFileMode()
-  {
+  @PostConstruct
+  public void initializeConfig() {
+    try {
+      ht.put("TXBLOCKCNT", GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT"));
+
+      ht.put("TMODE", GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TMODE"));
+      for (int ii = 1; ii <= CommonUtil.Str2Int(GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT")); ii++) {
+        ht.put("TELLS" + ii, GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TELLS" + ii));
+        ht.put("TELLE" + ii, GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TELLE" + ii));
+        System.out.println((String) ht.get("TELLS" + ii));
+        System.out.println((String) ht.get("TELLE" + ii));
+      }
+
+      ht.put("EMODE", GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EMODE"));
+      for (int ii = 1; ii <= CommonUtil.Str2Int(GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT")); ii++) {
+        ht.put("EVNTS" + ii, GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EVNTS" + ii));
+        ht.put("EVNTE" + ii, GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EVNTE" + ii));
+        System.out.println((String) ht.get("EVNTS" + ii));
+        System.out.println((String) ht.get("EVNTE" + ii));
+      }
+
+      ht.put("BMODE", GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BMODE"));
+      for (int ii = 1; ii <= CommonUtil.Str2Int(GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT")); ii++) {
+        ht.put("BRCHS" + ii, GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BRCHS" + ii));
+        ht.put("BRCHE" + ii, GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BRCHE" + ii));
+        System.out.println((String) ht.get("BRCHS" + ii));
+        System.out.println((String) ht.get("BRCHE" + ii));
+      }
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  public boolean changeFileMode() {
     ntxctlmode = FILEapi.FILElastmodified(TXBLXMLconfig.xml_file_name);
-    if( ntxctlmode != otxctlmode )
-    {
+    if (ntxctlmode != otxctlmode) {
       return true;
     }
     return false;
   }
 
-  public void updateTxCtlInfo() throws IOException
-  {
-    int loopcnt=0;
+  public void updateTxCtlInfo() throws IOException {
+    int loopcnt = 0;
 
-    if( changeFileMode() )
-    {
+    if (changeFileMode()) {
       System.out.println("JBBCONF.INI 파일속성이 변경");
 
-      try{
-        ht.put("TXBLOCKCNT",TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXBLOCKCNT"));
+      try {
+        ht.put("TXBLOCKCNT", TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT"));
 
-        ht.put("TMODE",TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TELLER","TMODE"));
-        for ( int ii=1 ; ii <= CommonUtil.Str2Int(TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXBLOCKCNT")) ; ii++ )
-        {
-          ht.put("TELLS"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TELLER","TELLS"+ii));
-          ht.put("TELLE"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TELLER","TELLE"+ii));
+        ht.put("TMODE", TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TMODE"));
+        for (int ii = 1; ii <= CommonUtil
+            .Str2Int(TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT")); ii++) {
+          ht.put("TELLS" + ii, TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TELLS" + ii));
+          ht.put("TELLE" + ii, TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TELLE" + ii));
         }
 
-        ht.put("EMODE",TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXCODE","EMODE"));
-        for ( int ii=1 ; ii <= CommonUtil.Str2Int(TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXBLOCKCNT")) ; ii++ )
-        {
-          ht.put("EVNTS"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXCODE","EVNTS"+ii));
-          ht.put("EVNTE"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXCODE","EVNTE"+ii));
+        ht.put("EMODE", TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EMODE"));
+        for (int ii = 1; ii <= CommonUtil
+            .Str2Int(TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT")); ii++) {
+          ht.put("EVNTS" + ii, TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EVNTS" + ii));
+          ht.put("EVNTE" + ii, TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EVNTE" + ii));
         }
 
-        ht.put("BMODE",TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","BRANCH","BMODE"));
-        for ( int ii=1 ; ii <= CommonUtil.Str2Int(TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","TXBLOCKCNT")) ; ii++ ){
-          ht.put("BRCHS"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","BRANCH","BRCHS"+ii));
-          ht.put("BRCHE"+ii,TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING","BRANCH","BRCHE"+ii));
+        ht.put("BMODE", TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BMODE"));
+        for (int ii = 1; ii <= CommonUtil
+            .Str2Int(TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT")); ii++) {
+          ht.put("BRCHS" + ii, TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BRCHS" + ii));
+          ht.put("BRCHE" + ii, TXBLXMLconfig.getInstance().GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BRCHE" + ii));
         }
         otxctlmode = FILEapi.FILElastmodified(TXBLXMLconfig.xml_file_name);
-      }
-      catch(Exception ex)
-      {
+      } catch (Exception ex) {
         ex.printStackTrace();
       }
     }
   }
 
-  public boolean isBlockingTx(String tellerid,String eventno,String branch) throws IOException
-  {
+  public boolean isBlockingTx(String tellerid, String eventno, String branch) throws IOException {
 
     updateTxCtlInfo();
 
-    if( (ht.get("TMODE").toString().substring(0,2) ).equals("ON") )
-    {
-      for( int ii=1 ; ii <= CommonUtil.Str2Int((String)ht.get("TXBLOCKCNT")); ii++ )
-      {
-        System.out.println("TELLS"+ii+":"+ht.get("TELLS"+ii));
-        System.out.println("TELLE"+ii+":"+ht.get("TELLE"+ii));
+    if ((ht.get("TMODE").toString().substring(0, 2)).equals("ON")) {
+      for (int ii = 1; ii <= CommonUtil.Str2Int((String) ht.get("TXBLOCKCNT")); ii++) {
+        System.out.println("TELLS" + ii + ":" + ht.get("TELLS" + ii));
+        System.out.println("TELLE" + ii + ":" + ht.get("TELLE" + ii));
 
-        if( ((String)ht.get("TELLS"+ii)).equals("*") ||  ht.get("TELLS"+ii)==null )
+        if (((String) ht.get("TELLS" + ii)).equals("*") || ht.get("TELLS" + ii) == null)
           continue;
-        int st = CommonUtil.Str2Int((String)ht.get("TELLS"+ii));
-        int et = CommonUtil.Str2Int((String)ht.get("TELLE"+ii));
-        int ct = CommonUtil.Str2Int(tellerid.substring(3,10));
+        int st = CommonUtil.Str2Int((String) ht.get("TELLS" + ii));
+        int et = CommonUtil.Str2Int((String) ht.get("TELLE" + ii));
+        int ct = CommonUtil.Str2Int(tellerid.substring(3, 10));
 
-        System.out.println("CurrentTellerid:"+CommonUtil.Str2Int(tellerid.substring(3,10)));
-        System.out.println("TMODE:"+ht.get("TMODE"));
-        System.out.println("TELLS"+ii+":"+ht.get("TELLS"+ii));
-        System.out.println("TELLE"+ii+":"+ht.get("TELLE"+ii));
+        System.out.println("CurrentTellerid:" + CommonUtil.Str2Int(tellerid.substring(3, 10)));
+        System.out.println("TMODE:" + ht.get("TMODE"));
+        System.out.println("TELLS" + ii + ":" + ht.get("TELLS" + ii));
+        System.out.println("TELLE" + ii + ":" + ht.get("TELLE" + ii));
 
-        if( ct >= st && ct <= et )
-        {
+        if (ct >= st && ct <= et) {
           return true;
         }
       }
-    }
-    else if( (ht.get("EMODE").toString().substring(0,2)).equals("ON") )
-    {
-      for( int ii=1 ; ii <= CommonUtil.Str2Int((String)ht.get("TXBLOCKCNT")); ii++ )
-      {
-        System.out.println("EVNTS"+ii+":"+ht.get("EVNTS"+ii));
-        System.out.println("EVNTE"+ii+":"+ht.get("EVNTE"+ii));
+    } else if ((ht.get("EMODE").toString().substring(0, 2)).equals("ON")) {
+      for (int ii = 1; ii <= CommonUtil.Str2Int((String) ht.get("TXBLOCKCNT")); ii++) {
+        System.out.println("EVNTS" + ii + ":" + ht.get("EVNTS" + ii));
+        System.out.println("EVNTE" + ii + ":" + ht.get("EVNTE" + ii));
 
-        if( ((String)ht.get("EVNTS"+ii)).equals("*") ||  ht.get("EVNTS"+ii)==null )
+        if (((String) ht.get("EVNTS" + ii)).equals("*") || ht.get("EVNTS" + ii) == null)
           continue;
-        int st = CommonUtil.Str2Int((String)ht.get("EVNTS"+ii));
-        int et = CommonUtil.Str2Int((String)ht.get("EVNTE"+ii));
+        int st = CommonUtil.Str2Int((String) ht.get("EVNTS" + ii));
+        int et = CommonUtil.Str2Int((String) ht.get("EVNTE" + ii));
         int ct = CommonUtil.Str2Int(eventno);
 
-        System.out.println("CurrentEvent:"+eventno);
-        System.out.println("EMODE:"+ht.get("EMODE"));
-        System.out.println("EVNTS"+ii+":"+ht.get("EVNTS"+ii));
-        System.out.println("EVNTE"+ii+":"+ht.get("EVNTE"+ii));
+        System.out.println("CurrentEvent:" + eventno);
+        System.out.println("EMODE:" + ht.get("EMODE"));
+        System.out.println("EVNTS" + ii + ":" + ht.get("EVNTS" + ii));
+        System.out.println("EVNTE" + ii + ":" + ht.get("EVNTE" + ii));
 
-        if( ct >= st && ct <= et )
-        {
-          System.out.println("CurrentEvent:"+eventno);
-          System.out.println("EMODE:"+ht.get("EMODE"));
-          System.out.println("EVNTS"+ii+":"+ht.get("EVNTS"+ii));
-          System.out.println("EVNTE"+ii+":"+ht.get("EVNTE"+ii));
+        if (ct >= st && ct <= et) {
+          System.out.println("CurrentEvent:" + eventno);
+          System.out.println("EMODE:" + ht.get("EMODE"));
+          System.out.println("EVNTS" + ii + ":" + ht.get("EVNTS" + ii));
+          System.out.println("EVNTE" + ii + ":" + ht.get("EVNTE" + ii));
           return true;
         }
       }
-    }
-    else if( (ht.get("BMODE").toString().substring(0,2)).equals("ON") )
-    {
-      for( int ii=1 ; ii <= CommonUtil.Str2Int((String)ht.get("TXBLOCKCNT")); ii++ )
-      {
-        System.out.println("BRCHS"+ii+":"+ht.get("BRCHS"+ii));
-        System.out.println("BRCHE"+ii+":"+ht.get("BRCHE"+ii));
+    } else if ((ht.get("BMODE").toString().substring(0, 2)).equals("ON")) {
+      for (int ii = 1; ii <= CommonUtil.Str2Int((String) ht.get("TXBLOCKCNT")); ii++) {
+        System.out.println("BRCHS" + ii + ":" + ht.get("BRCHS" + ii));
+        System.out.println("BRCHE" + ii + ":" + ht.get("BRCHE" + ii));
 
-        if( ((String)ht.get("BRCHS"+ii)).equals("*") ||  ht.get("BRCHS"+ii)==null )
+        if (((String) ht.get("BRCHS" + ii)).equals("*") || ht.get("BRCHS" + ii) == null)
           continue;
-        int st = CommonUtil.Str2Int((String)ht.get("BRCHS"+ii));
-        int et = CommonUtil.Str2Int((String)ht.get("BRCHE"+ii));
+        int st = CommonUtil.Str2Int((String) ht.get("BRCHS" + ii));
+        int et = CommonUtil.Str2Int((String) ht.get("BRCHE" + ii));
         int ct = CommonUtil.Str2Int(branch);
 
-        System.out.println("Currentbranch:"+CommonUtil.Str2Int(branch));
-        System.out.println("BMODE:"+ht.get("BMODE"));
-        System.out.println("BRCHS"+ii+":"+ht.get("BRCHS"+ii));
-        System.out.println("BRCHE"+ii+":"+ht.get("BRCHE"+ii));
+        System.out.println("Currentbranch:" + CommonUtil.Str2Int(branch));
+        System.out.println("BMODE:" + ht.get("BMODE"));
+        System.out.println("BRCHS" + ii + ":" + ht.get("BRCHS" + ii));
+        System.out.println("BRCHE" + ii + ":" + ht.get("BRCHE" + ii));
 
-        if( ct >= st && ct <= et )
-        {
+        if (ct >= st && ct <= et) {
           return true;
         }
       }
     }
     return false;
   }
-
 
   /**
    * Spring Config를 통한 XML 설정값 조회
@@ -301,14 +285,14 @@ public class TXBLXMLconfig
    * @param ele2 - level 2값
    * @return
    */
-  public String GetEnvValue(String ele1,String ele2){
+  public String GetEnvValue(String ele1, String ele2) {
     if (config != null) {
       return config.getValue(ele1, ele2);
     }
     // fallback for static instance calls
     return getStaticConfigValue(ele1, ele2);
   }
-  
+
   /**
    * Static method for backward compatibility
    */
@@ -325,7 +309,7 @@ public class TXBLXMLconfig
    * @param ele3 - level 3값
    * @return
    */
-  public String GetEnvValue(String ele1,String ele2,String ele3){
+  public String GetEnvValue(String ele1, String ele2, String ele3) {
     if (config != null) {
       // Try to get nested configuration value
       try {
@@ -343,25 +327,26 @@ public class TXBLXMLconfig
         }
       } catch (Exception e) {
         System.out.println("Failed to get config value: " + ele1 + "." + ele2 + "." + ele3);
-  }
+      }
     }
     // fallback
     return getStaticConfigValue(ele1, ele2, ele3);
   }
-  
+
   private static String getStaticConfigValue(String ele1, String ele2, String ele3) {
     return System.getProperty(ele1 + "." + ele2 + "." + ele3, "");
   }
 
   /**
    * Spring Config를 통한 XML 설정값 조회 (4-level)
+   * 
    * @param ele1
    * @param ele2
    * @param ele3
    * @param ele4
    * @return
    */
-  public String GetEnvValue(String ele1,String ele2,String ele3,String ele4){
+  public String GetEnvValue(String ele1, String ele2, String ele3, String ele4) {
     if (config != null) {
       // Try to get deeply nested configuration value
       try {
@@ -389,7 +374,4 @@ public class TXBLXMLconfig
     return System.getProperty(ele1 + "." + ele2 + "." + ele3 + "." + ele4, "");
   }
 
-
 }
-
-

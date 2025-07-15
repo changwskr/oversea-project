@@ -21,14 +21,6 @@ import com.skcc.oversea.eplatonframework.business.interceptor.BusinessOperationI
 public class BusinessConfig {
 
     /**
-     * Business Operation Interceptor Bean
-     */
-    @Bean
-    public BusinessOperationInterceptor businessOperationInterceptor() {
-        return new BusinessOperationInterceptor();
-    }
-
-    /**
      * Business Properties Bean
      */
     @Bean

@@ -3,7 +3,7 @@ package com.skcc.oversea.common.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "MainCommon")
 @Table(name = "COMMON")
 public class Common {
 

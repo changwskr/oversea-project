@@ -378,7 +378,7 @@ public class DepositServiceImpl implements DepositService {
 
     public List<Deposit> getDepositsByCustomerId(String customerId) {
         logger.info("Getting deposits by customer ID: {}", customerId);
-        return depositRepository.findByCustomerId(customerId);
+        return depositRepository.findByPrimaryKeyCustomerId(customerId);
     }
 
     public Deposit createDeposit(Deposit deposit) {

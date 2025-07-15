@@ -9,6 +9,7 @@ import com.skcc.oversea.eplatonframework.transfer.EPlatonCommonDTO;
 import com.skcc.oversea.eplatonframework.transfer.TPSVCINFODTO;
 import com.skcc.oversea.foundation.logej.LOGEJ;
 import com.skcc.oversea.foundation.constant.Constants;
+import com.skcc.oversea.eplatonframework.business.service.CommonService;
 
 /**
  * Common Business Action for SKCC Oversea
@@ -59,20 +60,16 @@ public class CommonBizAction extends EPlatonBizAction {
    */
   private EPlatonEvent routeToCommonService(EPlatonEvent event, String requestType) {
     switch (requestType) {
-      case "GET_SYSTEM_INFO":
-        return commonService.getSystemInfo(event);
-      case "GET_USER_INFO":
-        return commonService.getUserInfo(event);
-      case "VALIDATE_SESSION":
-        return commonService.validateSession(event);
-      case "GET_CONFIGURATION":
-        return commonService.getConfiguration(event);
-      case "UPDATE_CONFIGURATION":
-        return commonService.updateConfiguration(event);
-      case "GET_AUDIT_LOG":
-        return commonService.getAuditLog(event);
-      case "CLEAR_CACHE":
-        return commonService.clearCache(event);
+      case "GET_COMMON_INFO":
+        return commonService.getCommonInfo(event);
+      case "CREATE_COMMON":
+        return commonService.createCommon(event);
+      case "UPDATE_COMMON":
+        return commonService.updateCommon(event);
+      case "DELETE_COMMON":
+        return commonService.deleteCommon(event);
+      case "VALIDATE_COMMON":
+        return commonService.validateCommon(event);
       default:
         setErrorInfo(event, "ECOM003", "Unknown request type: " + requestType);
         return event;
@@ -107,24 +104,5 @@ public class CommonBizAction extends EPlatonBizAction {
   public void postAct(EPlatonEvent event) {
     logger.debug("Post-act processing for common business action");
     // Add any post-processing logic here
-  }
-
-  /**
-   * Common Service interface
-   */
-  public interface CommonService {
-    EPlatonEvent getSystemInfo(EPlatonEvent event);
-
-    EPlatonEvent getUserInfo(EPlatonEvent event);
-
-    EPlatonEvent validateSession(EPlatonEvent event);
-
-    EPlatonEvent getConfiguration(EPlatonEvent event);
-
-    EPlatonEvent updateConfiguration(EPlatonEvent event);
-
-    EPlatonEvent getAuditLog(EPlatonEvent event);
-
-    EPlatonEvent clearCache(EPlatonEvent event);
   }
 }

@@ -26,7 +26,8 @@ public interface HotCardRepository extends JpaRepository<HotCard, HotCardPK> {
         /**
          * Find by card number
          */
-        Optional<HotCard> findByCardNo(String cardNo);
+        @Query("SELECT h FROM HotCard h WHERE h.primaryKey.cardNumber = :cardNo")
+        Optional<HotCard> findByCardNo(@Param("cardNo") String cardNo);
 
         /**
          * Find by account number

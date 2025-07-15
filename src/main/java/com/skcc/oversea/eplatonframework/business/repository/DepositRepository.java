@@ -21,16 +21,9 @@ public interface DepositRepository extends JpaRepository<Deposit, DepositPK> {
         Optional<Deposit> findByPrimaryKey(DepositPK primaryKey);
 
         /**
-         * Find deposits by account number
+         * Find by account number
          */
-        @Query("SELECT d FROM Deposit d WHERE d.accountNumber = :accountNumber")
-        List<Deposit> findByAccountNumber(@Param("accountNumber") String accountNumber);
-
-        /**
-         * Find deposits by customer ID
-         */
-        @Query("SELECT d FROM Deposit d WHERE d.customerId = :customerId")
-        List<Deposit> findByCustomerId(@Param("customerId") String customerId);
+        List<Deposit> findByPrimaryKeyAccountNumber(String accountNumber);
 
         /**
          * Find deposits by branch code
@@ -94,4 +87,9 @@ public interface DepositRepository extends JpaRepository<Deposit, DepositPK> {
          */
         @Query("SELECT d FROM Deposit d WHERE d.maturityDate <= :maturityDate AND d.isActive = true")
         List<Deposit> findMaturedDeposits(@Param("maturityDate") LocalDateTime maturityDate);
+
+        /**
+         * Find by customer ID
+         */
+        List<Deposit> findByPrimaryKeyCustomerId(String customerId);
 }

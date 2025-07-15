@@ -3,10 +3,11 @@ package com.skcc.oversea.deposit.entity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import com.skcc.oversea.eplatonframework.business.entity.BaseEntity;
 
-@Entity
+@Entity(name = "MainDeposit")
 @Table(name = "DEPOSIT")
-public class Deposit {
+public class Deposit extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

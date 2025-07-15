@@ -11,6 +11,7 @@ import com.skcc.oversea.eplatonframework.transfer.TPSVCINFODTO;
 import com.skcc.oversea.foundation.logej.LOGEJ;
 import com.skcc.oversea.foundation.constant.Constants;
 import com.skcc.oversea.eplatonframework.business.delegate.action.SPcashcardBizAction.SPcashcardService;
+import com.skcc.oversea.eplatonframework.business.repository.SPcashcardRepository;
 
 /**
  * SP Cash Card Service Implementation for SKCC Oversea
@@ -424,12 +425,5 @@ public class SPcashcardServiceImpl implements SPcashcardService {
 
     private boolean isValidGetSPCashCardBalanceRequest(Object requestData) {
         return requestData != null;
-    }
-
-    /**
-     * SP Cash Card Repository interface
-     */
-    public interface SPcashcardRepository {
-        // Define repository methods here
     }
 }

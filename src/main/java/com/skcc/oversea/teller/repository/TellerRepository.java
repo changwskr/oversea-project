@@ -4,7 +4,7 @@ import com.skcc.oversea.teller.entity.Teller;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("mainTellerRepository")
 public interface TellerRepository extends JpaRepository<Teller, String> {
     // Add custom query methods as needed
 }

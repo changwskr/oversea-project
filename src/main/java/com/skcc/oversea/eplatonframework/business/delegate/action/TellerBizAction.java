@@ -9,6 +9,7 @@ import com.skcc.oversea.eplatonframework.transfer.EPlatonCommonDTO;
 import com.skcc.oversea.eplatonframework.transfer.TPSVCINFODTO;
 import com.skcc.oversea.foundation.logej.LOGEJ;
 import com.skcc.oversea.foundation.constant.Constants;
+import com.skcc.oversea.eplatonframework.business.service.TellerService;
 
 /**
  * Teller Business Action for SKCC Oversea
@@ -109,22 +110,4 @@ public class TellerBizAction extends EPlatonBizAction {
     // Add any post-processing logic here
   }
 
-  /**
-   * Teller Service interface
-   */
-  public interface TellerService {
-    EPlatonEvent loginTeller(EPlatonEvent event);
-
-    EPlatonEvent logoutTeller(EPlatonEvent event);
-
-    EPlatonEvent getTellerInfo(EPlatonEvent event);
-
-    EPlatonEvent updateTellerInfo(EPlatonEvent event);
-
-    EPlatonEvent getTellerPermissions(EPlatonEvent event);
-
-    EPlatonEvent validateTellerSession(EPlatonEvent event);
-
-    EPlatonEvent getTellerTransactions(EPlatonEvent event);
-  }
 }

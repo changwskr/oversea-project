@@ -2,7 +2,7 @@ package com.skcc.oversea.framework.transaction.tcf;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("tcfSTF")
 public class STF {
     // STF (Service Transaction Framework) implementation
     // This is a simplified version for Spring Boot

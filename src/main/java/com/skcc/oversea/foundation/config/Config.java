@@ -31,7 +31,7 @@ import java.util.Map;
 public class Config {
 
   private static final Logger logger = LoggerFactory.getLogger(Config.class);
-  
+
   // Static instance for legacy compatibility
   private static Config instance;
 
@@ -74,14 +74,6 @@ public class Config {
   }
 
   /**
-   * Spring bean configuration
-   */
-  @Bean
-  public Config config() {
-    return this;
-  }
-
-  /**
    * Load default configuration when not using Spring
    */
   private void loadDefaultConfig() {
@@ -113,17 +105,17 @@ public class Config {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       DocumentBuilder builder = factory.newDocumentBuilder();
       Document doc = builder.newDocument();
-      
+
       Element root = doc.createElement("config");
       doc.appendChild(root);
-      
+
       // Add transaction-log-service element
       Element transactionLog = doc.createElement("transaction-log-service");
       Element fileLog = doc.createElement("file-log");
       fileLog.setTextContent("/tmp/transaction.log");
       transactionLog.appendChild(fileLog);
       root.appendChild(transactionLog);
-      
+
       return doc;
     } catch (Exception e) {
       logger.error("Failed to create default document", e);
@@ -187,7 +179,8 @@ public class Config {
   }
 
   /**
-   * Get configuration element by service name (returns wrapper for legacy compatibility)
+   * Get configuration element by service name (returns wrapper for legacy
+   * compatibility)
    */
   public ConfigElement getElement(String serviceName) {
     if (configDocument == null) {

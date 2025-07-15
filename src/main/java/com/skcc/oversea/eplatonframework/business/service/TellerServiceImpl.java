@@ -208,6 +208,221 @@ public class TellerServiceImpl implements TellerService {
         }
     }
 
+    // =========================== Additional Methods for TellerBizAction
+    // ===========================
+
+    @Override
+    @Transactional
+    public EPlatonEvent loginTeller(EPlatonEvent event) {
+        try {
+            logger.info("Logging in teller");
+
+            // Extract request data
+            Object requestData = event.getRequest();
+
+            // Validate request data
+            if (requestData == null) {
+                setErrorInfo(event, "ETEL501", "Invalid login teller request data");
+                return event;
+            }
+
+            // Login teller logic here
+            // Teller teller = tellerRepository.loginTeller(requestData);
+
+            // Set response
+            EPlatonCommonDTO response = new EPlatonCommonDTO();
+            response.setMessage("Teller logged in successfully");
+            event.setResponse(response);
+            event.getTPSVCINFODTO().setErrorcode("I0000");
+            event.getTPSVCINFODTO().setError_message("Teller logged in successfully");
+
+            logger.info("Teller logged in successfully");
+            return event;
+
+        } catch (Exception e) {
+            logger.error("Error logging in teller", e);
+            setErrorInfo(event, "ETEL502", "Failed to log in teller: " + e.getMessage());
+            return event;
+        }
+    }
+
+    @Override
+    @Transactional
+    public EPlatonEvent logoutTeller(EPlatonEvent event) {
+        try {
+            logger.info("Logging out teller");
+
+            // Extract request data
+            Object requestData = event.getRequest();
+
+            // Validate request data
+            if (requestData == null) {
+                setErrorInfo(event, "ETEL503", "Invalid logout teller request data");
+                return event;
+            }
+
+            // Logout teller logic here
+            // tellerRepository.logoutTeller(requestData);
+
+            // Set response
+            EPlatonCommonDTO response = new EPlatonCommonDTO();
+            response.setMessage("Teller logged out successfully");
+            event.setResponse(response);
+            event.getTPSVCINFODTO().setErrorcode("I0000");
+            event.getTPSVCINFODTO().setError_message("Teller logged out successfully");
+
+            logger.info("Teller logged out successfully");
+            return event;
+
+        } catch (Exception e) {
+            logger.error("Error logging out teller", e);
+            setErrorInfo(event, "ETEL504", "Failed to log out teller: " + e.getMessage());
+            return event;
+        }
+    }
+
+    @Override
+    @Transactional
+    public EPlatonEvent updateTellerInfo(EPlatonEvent event) {
+        try {
+            logger.info("Updating teller info");
+
+            // Extract request data
+            Object requestData = event.getRequest();
+
+            // Validate request data
+            if (requestData == null) {
+                setErrorInfo(event, "ETEL505", "Invalid update teller info request data");
+                return event;
+            }
+
+            // Update teller info logic here
+            // Teller teller = tellerRepository.updateTellerInfo(requestData);
+
+            // Set response
+            EPlatonCommonDTO response = new EPlatonCommonDTO();
+            response.setMessage("Teller info updated successfully");
+            event.setResponse(response);
+            event.getTPSVCINFODTO().setErrorcode("I0000");
+            event.getTPSVCINFODTO().setError_message("Teller info updated successfully");
+
+            logger.info("Teller info updated successfully");
+            return event;
+
+        } catch (Exception e) {
+            logger.error("Error updating teller info", e);
+            setErrorInfo(event, "ETEL506", "Failed to update teller info: " + e.getMessage());
+            return event;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public EPlatonEvent getTellerPermissions(EPlatonEvent event) {
+        try {
+            logger.info("Getting teller permissions");
+
+            // Extract request data
+            Object requestData = event.getRequest();
+
+            // Validate request data
+            if (requestData == null) {
+                setErrorInfo(event, "ETEL507", "Invalid get teller permissions request data");
+                return event;
+            }
+
+            // Get teller permissions logic here
+            // List<String> permissions =
+            // tellerRepository.getTellerPermissions(requestData);
+
+            // Set response
+            EPlatonCommonDTO response = new EPlatonCommonDTO();
+            response.setMessage("Teller permissions retrieved successfully");
+            event.setResponse(response);
+            event.getTPSVCINFODTO().setErrorcode("I0000");
+            event.getTPSVCINFODTO().setError_message("Teller permissions retrieved successfully");
+
+            logger.info("Teller permissions retrieved successfully");
+            return event;
+
+        } catch (Exception e) {
+            logger.error("Error getting teller permissions", e);
+            setErrorInfo(event, "ETEL508", "Failed to get teller permissions: " + e.getMessage());
+            return event;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public EPlatonEvent validateTellerSession(EPlatonEvent event) {
+        try {
+            logger.info("Validating teller session");
+
+            // Extract request data
+            Object requestData = event.getRequest();
+
+            // Validate request data
+            if (requestData == null) {
+                setErrorInfo(event, "ETEL509", "Invalid validate teller session request data");
+                return event;
+            }
+
+            // Validate teller session logic here
+            // boolean isValid = tellerRepository.validateTellerSession(requestData);
+
+            // Set response
+            EPlatonCommonDTO response = new EPlatonCommonDTO();
+            response.setMessage("Teller session validation completed successfully");
+            event.setResponse(response);
+            event.getTPSVCINFODTO().setErrorcode("I0000");
+            event.getTPSVCINFODTO().setError_message("Teller session validation completed successfully");
+
+            logger.info("Teller session validation completed successfully");
+            return event;
+
+        } catch (Exception e) {
+            logger.error("Error validating teller session", e);
+            setErrorInfo(event, "ETEL510", "Failed to validate teller session: " + e.getMessage());
+            return event;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public EPlatonEvent getTellerTransactions(EPlatonEvent event) {
+        try {
+            logger.info("Getting teller transactions");
+
+            // Extract request data
+            Object requestData = event.getRequest();
+
+            // Validate request data
+            if (requestData == null) {
+                setErrorInfo(event, "ETEL511", "Invalid get teller transactions request data");
+                return event;
+            }
+
+            // Get teller transactions logic here
+            // List<Transaction> transactions =
+            // tellerRepository.getTellerTransactions(requestData);
+
+            // Set response
+            EPlatonCommonDTO response = new EPlatonCommonDTO();
+            response.setMessage("Teller transactions retrieved successfully");
+            event.setResponse(response);
+            event.getTPSVCINFODTO().setErrorcode("I0000");
+            event.getTPSVCINFODTO().setError_message("Teller transactions retrieved successfully");
+
+            logger.info("Teller transactions retrieved successfully");
+            return event;
+
+        } catch (Exception e) {
+            logger.error("Error getting teller transactions", e);
+            setErrorInfo(event, "ETEL512", "Failed to get teller transactions: " + e.getMessage());
+            return event;
+        }
+    }
+
     // =========================== Controller Expected Methods
     // ===========================
 

@@ -11,6 +11,7 @@ import com.skcc.oversea.eplatonframework.transfer.TPSVCINFODTO;
 import com.skcc.oversea.foundation.logej.LOGEJ;
 import com.skcc.oversea.foundation.constant.Constants;
 import com.skcc.oversea.eplatonframework.business.delegate.action.SPcommonBizAction.SPcommonService;
+import com.skcc.oversea.eplatonframework.business.repository.SPcommonRepository;
 
 /**
  * SP Common Service Implementation for SKCC Oversea
@@ -389,12 +390,5 @@ public class SPcommonServiceImpl implements SPcommonService {
 
     private boolean isValidGetSPReferenceDataRequest(Object requestData) {
         return requestData != null;
-    }
-
-    /**
-     * SP Common Repository interface
-     */
-    public interface SPcommonRepository {
-        // Define repository methods here
     }
 }

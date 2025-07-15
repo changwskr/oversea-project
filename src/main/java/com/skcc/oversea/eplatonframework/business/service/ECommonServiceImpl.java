@@ -11,6 +11,7 @@ import com.skcc.oversea.eplatonframework.transfer.TPSVCINFODTO;
 import com.skcc.oversea.foundation.logej.LOGEJ;
 import com.skcc.oversea.foundation.constant.Constants;
 import com.skcc.oversea.eplatonframework.business.delegate.action.ECommonBizAction.ECommonService;
+import com.skcc.oversea.eplatonframework.business.repository.ECommonRepository;
 
 /**
  * E Common Service Implementation for SKCC Oversea
@@ -342,12 +343,5 @@ public class ECommonServiceImpl implements ECommonService {
         EPlatonCommonDTO responseDTO = new EPlatonCommonDTO();
         responseDTO.setReqName("ERROR");
         event.setResponse(responseDTO);
-    }
-
-    /**
-     * E Common Repository interface
-     */
-    public interface ECommonRepository {
-        // TODO: Define repository methods here
     }
 }

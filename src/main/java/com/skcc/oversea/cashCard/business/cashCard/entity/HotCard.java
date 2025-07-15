@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "HotCardBusiness")
 @Table(name = "HOT_CARD")
 @IdClass(HotCardPK.class)
 public class HotCard {
@@ -52,6 +52,12 @@ public class HotCard {
 
     @Column(name = "REMARK", length = 200)
     private String remark;
+
+    @Column(name = "IS_DELETED", nullable = false)
+    private Boolean isDeleted = false;
+
+    @Column(name = "CREATED_DATE", nullable = false, updatable = false)
+    private LocalDateTime createdDate = LocalDateTime.now();
 
     // Constructors
     public HotCard() {
@@ -173,5 +179,21 @@ public class HotCard {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 }

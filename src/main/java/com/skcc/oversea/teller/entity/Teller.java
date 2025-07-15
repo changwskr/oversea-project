@@ -3,7 +3,7 @@ package com.skcc.oversea.teller.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "MainTeller")
 @Table(name = "TELLER")
 public class Teller {
 

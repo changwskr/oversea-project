@@ -11,6 +11,7 @@ import com.skcc.oversea.eplatonframework.transfer.TPSVCINFODTO;
 import com.skcc.oversea.foundation.logej.LOGEJ;
 import com.skcc.oversea.foundation.constant.Constants;
 import com.skcc.oversea.eplatonframework.business.delegate.action.SPdepositBizAction.SPdepositService;
+import com.skcc.oversea.eplatonframework.business.repository.SPdepositRepository;
 
 /**
  * SP Deposit Service Implementation for SKCC Oversea
@@ -374,12 +375,5 @@ public class SPdepositServiceImpl implements SPdepositService {
 
     private boolean isValidCalculateSPInterestRequest(Object requestData) {
         return requestData != null;
-    }
-
-    /**
-     * SP Deposit Repository interface
-     */
-    public interface SPdepositRepository {
-        // Define repository methods here
     }
 }

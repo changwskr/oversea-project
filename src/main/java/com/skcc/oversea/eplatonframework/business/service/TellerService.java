@@ -38,6 +38,37 @@ public interface TellerService {
      */
     EPlatonEvent validateTeller(EPlatonEvent event);
 
+    // Additional methods for TellerBizAction
+    /**
+     * Login teller
+     */
+    EPlatonEvent loginTeller(EPlatonEvent event);
+
+    /**
+     * Logout teller
+     */
+    EPlatonEvent logoutTeller(EPlatonEvent event);
+
+    /**
+     * Update teller info
+     */
+    EPlatonEvent updateTellerInfo(EPlatonEvent event);
+
+    /**
+     * Get teller permissions
+     */
+    EPlatonEvent getTellerPermissions(EPlatonEvent event);
+
+    /**
+     * Validate teller session
+     */
+    EPlatonEvent validateTellerSession(EPlatonEvent event);
+
+    /**
+     * Get teller transactions
+     */
+    EPlatonEvent getTellerTransactions(EPlatonEvent event);
+
     // Controller expected methods
     /**
      * Find all tellers

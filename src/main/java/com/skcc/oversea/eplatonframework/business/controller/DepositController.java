@@ -1,9 +1,8 @@
 package com.skcc.oversea.eplatonframework.business.controller;
 
 import com.skcc.oversea.eplatonframework.business.dto.ServiceResponse;
-import com.skcc.oversea.eplatonframework.business.entity.Deposit;
-import com.skcc.oversea.eplatonframework.business.entity.DepositPK;
-import com.skcc.oversea.eplatonframework.business.service.DepositService;
+import com.skcc.oversea.deposit.entity.Deposit;
+import com.skcc.oversea.deposit.repository.DepositRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ import java.util.List;
 public class DepositController extends BaseController {
 
     @Autowired
-    private DepositService depositService;
+    private DepositRepository depositRepository;
 
     /**
      * Get all deposits
@@ -27,7 +26,7 @@ public class DepositController extends BaseController {
     @GetMapping
     public ResponseEntity<ServiceResponse<List<Deposit>>> getAllDeposits() {
         try {
-            List<Deposit> deposits = depositService.getAllDeposits();
+            List<Deposit> deposits = depositRepository.findAll();
             return successList(deposits);
         } catch (Exception e) {
             logger.error("Error getting all deposits", e);
@@ -41,7 +40,7 @@ public class DepositController extends BaseController {
     @GetMapping("/{id}")
     public ResponseEntity<ServiceResponse<Deposit>> getDepositById(@PathVariable Long id) {
         try {
-            Deposit deposit = depositService.getDepositById(id);
+            Deposit deposit = depositRepository.findById(id).orElse(null);
             if (deposit != null) {
                 return success(deposit);
             } else {
@@ -59,7 +58,7 @@ public class DepositController extends BaseController {
     @GetMapping("/account/{accountNo}")
     public ResponseEntity<ServiceResponse<Deposit>> getDepositByAccountNo(@PathVariable String accountNo) {
         try {
-            Deposit deposit = depositService.getDepositByAccountNo(accountNo);
+            Deposit deposit = depositRepository.findByAccountNumber(accountNo).orElse(null);
             if (deposit != null) {
                 return success(deposit);
             } else {
@@ -77,7 +76,7 @@ public class DepositController extends BaseController {
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<ServiceResponse<List<Deposit>>> getDepositsByCustomerId(@PathVariable String customerId) {
         try {
-            List<Deposit> deposits = depositService.getDepositsByCustomerId(customerId);
+            List<Deposit> deposits = depositRepository.findByCifNo(customerId);
             return successList(deposits);
         } catch (Exception e) {
             logger.error("Error getting deposits by customer ID: {}", customerId, e);
@@ -91,7 +90,7 @@ public class DepositController extends BaseController {
     @PostMapping
     public ResponseEntity<ServiceResponse<Deposit>> createDeposit(@RequestBody Deposit deposit) {
         try {
-            Deposit createdDeposit = depositService.createDeposit(deposit);
+            Deposit createdDeposit = depositRepository.save(deposit);
             return success(createdDeposit, "Deposit created successfully");
         } catch (Exception e) {
             logger.error("Error creating deposit", e);
@@ -105,19 +104,9 @@ public class DepositController extends BaseController {
     @PutMapping("/{id}")
     public ResponseEntity<ServiceResponse<Deposit>> updateDeposit(@PathVariable Long id, @RequestBody Deposit deposit) {
         try {
-            // For composite key, we need to extract account number and customer ID from the path
-            // This is a temporary fix - ideally the API should accept both account number and customer ID
-            String accountNumber = deposit.getPrimaryKey() != null ? deposit.getPrimaryKey().getAccountNumber() : null;
-            String customerId = deposit.getPrimaryKey() != null ? deposit.getPrimaryKey().getCustomerId() : null;
-            
-            if (accountNumber == null || customerId == null) {
-                return error("Account number and customer ID are required for composite key");
-            }
-            
-            DepositPK primaryKey = new DepositPK(accountNumber, customerId);
-            deposit.setPrimaryKey(primaryKey);
-            Deposit updatedDeposit = depositService.updateDeposit(deposit);
-            if (updatedDeposit != null) {
+            if (depositRepository.existsById(id)) {
+                deposit.setDepositId(id);
+                Deposit updatedDeposit = depositRepository.save(deposit);
                 return success(updatedDeposit, "Deposit updated successfully");
             } else {
                 return error("Deposit not found");
@@ -134,8 +123,8 @@ public class DepositController extends BaseController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ServiceResponse<Void>> deleteDeposit(@PathVariable Long id) {
         try {
-            boolean deleted = depositService.deleteDeposit(id);
-            if (deleted) {
+            if (depositRepository.existsById(id)) {
+                depositRepository.deleteById(id);
                 return success(null, "Deposit deleted successfully");
             } else {
                 return error("Deposit not found");
@@ -152,24 +141,10 @@ public class DepositController extends BaseController {
     @GetMapping("/status/{status}")
     public ResponseEntity<ServiceResponse<List<Deposit>>> getDepositsByStatus(@PathVariable String status) {
         try {
-            List<Deposit> deposits = depositService.getDepositsByStatus(status);
+            List<Deposit> deposits = depositRepository.findByStatus(status);
             return successList(deposits);
         } catch (Exception e) {
             logger.error("Error getting deposits by status: {}", status, e);
-            return error("Failed to retrieve deposits");
-        }
-    }
-
-    /**
-     * Get deposits by account type
-     */
-    @GetMapping("/type/{accountType}")
-    public ResponseEntity<ServiceResponse<List<Deposit>>> getDepositsByAccountType(@PathVariable String accountType) {
-        try {
-            List<Deposit> deposits = depositService.getDepositsByAccountType(accountType);
-            return successList(deposits);
-        } catch (Exception e) {
-            logger.error("Error getting deposits by account type: {}", accountType, e);
             return error("Failed to retrieve deposits");
         }
     }
@@ -180,7 +155,7 @@ public class DepositController extends BaseController {
     @GetMapping("/branch/{branchCode}")
     public ResponseEntity<ServiceResponse<List<Deposit>>> getDepositsByBranchCode(@PathVariable String branchCode) {
         try {
-            List<Deposit> deposits = depositService.getDepositsByBranchCode(branchCode);
+            List<Deposit> deposits = depositRepository.findByBankCodeAndBranchCode("03", branchCode);
             return successList(deposits);
         } catch (Exception e) {
             logger.error("Error getting deposits by branch code: {}", branchCode, e);
@@ -195,8 +170,10 @@ public class DepositController extends BaseController {
     public ResponseEntity<ServiceResponse<Deposit>> updateAccountBalance(@PathVariable Long id,
             @RequestParam BigDecimal newBalance) {
         try {
-            Deposit updatedDeposit = depositService.updateAccountBalance(id, newBalance);
-            if (updatedDeposit != null) {
+            Deposit deposit = depositRepository.findById(id).orElse(null);
+            if (deposit != null) {
+                deposit.setBalance(newBalance);
+                Deposit updatedDeposit = depositRepository.save(deposit);
                 return success(updatedDeposit, "Account balance updated successfully");
             } else {
                 return error("Deposit not found");
@@ -213,25 +190,14 @@ public class DepositController extends BaseController {
     @GetMapping("/customer/{customerId}/total-balance")
     public ResponseEntity<ServiceResponse<BigDecimal>> getTotalBalanceByCustomerId(@PathVariable String customerId) {
         try {
-            BigDecimal totalBalance = depositService.getTotalBalanceByCustomerId(customerId);
+            List<Deposit> deposits = depositRepository.findByCifNo(customerId);
+            BigDecimal totalBalance = deposits.stream()
+                    .map(Deposit::getBalance)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
             return success(totalBalance);
         } catch (Exception e) {
             logger.error("Error getting total balance by customer ID: {}", customerId, e);
             return error("Failed to retrieve total balance");
-        }
-    }
-
-    /**
-     * Get matured deposits
-     */
-    @GetMapping("/matured")
-    public ResponseEntity<ServiceResponse<List<Deposit>>> getMaturedDeposits() {
-        try {
-            List<Deposit> deposits = depositService.getMaturedDeposits();
-            return successList(deposits);
-        } catch (Exception e) {
-            logger.error("Error getting matured deposits", e);
-            return error("Failed to retrieve matured deposits");
         }
     }
 
@@ -242,8 +208,10 @@ public class DepositController extends BaseController {
     public ResponseEntity<ServiceResponse<Deposit>> updateAccountStatus(@PathVariable Long id,
             @RequestParam String status) {
         try {
-            Deposit updatedDeposit = depositService.updateAccountStatus(id, status);
-            if (updatedDeposit != null) {
+            Deposit deposit = depositRepository.findById(id).orElse(null);
+            if (deposit != null) {
+                deposit.setStatus(status);
+                Deposit updatedDeposit = depositRepository.save(deposit);
                 return success(updatedDeposit, "Account status updated successfully");
             } else {
                 return error("Deposit not found");

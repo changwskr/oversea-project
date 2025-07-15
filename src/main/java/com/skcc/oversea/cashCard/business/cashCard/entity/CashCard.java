@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "CashCardBusiness")
 @Table(name = "CASH_CARD")
 @IdClass(CashCardPK.class)
 public class CashCard {
@@ -121,6 +121,15 @@ public class CashCard {
 
     @Column(name = "ISSUE_DATE", length = 8)
     private String issueDate;
+
+    @Column(name = "CARD_NO", length = 20, nullable = false, unique = true)
+    private String cardNo;
+
+    @Column(name = "IS_DELETED", nullable = false)
+    private Boolean isDeleted = false;
+
+    @Column(name = "CREATED_DATE", nullable = false, updatable = false)
+    private LocalDateTime createdDate = LocalDateTime.now();
 
     // Constructors
     public CashCard() {
@@ -428,5 +437,29 @@ public class CashCard {
 
     public void setIssueDate(String issueDate) {
         this.issueDate = issueDate;
+    }
+
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 }
