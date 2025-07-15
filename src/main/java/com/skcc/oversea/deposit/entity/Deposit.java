@@ -1,13 +1,17 @@
 package com.skcc.oversea.deposit.entity;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import com.skcc.oversea.eplatonframework.business.entity.BaseEntity;
 
 @Entity(name = "MainDeposit")
 @Table(name = "DEPOSIT")
-public class Deposit extends BaseEntity {
+@EntityListeners(AuditingEntityListener.class)
+public class Deposit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,10 +55,6 @@ public class Deposit extends BaseEntity {
     @Column(name = "OPEN_DATE", length = 8)
     private String openDate;
 
-    @Column(name = "CREATE_DATE")
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createDate;
-
     @Column(name = "REGISTER_DATE", length = 8)
     private String registerDate;
 
@@ -70,6 +70,28 @@ public class Deposit extends BaseEntity {
     @Column(name = "DESCRIPTION", length = 500)
     private String description;
 
+    // BaseEntity에서 필요한 필드들 추가
+    @CreatedDate
+    @Column(name = "created_date", nullable = false, updatable = false)
+    private LocalDateTime createdDate = LocalDateTime.now();
+
+    @LastModifiedDate
+    @Column(name = "modified_date")
+    private LocalDateTime modifiedDate;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
+
+    @Column(name = "created_by", length = 50)
+    private String createdBy;
+
+    @Column(name = "modified_by", length = 50)
+    private String modifiedBy;
+
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
     // Constructors
     public Deposit() {
     }
@@ -78,7 +100,7 @@ public class Deposit extends BaseEntity {
         this.accountNumber = accountNumber;
         this.depositType = depositType;
         this.amount = amount;
-        this.createDate = LocalDateTime.now();
+        this.createdDate = LocalDateTime.now();
     }
 
     // Getters and Setters
@@ -187,11 +209,11 @@ public class Deposit extends BaseEntity {
     }
 
     public LocalDateTime getCreateDate() {
-        return createDate;
+        return createdDate;
     }
 
     public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+        this.createdDate = createDate;
     }
 
     public String getRegisterDate() {
@@ -232,5 +254,54 @@ public class Deposit extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    // BaseEntity 필드들의 getter/setter
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

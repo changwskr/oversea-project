@@ -131,28 +131,54 @@ public class TXBLXMLconfig {
   @PostConstruct
   public void initializeConfig() {
     try {
-      ht.put("TXBLOCKCNT", GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT"));
+      // 기본값 설정
+      String txBlockCnt = GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT");
+      if (txBlockCnt == null || txBlockCnt.trim().isEmpty()) {
+        txBlockCnt = "5"; // 기본값
+      }
+      ht.put("TXBLOCKCNT", txBlockCnt);
 
-      ht.put("TMODE", GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TMODE"));
-      for (int ii = 1; ii <= CommonUtil.Str2Int(GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT")); ii++) {
-        ht.put("TELLS" + ii, GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TELLS" + ii));
-        ht.put("TELLE" + ii, GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TELLE" + ii));
+      String tMode = GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TMODE");
+      if (tMode == null || tMode.trim().isEmpty()) {
+        tMode = "OFF"; // 기본값
+      }
+      ht.put("TMODE", tMode);
+
+      for (int ii = 1; ii <= CommonUtil.Str2Int(txBlockCnt); ii++) {
+        String tellS = GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TELLS" + ii);
+        String tellE = GetEnvValue("TRANSACTION-BLOCKING", "TELLER", "TELLE" + ii);
+        ht.put("TELLS" + ii, tellS != null ? tellS : "*");
+        ht.put("TELLE" + ii, tellE != null ? tellE : "*");
         System.out.println((String) ht.get("TELLS" + ii));
         System.out.println((String) ht.get("TELLE" + ii));
       }
 
-      ht.put("EMODE", GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EMODE"));
-      for (int ii = 1; ii <= CommonUtil.Str2Int(GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT")); ii++) {
-        ht.put("EVNTS" + ii, GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EVNTS" + ii));
-        ht.put("EVNTE" + ii, GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EVNTE" + ii));
+      String eMode = GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EMODE");
+      if (eMode == null || eMode.trim().isEmpty()) {
+        eMode = "OFF"; // 기본값
+      }
+      ht.put("EMODE", eMode);
+
+      for (int ii = 1; ii <= CommonUtil.Str2Int(txBlockCnt); ii++) {
+        String evntS = GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EVNTS" + ii);
+        String evntE = GetEnvValue("TRANSACTION-BLOCKING", "TXCODE", "EVNTE" + ii);
+        ht.put("EVNTS" + ii, evntS != null ? evntS : "*");
+        ht.put("EVNTE" + ii, evntE != null ? evntE : "*");
         System.out.println((String) ht.get("EVNTS" + ii));
         System.out.println((String) ht.get("EVNTE" + ii));
       }
 
-      ht.put("BMODE", GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BMODE"));
-      for (int ii = 1; ii <= CommonUtil.Str2Int(GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT")); ii++) {
-        ht.put("BRCHS" + ii, GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BRCHS" + ii));
-        ht.put("BRCHE" + ii, GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BRCHE" + ii));
+      String bMode = GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BMODE");
+      if (bMode == null || bMode.trim().isEmpty()) {
+        bMode = "OFF"; // 기본값
+      }
+      ht.put("BMODE", bMode);
+
+      for (int ii = 1; ii <= CommonUtil.Str2Int(txBlockCnt); ii++) {
+        String brchS = GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BRCHS" + ii);
+        String brchE = GetEnvValue("TRANSACTION-BLOCKING", "BRANCH", "BRCHE" + ii);
+        ht.put("BRCHS" + ii, brchS != null ? brchS : "*");
+        ht.put("BRCHE" + ii, brchE != null ? brchE : "*");
         System.out.println((String) ht.get("BRCHS" + ii));
         System.out.println((String) ht.get("BRCHE" + ii));
       }
