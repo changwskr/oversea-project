@@ -1,0 +1,149 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <!-- Spring Boot parent POM 추가 -->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.1.4</version>
+    <relativePath/>
+  </parent>
+  
+  <groupId>com.skcc.oversea</groupId>
+  <artifactId>oversea</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>oversea</name>
+  <description>Spring Boot MSA Project</description>
+  <properties>
+    <java.version>18</java.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.mybatis.spring.boot</groupId>
+      <artifactId>mybatis-spring-boot-starter</artifactId>
+      <version>3.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- Jakarta Annotation API for @PostConstruct -->
+    <dependency>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+    </dependency>
+    
+    <!-- XML Parser support -->
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+    </dependency>
+    
+    <!-- SpringDoc OpenAPI (Swagger) -->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>2.2.0</version>
+    </dependency>
+    
+    <!-- SpringDoc OpenAPI Security (optional) -->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-common</artifactId>
+      <version>2.2.0</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- 레거시 EJB 코드 제외 (변환되지 않은 파일들만) -->
+            <!-- CashCardManagementSBBean.java는 CashCardManagementService.java로 변환되어 제외에서 제거 -->
+            <exclude>**/eplatonframework/business/facade/**/*SB.java</exclude>
+            <exclude>**/eplatonframework/business/facade/**/*Home.java</exclude>
+            <exclude>**/eplatonframework/business/facade/**/*Local*.java</exclude>
+            <exclude>**/eplatonframework/business/client/**</exclude>
+            <!-- TPM service는 변환되어 제외에서 제거됨 -->
+            <!-- AbstractTCF는 변환되어 제외에서 제거됨 -->
+            <exclude>**/cashCard/business/facade/**/*Bean.java</exclude>
+            <exclude>**/cashCard/business/facade/**/*Home.java</exclude>
+            <exclude>**/cashCard/business/cashCardRule/helper/JNDINamesRule.java</exclude>
+            <exclude>**/cashCard/business/cashCard/helper/JNDINamesThing.java</exclude>
+            <!-- EJBUtil 클래스들은 Spring 클래스로 변환되어 제외에서 제거됨 -->
+            
+            <!-- 아직 변환되지 않은 EJB Bean 파일들 -->
+            <exclude>**/eplatonframework/business/facade/**/DepositManagementSBBean.java</exclude>
+            <exclude>**/eplatonframework/business/facade/**/TellerManagementSBBean.java</exclude>
+            <exclude>**/eplatonframework/business/facade/**/SPdepositManagementSBBean.java</exclude>
+            <exclude>**/eplatonframework/business/facade/**/SPcashcardManagementSBBean.java</exclude>
+            <exclude>**/eplatonframework/business/facade/**/SPcommoManagementSBBean.java</exclude>
+            <exclude>**/eplatonframework/business/facade/**/ECommonManagementSBBean.java</exclude>
+            
+            <!-- 의존성 문제가 있는 파일들 제외 -->
+            <exclude>**/eplatonframework/business/entity/CashCard.java</exclude>
+            <exclude>**/eplatonframework/transfer/EPLcommonCDTO.java</exclude>
+            <exclude>**/eplatonframework/business/controller/TransactionLogController.java</exclude>
+            <exclude>**/eplatonframework/business/controller/CashCardController.java</exclude>
+            <exclude>**/eplatonframework/business/dao/**</exclude>
+            <!-- framework/transaction/dao는 변환되어 제외에서 제거됨 -->
+            <!-- framework/transaction/model은 변환되어 제외에서 제거됨 -->
+            <!-- DTOConverter는 변환되어 제외에서 제거됨 -->
+            <exclude>**/eplatonframework/transfer/TPMSVCINFO.java</exclude>
+            <exclude>**/eplatonframework/transfer/TPSVCINFODTO.java</exclude>
+            <exclude>**/eplatonframework/transfer/EPlatonCommonDTO.java</exclude>
+            <exclude>**/eplatonframework/business/model/**</exclude>
+            <exclude>**/deposit/business/facade/DepositManagementSBean.java</exclude>
+            <exclude>**/cashCard/transfer/CardParentQueryConditionCDTO.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <profiles>
+    <profile>
+      <id>foundation-only</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <includes>
+                <include>**/foundation/**/*.java</include>
+              </includes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

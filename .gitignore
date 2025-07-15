@@ -1,0 +1,18 @@
+# Maven build directory
+/target/
+
+# Log files
+*.log
+
+# IntelliJ IDEA files
+*.iml
+.idea/
+
+# Compiled class files
+*.class
+
+# macOS files
+.DS_Store
+
+# Vim swap files
+*.swp 
