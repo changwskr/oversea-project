@@ -54,3 +54,12 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# TPM Service Configuration
+service:
+  call:
+    url: http://localhost:8080
+tpmservice:
+  url: http://localhost:8080
+  timeout: 30
+bizaction-map-filename: classpath:config/oversea-config.xml

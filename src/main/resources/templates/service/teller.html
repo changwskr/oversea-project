@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Teller Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .service-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .service-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .service-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .status-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        
+        .status-label {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .status-value {
+            color: #ffc107;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 메인</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit"><i class="fas fa-piggy-bank"></i> Deposit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/teller"><i class="fas fa-user-tie"></i> Teller</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user"><i class="fas fa-users"></i> User</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <div class="service-header">
+            <h1><i class="fas fa-user-tie"></i> <span th:text="${serviceName}">Teller</span></h1>
+            <p th:text="${description}">창구 업무 및 고객 서비스</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="feature-card">
+                            <i class="fas fa-handshake feature-icon"></i>
+                            <div class="feature-title">고객 접대</div>
+                            <div class="feature-description">
+                                고객 응대 및 상담 서비스 제공
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="feature-card">
+                            <i class="fas fa-calculator feature-icon"></i>
+                            <div class="feature-title">거래 처리</div>
+                            <div class="feature-description">
+                                현금 거래 및 수표 처리 업무
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="feature-card">
+                            <i class="fas fa-file-alt feature-icon"></i>
+                            <div class="feature-title">서류 처리</div>
+                            <div class="feature-description">
+                                계좌 개설 서류 및 각종 신청서 처리
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="feature-card">
+                            <i class="fas fa-shield-alt feature-icon"></i>
+                            <div class="feature-title">보안 관리</div>
+                            <div class="feature-description">
+                                창구 보안 및 현금 관리 시스템
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="status-card">
+                    <h5 class="mb-3"><i class="fas fa-chart-bar"></i> 시스템 상태</h5>
+                    <div class="status-item">
+                        <span class="status-label">서비스 상태</span>
+                        <span class="status-value">정상</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">활성 창구</span>
+                        <span class="status-value">8</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">대기 고객</span>
+                        <span class="status-value">12</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">오늘 거래</span>
+                        <span class="status-value">156</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">평균 대기시간</span>
+                        <span class="status-value">8분</span>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <h5 class="mb-3"><i class="fas fa-cog"></i> 빠른 메뉴</h5>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-warning">
+                            <i class="fas fa-handshake"></i> 고객 접대
+                        </button>
+                        <button class="btn btn-outline-success">
+                            <i class="fas fa-calculator"></i> 거래 처리
+                        </button>
+                        <button class="btn btn-outline-info">
+                            <i class="fas fa-file-alt"></i> 서류 처리
+                        </button>
+                        <button class="btn btn-outline-primary">
+                            <i class="fas fa-chart-line"></i> 업무 통계
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

@@ -63,6 +63,7 @@ import com.skcc.oversea.framework.transaction.dao.*;
 @Transactional
 public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
 {
+  private static final Logger logger = LoggerFactory.getLogger(TPMSVCAPI.class);
   private static TPMSVCAPI instance;
   
   // Fields from AbstractTPMSVCAPI that need to be accessible
@@ -171,7 +172,7 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
 
   public String TPgetactionclassname(EPlatonEvent event)
   {
-
+    logger.info("TPgetactionclassname START");
     String configFileName = null;
     String requestName = null;
     String actionClassName = null;
@@ -208,11 +209,13 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
       LOGEJ.getInstance().eprintf(5,event,ex);
       return null;
     }
+    logger.info("TPgetactionclassname END");
     return actionClassName;
   }
 
   protected void TPgetrequestinfo(EPlatonEvent event)
   {
+    logger.info("TPgetrequestinfo START");
     String configFileName = getProperty("bizaction-map-filename", "classpath:config/bizaction-map.xml");
     String requestName = event.getAction();
     String actionClassName = getConfigValue(requestName, "bizaction-class");
@@ -223,11 +226,12 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
     System.out.println("RequestName : " + requestName);
     System.out.println("methodName : " + methodName);
     System.out.println("parameterTypeName : " + parameterTypeName);
+    logger.info("TPgetrequestinfo END");
   }
 
   public String TPgetinvokemethodname(EPlatonEvent event)
   {
-
+    logger.info("TPgetinvokemethodname START");
     String configFileName = null;
     String requestName = null;
     String methodName = null;
@@ -261,6 +265,7 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
       LOGEJ.getInstance().eprintf(5,event,ex);
       return null;
     }
+    logger.info("TPgetinvokemethodname END");
     return methodName;
   }
 
@@ -272,6 +277,7 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
    */
   public String TPgetcallsystemname(String request_name)
   {
+    logger.info("TPgetcallsystemname START");
     System.out.println("[request_name]-"+request_name);
     if( request_name == null ){
       return null;
@@ -292,6 +298,7 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
    */
   public String TPgetcallmethodname(String request_name)
   {
+    logger.info("TPgetcallmethodname START");
     if( request_name == null ){
       return null;
     }
@@ -306,7 +313,7 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
   public static final String OPERATION_TAG = "operation-class";
   public String TPgetoperationclassname(EPlatonEvent event)
   {
-
+    logger.info("TPgetoperationclassname START");
     String configFileName = null;
     String requestName = null;
     String operationclass = null;
@@ -340,12 +347,13 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
       LOGEJ.getInstance().eprintf(5,event,ex);
       return null;
     }
+    logger.info("TPgetoperationclassname END");
     return operationclass;
   }
 
   public String TPgetparametertypename(EPlatonEvent event)
   {
-
+    logger.info("TPgetparametertypename START");
     String configFileName = null;
     String requestName = null;
     String parameterTypeName = null;
@@ -379,6 +387,7 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
       LOGEJ.getInstance().eprintf(5,event,ex);
       return null;
     }
+    logger.info("TPgetparametertypename END");
     return parameterTypeName;
   }
 
@@ -466,6 +475,7 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
    */
 
   public void TPSDBrecv(EPlatonEvent event) {
+    logger.info("TPSDBrecv START");
     try{
       TransactionControlDAO dao = new  TransactionControlDAO();
 
@@ -478,6 +488,7 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
       LOGEJ.getInstance().eprintf(5,(EPlatonEvent)event,ex);
       ex.printStackTrace();
     }
+    logger.info("TPSDBrecv END");
   }
 
   /**
@@ -514,6 +525,7 @@ public class TPMSVCAPI extends AbstractTPMSVCAPI implements ITPMSVCAPI
  */
 public EPlatonEvent TPSrecv(EPlatonEvent event)
 {
+  logger.info("TPSrecv START");
   Connection con = null;
   String hostseq = null;
   EPlatonCommonDTO commonDTO = (EPlatonCommonDTO)event.getCommon();
@@ -645,6 +657,7 @@ public EPlatonEvent TPSrecv(EPlatonEvent event)
   LOGEJ.getInstance().printf(3,event,"==============================================================================");
   LOGEJ.getInstance().printf(3,(EPlatonEvent)event,
                              "TPSrecv()-"+com.skcc.oversea.foundation.utility.Reflector.objectToString(event));
+  logger.info("TPSrecv END");
   return event;
 }
 
@@ -657,6 +670,7 @@ public EPlatonEvent TPSrecv(EPlatonEvent event)
 
 public EPlatonEvent TPSsend(EPlatonEvent event)
 {
+  logger.info("TPSsend START");
   EPlatonCommonDTO commonDTO = (EPlatonCommonDTO)event.getCommon();
   TPSVCINFODTO tpsvcinfo = (TPSVCINFODTO)event.getTPSVCINFODTO();
   LOGEJ.getInstance().printf(3,event,"errorcode:["+tpsvcinfo.getErrorcode()+"]");
@@ -667,8 +681,7 @@ public EPlatonEvent TPSsend(EPlatonEvent event)
   System.out.println("errorcode:["+tpsvcinfo.getErrorcode()+"]");
   System.out.println("TPSsend()-"+com.skcc.oversea.foundation.utility.Reflector.objectToString(event));
   System.out.println("==============================================================================\n\n");
-
-
+  logger.info("TPSsend END");
   return event;
 }
 

@@ -63,42 +63,59 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
     // ======================== Private Method Area ========================//
 
     private boolean validateAccount(String accountNo, String bankCode) throws CosesAppException {
+        logger.info("==================[CashCardManagementSBBean.validateAccount START] - accountNo: {}, bankCode: {}", accountNo, bankCode);
         try {
-            return accountManagement.validateAccount(accountNo, bankCode);
+            boolean result = accountManagement.validateAccount(accountNo, bankCode);
+            logger.info("==================[CashCardManagementSBBean.validateAccount END] - accountNo: {}, bankCode: {}, result: {}", accountNo, bankCode, result);
+            return result;
         } catch (Exception e) {
-            logger.error("Error validating account: {}", e.getMessage(), e);
+            logger.error("==================[CashCardManagementSBBean.validateAccount ERROR] - accountNo: {}, bankCode: {}, 에러: {}", accountNo, bankCode, e.getMessage(), e);
             throw new CosesAppException("Failed to validate account");
         }
     }
 
     private CashCardCDTO makeCashCardCDTOForRegister(CashCardCDTO cashCardCDTO,
             CosesCommonDTO commonDTO, int lastSequenceNo) throws CosesAppException {
-        cashCardCDTO.setBankCode(commonDTO.getBankCode());
-        cashCardCDTO.setBranchCode(commonDTO.getBranchCode());
-        cashCardCDTO.setSequenceNo(lastSequenceNo);
-        cashCardCDTO.setIncidentCode(CashCardConstants.NORMAL);
-        cashCardCDTO.setInvalidAttemptCnt(0);
-        cashCardCDTO.setMISSendDate(commonDTO.getBusinessDate());
-        cashCardCDTO.setStatus(CashCardConstants.NORMAL_STATUS);
-        cashCardCDTO.setType(CashCardConstants.CASH_CARD);
-        cashCardCDTO.setFeeWaive(CashCardConstants.FEE_CHARGE);
-        return cashCardCDTO;
+        logger.info("==================[CashCardManagementSBBean.makeCashCardCDTOForRegister START] - lastSequenceNo: {}", lastSequenceNo);
+        try {
+            cashCardCDTO.setBankCode(commonDTO.getBankCode());
+            cashCardCDTO.setBranchCode(commonDTO.getBranchCode());
+            cashCardCDTO.setSequenceNo(lastSequenceNo);
+            cashCardCDTO.setIncidentCode(CashCardConstants.NORMAL);
+            cashCardCDTO.setInvalidAttemptCnt(0);
+            cashCardCDTO.setMISSendDate(commonDTO.getBusinessDate());
+            cashCardCDTO.setStatus(CashCardConstants.NORMAL_STATUS);
+            cashCardCDTO.setType(CashCardConstants.CASH_CARD);
+            cashCardCDTO.setFeeWaive(CashCardConstants.FEE_CHARGE);
+            logger.info("==================[CashCardManagementSBBean.makeCashCardCDTOForRegister END] - lastSequenceNo: {}", lastSequenceNo);
+            return cashCardCDTO;
+        } catch (Exception e) {
+            logger.error("==================[CashCardManagementSBBean.makeCashCardCDTOForRegister ERROR] - lastSequenceNo: {}, 에러: {}", lastSequenceNo, e.getMessage(), e);
+            throw e;
+        }
     }
 
     private ModifyDTO setModifyDTOForCashCard(CashCardCDTO cashCardCDTO, ModifyDTO modifyDTO,
             CosesCommonDTO commonDTO) {
-        modifyDTO.setBranchCode(commonDTO.getBranchCode());
-        modifyDTO.setTransactionNo(commonDTO.getTransactionNo());
-        modifyDTO.setSystem(CommonSystemConstants.SYSTEM_LENDING);
-        modifyDTO.setSubSystem(CommonSystemConstants.SYSTEM_LENDING);
-        modifyDTO.setRefNo(cashCardCDTO.getCardNumber());
-        modifyDTO.setRemark(cashCardCDTO.getAmendReason());
-        modifyDTO.setUserId(commonDTO.getUserID());
-        modifyDTO.setAmendDate(commonDTO.getSystemDate());
-        modifyDTO.setAmendTime(commonDTO.getSystemInTime());
-        modifyDTO.setBankCode(commonDTO.getBankCode());
-        modifyDTO.setBusinessDate(commonDTO.getBusinessDate());
-        return modifyDTO;
+        logger.info("==================[CashCardManagementSBBean.setModifyDTOForCashCard START] - cardNumber: {}", cashCardCDTO.getCardNumber());
+        try {
+            modifyDTO.setBranchCode(commonDTO.getBranchCode());
+            modifyDTO.setTransactionNo(commonDTO.getTransactionNo());
+            modifyDTO.setSystem(CommonSystemConstants.SYSTEM_LENDING);
+            modifyDTO.setSubSystem(CommonSystemConstants.SYSTEM_LENDING);
+            modifyDTO.setRefNo(cashCardCDTO.getCardNumber());
+            modifyDTO.setRemark(cashCardCDTO.getAmendReason());
+            modifyDTO.setUserId(commonDTO.getUserID());
+            modifyDTO.setAmendDate(commonDTO.getSystemDate());
+            modifyDTO.setAmendTime(commonDTO.getSystemInTime());
+            modifyDTO.setBankCode(commonDTO.getBankCode());
+            modifyDTO.setBusinessDate(commonDTO.getBusinessDate());
+            logger.info("==================[CashCardManagementSBBean.setModifyDTOForCashCard END] - cardNumber: {}", cashCardCDTO.getCardNumber());
+            return modifyDTO;
+        } catch (Exception e) {
+            logger.error("==================[CashCardManagementSBBean.setModifyDTOForCashCard ERROR] - cardNumber: {}, 에러: {}", cashCardCDTO.getCardNumber(), e.getMessage(), e);
+            throw e;
+        }
     }
 
     // ======================== Public Method Area ========================//
@@ -173,13 +190,15 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
     @Override
     @Transactional(readOnly = true)
     public List<Object> getAllCashCards() {
-        logger.info("Getting all cash cards");
+        logger.info("==================[CashCardManagementSBBean.getAllCashCards START]");
         try {
             // This would typically call a repository or service
             // For now, return empty list as placeholder
-            return new ArrayList<>();
+            List<Object> result = new ArrayList<>();
+            logger.info("==================[CashCardManagementSBBean.getAllCashCards END]");
+            return result;
         } catch (Exception e) {
-            logger.error("Error getting all cash cards", e);
+            logger.error("==================[CashCardManagementSBBean.getAllCashCards ERROR] - {}", e.getMessage(), e);
             throw new CosesAppException("Failed to get all cash cards", e);
         }
     }
@@ -187,13 +206,15 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
     @Override
     @Transactional(readOnly = true)
     public Object getCashCardById(String cardId) {
-        logger.info("Getting cash card by ID: {}", cardId);
+        logger.info("==================[CashCardManagementSBBean.getCashCardById START] - cardId: {}", cardId);
         try {
             // This would typically call a repository or service
             // For now, return null as placeholder
-            return null;
+            Object result = null;
+            logger.info("==================[CashCardManagementSBBean.getCashCardById END] - cardId: {}", cardId);
+            return result;
         } catch (Exception e) {
-            logger.error("Error getting cash card by ID: {}", cardId, e);
+            logger.error("==================[CashCardManagementSBBean.getCashCardById ERROR] - cardId: {}, 에러: {}", cardId, e.getMessage(), e);
             throw new CosesAppException("Failed to get cash card by ID", e);
         }
     }
@@ -201,13 +222,15 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
     @Override
     @Transactional
     public Object createCashCard(Object cashCard) {
-        logger.info("Creating cash card");
+        logger.info("==================[CashCardManagementSBBean.createCashCard START]");
         try {
             // This would typically call a repository or service
             // For now, return the input object as placeholder
-            return cashCard;
+            Object result = cashCard;
+            logger.info("==================[CashCardManagementSBBean.createCashCard END]");
+            return result;
         } catch (Exception e) {
-            logger.error("Error creating cash card", e);
+            logger.error("==================[CashCardManagementSBBean.createCashCard ERROR] - {}", e.getMessage(), e);
             throw new CosesAppException("Failed to create cash card", e);
         }
     }
@@ -215,12 +238,13 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
     @Override
     @Transactional
     public void deleteCashCard(String cardId) {
-        logger.info("Deleting cash card: {}", cardId);
+        logger.info("==================[CashCardManagementSBBean.deleteCashCard START] - cardId: {}", cardId);
         try {
             // This would typically call a repository or service
             // For now, just log the action as placeholder
+            logger.info("==================[CashCardManagementSBBean.deleteCashCard END] - cardId: {}", cardId);
         } catch (Exception e) {
-            logger.error("Error deleting cash card: {}", cardId, e);
+            logger.error("==================[CashCardManagementSBBean.deleteCashCard ERROR] - cardId: {}, 에러: {}", cardId, e.getMessage(), e);
             throw new CosesAppException("Failed to delete cash card", e);
         }
     }
@@ -228,13 +252,15 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
     @Override
     @Transactional(readOnly = true)
     public boolean existsCashCard(String cardId) {
-        logger.info("Checking if cash card exists: {}", cardId);
+        logger.info("==================[CashCardManagementSBBean.existsCashCard START] - cardId: {}", cardId);
         try {
             // This would typically call a repository or service
             // For now, return false as placeholder
-            return false;
+            boolean result = false;
+            logger.info("==================[CashCardManagementSBBean.existsCashCard END] - cardId: {}, result: {}", cardId, result);
+            return result;
         } catch (Exception e) {
-            logger.error("Error checking if cash card exists: {}", cardId, e);
+            logger.error("==================[CashCardManagementSBBean.existsCashCard ERROR] - cardId: {}, 에러: {}", cardId, e.getMessage(), e);
             throw new CosesAppException("Failed to check if cash card exists", e);
         }
     }
@@ -242,7 +268,7 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
     @Override
     @Transactional
     public BatchJobProcessorResultDTO processBatchJob(String jobId) {
-        logger.info("Processing batch job: {}", jobId);
+        logger.info("==================[CashCardManagementSBBean.processBatchJob START] - jobId: {}", jobId);
         try {
             // This would typically call a batch job processor
             // For now, return a default result as placeholder
@@ -250,9 +276,10 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
             result.setJobId(jobId);
             result.setStatus("COMPLETED");
             result.setErrorMessage("Batch job processed successfully");
+            logger.info("==================[CashCardManagementSBBean.processBatchJob END] - jobId: {}", jobId);
             return result;
         } catch (Exception e) {
-            logger.error("Error processing batch job: {}", jobId, e);
+            logger.error("==================[CashCardManagementSBBean.processBatchJob ERROR] - jobId: {}, 에러: {}", jobId, e.getMessage(), e);
             throw new CosesAppException("Failed to process batch job", e);
         }
     }
@@ -260,7 +287,7 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
     @Override
     @Transactional(readOnly = true)
     public BatchJobProcessorResultDTO getBatchJobStatus(String jobId) {
-        logger.info("Getting batch job status: {}", jobId);
+        logger.info("==================[CashCardManagementSBBean.getBatchJobStatus START] - jobId: {}", jobId);
         try {
             // This would typically call a batch job processor
             // For now, return a default result as placeholder
@@ -268,9 +295,10 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
             result.setJobId(jobId);
             result.setStatus("COMPLETED");
             result.setErrorMessage("Batch job completed successfully");
+            logger.info("==================[CashCardManagementSBBean.getBatchJobStatus END] - jobId: {}", jobId);
             return result;
         } catch (Exception e) {
-            logger.error("Error getting batch job status: {}", jobId, e);
+            logger.error("==================[CashCardManagementSBBean.getBatchJobStatus ERROR] - jobId: {}, 에러: {}", jobId, e.getMessage(), e);
             throw new CosesAppException("Failed to get batch job status", e);
         }
     }

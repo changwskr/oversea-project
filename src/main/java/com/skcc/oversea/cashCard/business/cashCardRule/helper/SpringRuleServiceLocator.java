@@ -5,50 +5,61 @@ import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.skcc.oversea.common.business.facade.*;
-import com.skcc.oversea.reference.business.facade.*;
-import com.skcc.oversea.cashCard.business.cashCard.*;
+import com.skcc.oversea.cashCard.business.cashCard.ICashCardSB;
+import com.skcc.oversea.common.business.facade.ICommonManagementSB;
+import com.skcc.oversea.reference.business.facade.IReferenceManagementSB;
 
 /**
- * Spring-based service locator for Cash Card Rule module
- * Replaced EJB lookup pattern with Spring dependency injection
+ * Spring Rule Service Locator for Cash Card Business Rules
+ * 
+ * Provides centralized access to business rule services
+ * using Spring dependency injection.
  */
 @Component
 public class SpringRuleServiceLocator {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(SpringRuleServiceLocator.class);
-    
-    @Autowired(required = false)
+
+    @Autowired
     private ICashCardSB cashCardService;
-    
-    @Autowired(required = false)
+
+    @Autowired
     private ICommonManagementSB commonManagementService;
-    
-    @Autowired(required = false)
+
+    @Autowired
     private IReferenceManagementSB referenceManagementService;
-    
+
     public ICashCardSB getCashCardService() {
-        if (cashCardService == null) {
-            logger.warn("CashCardService is not available");
-            throw new RuntimeException("CashCardService is not configured");
+        logger.info("==================[SpringRuleServiceLocator.getCashCardService START]");
+        try {
+            logger.info("==================[SpringRuleServiceLocator.getCashCardService END]");
+            return cashCardService;
+        } catch (Exception e) {
+            logger.error("==================[SpringRuleServiceLocator.getCashCardService ERROR] - {}", e.getMessage(), e);
+            throw e;
         }
-        return cashCardService;
     }
-    
+
     public ICommonManagementSB getCommonManagementService() {
-        if (commonManagementService == null) {
-            logger.warn("CommonManagementService is not available");
-            throw new RuntimeException("CommonManagementService is not configured");
+        logger.info("==================[SpringRuleServiceLocator.getCommonManagementService START]");
+        try {
+            logger.info("==================[SpringRuleServiceLocator.getCommonManagementService END]");
+            return commonManagementService;
+        } catch (Exception e) {
+            logger.error("==================[SpringRuleServiceLocator.getCommonManagementService ERROR] - {}", e.getMessage(), e);
+            throw e;
         }
-        return commonManagementService;
     }
-    
+
     public IReferenceManagementSB getReferenceManagementService() {
-        if (referenceManagementService == null) {
-            logger.warn("ReferenceManagementService is not available");
-            throw new RuntimeException("ReferenceManagementService is not configured");
+        logger.info("==================[SpringRuleServiceLocator.getReferenceManagementService START]");
+        try {
+            logger.info("==================[SpringRuleServiceLocator.getReferenceManagementService END]");
+            return referenceManagementService;
+        } catch (Exception e) {
+            logger.error("==================[SpringRuleServiceLocator.getReferenceManagementService ERROR] - {}", e.getMessage(), e);
+            throw e;
         }
-        return referenceManagementService;
     }
 }
 

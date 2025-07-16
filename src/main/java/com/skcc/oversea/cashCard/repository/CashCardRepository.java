@@ -42,10 +42,18 @@ public interface CashCardRepository extends JpaRepository<CashCard, CashCardPK> 
          */
         default CashCard create(String bankType, String bankCode, String primaryAccountNo,
                         int sequenceNo, String cardNumber, String branchCode, String type) {
-                CashCard cashCard = new CashCard(sequenceNo, cardNumber, bankCode, primaryAccountNo);
-                cashCard.setBankType(bankType);
-                cashCard.setBranchCode(branchCode);
-                cashCard.setType(type);
-                return save(cashCard);
+                System.out.println("==================[CashCardRepository.create START]");
+                try {
+                        CashCard cashCard = new CashCard(sequenceNo, cardNumber, bankCode, primaryAccountNo);
+                        cashCard.setBankType(bankType);
+                        cashCard.setBranchCode(branchCode);
+                        cashCard.setType(type);
+                        CashCard result = save(cashCard);
+                        System.out.println("==================[CashCardRepository.create END]");
+                        return result;
+                } catch (Exception e) {
+                        System.err.println("==================[CashCardRepository.create ERROR] - " + e.getMessage());
+                        throw e;
+                }
         }
 }

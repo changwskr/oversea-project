@@ -32,7 +32,7 @@ public class SkccConfig {
     @Value("${skcc.oversea.config.file:classpath:config/skcc-oversea.properties}")
     private String configFile;
 
-    @Value("${skcc.oversea.config.xml.file:classpath:config/skcc-oversea.xml}")
+    @Value("${skcc.oversea.config.xml.file:classpath:config/oversea-config.xml}")
     private String xmlConfigFile;
 
     @Value("${skcc.oversea.machine.mode:DEV}")
@@ -49,15 +49,27 @@ public class SkccConfig {
      */
     @PostConstruct
     public void init() {
-        loadProperties();
-        logger.info("SKCC Oversea Configuration initialized - Mode: {}, Environment: {}",
-                machineMode, environment);
+        logger.info("==================[SkccConfig.init START]");
+        try {
+            // Override config file paths to use correct files
+            this.configFile = "classpath:config/skcc-oversea.properties";
+            this.xmlConfigFile = "classpath:config/oversea-config.xml";
+            
+            loadProperties();
+            logger.info("SKCC Oversea Configuration initialized - Mode: {}, Environment: {}, Config: {}, XML: {}",
+                    machineMode, environment, configFile, xmlConfigFile);
+            logger.info("==================[SkccConfig.init END]");
+        } catch (Exception e) {
+            logger.error("==================[SkccConfig.init ERROR] - {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     /**
      * Load properties from configuration file
      */
     private void loadProperties() {
+        logger.info("==================[SkccConfig.loadProperties START]");
         try {
             Resource resource = resourceLoader.getResource(configFile);
             if (resource.exists()) {
@@ -70,8 +82,9 @@ public class SkccConfig {
                 logger.warn("Configuration file not found: {}", configFile);
                 properties = new Properties();
             }
+            logger.info("==================[SkccConfig.loadProperties END]");
         } catch (IOException e) {
-            logger.error("Failed to load configuration: {}", e.getMessage());
+            logger.error("==================[SkccConfig.loadProperties ERROR] - {}", e.getMessage(), e);
             properties = new Properties();
         }
     }
@@ -80,25 +93,42 @@ public class SkccConfig {
      * Get configuration value by key
      */
     public String getConfigValue(String key) {
-        return getConfigValue(key, null);
+        logger.info("==================[SkccConfig.getConfigValue START] - 키: {}", key);
+        try {
+            String result = getConfigValue(key, null);
+            logger.info("==================[SkccConfig.getConfigValue END] - 키: {}", key);
+            return result;
+        } catch (Exception e) {
+            logger.error("==================[SkccConfig.getConfigValue ERROR] - 키: {}, 에러: {}", key, e.getMessage(), e);
+            throw e;
+        }
     }
 
     /**
      * Get configuration value by key with default value
      */
     public String getConfigValue(String key, String defaultValue) {
-        // First check cache
-        if (configCache.containsKey(key)) {
-            return (String) configCache.get(key);
+        logger.info("==================[SkccConfig.getConfigValue START] - 키: {}, 기본값: {}", key, defaultValue);
+        try {
+            // First check cache
+            if (configCache.containsKey(key)) {
+                String result = (String) configCache.get(key);
+                logger.info("==================[SkccConfig.getConfigValue END] - 키: {} (캐시에서 조회)", key);
+                return result;
+            }
+
+            // Then check properties file
+            String value = properties.getProperty(key, defaultValue);
+
+            // Cache the result
+            configCache.put(key, value);
+
+            logger.info("==================[SkccConfig.getConfigValue END] - 키: {}", key);
+            return value;
+        } catch (Exception e) {
+            logger.error("==================[SkccConfig.getConfigValue ERROR] - 키: {}, 에러: {}", key, e.getMessage(), e);
+            throw e;
         }
-
-        // Then check properties file
-        String value = properties.getProperty(key, defaultValue);
-
-        // Cache the result
-        configCache.put(key, value);
-
-        return value;
     }
 
     /**

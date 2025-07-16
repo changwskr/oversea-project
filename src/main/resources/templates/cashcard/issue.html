@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">카드 발급</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb-item a {
+            color: #28a745;
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item.active {
+            color: #666;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .feature-description {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-feature {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit"><i class="fas fa-piggy-bank"></i> Deposit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller"><i class="fas fa-user-tie"></i> Teller</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user"><i class="fas fa-users"></i> User</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> 홈</a></li>
+                <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
+                <li class="breadcrumb-item active" aria-current="page">카드 발급</li>
+            </ol>
+        </nav>
+
+        <div class="page-header">
+            <h1><i class="fas fa-plus-circle"></i> <span th:text="${pageTitle}">현금카드 발급</span></h1>
+            <p th:text="${description}">새로운 현금카드를 발급합니다</p>
+        </div>
+        
+        <div class="content-card">
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <i class="fas fa-file-alt feature-icon"></i>
+                    <div class="feature-title">카드 발급 신청</div>
+                    <div class="feature-description">
+                        새로운 현금카드 발급을 신청합니다
+                    </div>
+                    <a href="/cashcard/issue/apply" class="btn btn-success btn-feature">
+                        <i class="fas fa-plus"></i> 신청하기
+                    </a>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-check-circle feature-icon"></i>
+                    <div class="feature-title">발급 승인</div>
+                    <div class="feature-description">
+                        카드 발급 신청을 검토하고 승인합니다
+                    </div>
+                    <a href="/cashcard/issue/approve" class="btn btn-primary btn-feature">
+                        <i class="fas fa-check"></i> 승인하기
+                    </a>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-search feature-icon"></i>
+                    <div class="feature-title">발급 현황</div>
+                    <div class="feature-description">
+                        카드 발급 진행 상황을 확인합니다
+                    </div>
+                    <a href="/cashcard/search" class="btn btn-info btn-feature">
+                        <i class="fas fa-search"></i> 조회하기
+                    </a>
+                </div>
+                
+                <div class="feature-item">
+                    <i class="fas fa-chart-bar feature-icon"></i>
+                    <div class="feature-title">발급 통계</div>
+                    <div class="feature-description">
+                        카드 발급 통계 및 현황을 확인합니다
+                    </div>
+                    <a href="#" class="btn btn-warning btn-feature">
+                        <i class="fas fa-chart-line"></i> 통계보기
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-card">
+            <h4><i class="fas fa-info-circle"></i> 카드 발급 안내</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>발급 조건</h5>
+                    <ul>
+                        <li>만 18세 이상의 고객</li>
+                        <li>유효한 신분증 소지</li>
+                        <li>본인 명의 계좌 보유</li>
+                        <li>신용도 검증 통과</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>필요 서류</h5>
+                    <ul>
+                        <li>신분증 (주민등록증, 운전면허증)</li>
+                        <li>카드 발급 신청서</li>
+                        <li>본인 확인 서류</li>
+                        <li>소득 증빙 서류 (선택)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

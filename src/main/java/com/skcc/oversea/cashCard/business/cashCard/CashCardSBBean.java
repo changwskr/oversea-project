@@ -87,13 +87,22 @@ public class CashCardSBBean implements ICashCardSB {
     @Override
     @Transactional(readOnly = true)
     public CashCardDDTO getCashCardInfo(CashCardDDTO cashCardDDTO, CosesCommonDTO commonDTO) throws CosesAppException {
-        CashCard cashCard = findByCashCard(cashCardDDTO);
-        return DTOConverter.getCashCardDDTO(cashCard, cashCardDDTO);
+        logger.info("==================[CashCardSBBean.getCashCardInfo START]");
+        try {
+            CashCard cashCard = findByCashCard(cashCardDDTO);
+            CashCardDDTO result = DTOConverter.getCashCardDDTO(cashCard, cashCardDDTO);
+            logger.info("==================[CashCardSBBean.getCashCardInfo END]");
+            return result;
+        } catch (Exception e) {
+            logger.error("==================[CashCardSBBean.getCashCardInfo ERROR] - {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
     @Transactional
     public CashCardDDTO makeCashCard(CashCardDDTO cashCardDDTO, CosesCommonDTO commonDTO) throws CosesAppException {
+        logger.info("==================[CashCardSBBean.makeCashCard START]");
         try {
             CashCard cashCard = cashCardRepository.create(
                     cashCardDDTO.getBankType(), cashCardDDTO.getBankCode(),
@@ -108,8 +117,10 @@ public class CashCardSBBean implements ICashCardSB {
                     cashCardDDTO.getPrimaryAccountNo(), cashCardDDTO.getCIFName(),
                     cashCardDDTO.getBranchCode(), cashCardDDTO.getCardNumber());
 
+            logger.info("==================[CashCardSBBean.makeCashCard END]");
             return cashCardDDTO;
         } catch (Exception e) {
+            logger.error("==================[CashCardSBBean.makeCashCard ERROR] - {}", e.getMessage(), e);
             CosesExceptionDetail detail = new CosesExceptionDetail("ERR_0182_ALREADY_EXISTING", "Already existing");
             detail.addMessage("PrimaryAccountNo", cashCardDDTO.getPrimaryAccountNo());
             detail.addArgument("CashCard System");
@@ -122,13 +133,17 @@ public class CashCardSBBean implements ICashCardSB {
     @Transactional(readOnly = true)
     public CashCardDDTO findCashCardInfoByCardNo(CashCardDDTO cashCardDDTO, CosesCommonDTO commonDTO)
             throws CosesAppException {
+        logger.info("==================[CashCardSBBean.findCashCardInfoByCardNo START] - 카드번호: {}", cashCardDDTO.getCardNumber());
         try {
             CashCard cashCard = cashCardRepository.findByCardNumber(commonDTO.getBankCode(),
                     cashCardDDTO.getCardNumber())
                     .orElseThrow(() -> new CosesAppException("ERR_0100_ACCOUNT_DOES_NOT_EXIST",
                             "Account does not exist"));
-            return DTOConverter.getCashCardDDTO(cashCard, cashCardDDTO);
+            CashCardDDTO result = DTOConverter.getCashCardDDTO(cashCard, cashCardDDTO);
+            logger.info("==================[CashCardSBBean.findCashCardInfoByCardNo END] - 카드번호: {}", cashCardDDTO.getCardNumber());
+            return result;
         } catch (Exception e) {
+            logger.error("==================[CashCardSBBean.findCashCardInfoByCardNo ERROR] - 카드번호: {}, 에러: {}", cashCardDDTO.getCardNumber(), e.getMessage(), e);
             CosesExceptionDetail detail = new CosesExceptionDetail("ERR_0100_ACCOUNT_DOES_NOT_EXIST",
                     "Account does not exist");
             detail.addMessage("CardNumber", cashCardDDTO.getCardNumber());
@@ -141,33 +156,51 @@ public class CashCardSBBean implements ICashCardSB {
     @Override
     @Transactional
     public CashCardDDTO setCashCard(CashCardDDTO cashCardDDTO, CosesCommonDTO commonDTO) throws CosesAppException {
-        logger.debug("Setting cash card - InvalidAttemptCount: {}", cashCardDDTO.getInvalidAttemptCnt());
+        logger.info("==================[CashCardSBBean.setCashCard START] - 카드번호: {}, InvalidAttemptCount: {}", cashCardDDTO.getCardNumber(), cashCardDDTO.getInvalidAttemptCnt());
+        try {
+            logger.debug("Setting cash card - InvalidAttemptCount: {}", cashCardDDTO.getInvalidAttemptCnt());
 
-        CashCard cashCard = findByCashCard(cashCardDDTO);
-        logger.debug("InvalidAttemptCount with Entity: {}", cashCard.getInvalidAttemptCnt());
+            CashCard cashCard = findByCashCard(cashCardDDTO);
+            logger.debug("InvalidAttemptCount with Entity: {}", cashCard.getInvalidAttemptCnt());
 
-        DTOConverter.setCashCardDDTO(cashCardDDTO, cashCard);
-        return cashCardDDTO;
+            DTOConverter.setCashCardDDTO(cashCardDDTO, cashCard);
+            logger.info("==================[CashCardSBBean.setCashCard END] - 카드번호: {}", cashCardDDTO.getCardNumber());
+            return cashCardDDTO;
+        } catch (Exception e) {
+            logger.error("==================[CashCardSBBean.setCashCard ERROR] - 카드번호: {}, 에러: {}", cashCardDDTO.getCardNumber(), e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
     public HotCardDDTO getHotCardInfo(HotCardDDTO hotCardDDTO, CosesCommonDTO commonDTO) throws CosesAppException {
-        HotCard hotCard = findByHotCard(hotCardDDTO, commonDTO);
-        return DTOConverter.getHotCardCDTO(hotCard, hotCardDDTO);
+        logger.info("==================[CashCardSBBean.getHotCardInfo START] - 카드번호: {}", hotCardDDTO.getCardNumber());
+        try {
+            HotCard hotCard = findByHotCard(hotCardDDTO, commonDTO);
+            HotCardDDTO result = DTOConverter.getHotCardCDTO(hotCard, hotCardDDTO);
+            logger.info("==================[CashCardSBBean.getHotCardInfo END] - 카드번호: {}", hotCardDDTO.getCardNumber());
+            return result;
+        } catch (Exception e) {
+            logger.error("==================[CashCardSBBean.getHotCardInfo ERROR] - 카드번호: {}, 에러: {}", hotCardDDTO.getCardNumber(), e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
     @Transactional
     public HotCardDDTO makeHotCard(HotCardDDTO hotCardDDTO, CosesCommonDTO commonDTO) throws CosesAppException {
+        logger.info("==================[CashCardSBBean.makeHotCard START] - 카드번호: {}", hotCardDDTO.getCardNumber());
         try {
             HotCard hotCard = new HotCard();
             hotCard.setCardNumber(hotCardDDTO.getCardNumber());
             hotCard.setSequenceNo(hotCardDDTO.getSequenceNo());
             hotCard = hotCardRepository.save(hotCard);
             DTOConverter.setHotCardDDTO(hotCardDDTO, hotCard);
+            logger.info("==================[CashCardSBBean.makeHotCard END] - 카드번호: {}", hotCardDDTO.getCardNumber());
             return hotCardDDTO;
         } catch (Exception e) {
+            logger.error("==================[CashCardSBBean.makeHotCard ERROR] - 카드번호: {}, 에러: {}", hotCardDDTO.getCardNumber(), e.getMessage(), e);
             CosesExceptionDetail detail = new CosesExceptionDetail("ERR_0182_ALREADY_EXISTING", "Already existing");
             detail.addMessage("CardNumber", hotCardDDTO.getCardNumber());
             detail.addArgument("CashCard System");
@@ -179,9 +212,16 @@ public class CashCardSBBean implements ICashCardSB {
     @Override
     @Transactional
     public HotCardDDTO releaseHotCard(HotCardDDTO hotCardDDTO, CosesCommonDTO commonDTO) throws CosesAppException {
-        HotCard hotCard = findByHotCard(hotCardDDTO, commonDTO);
-        setReleaseHotCard(hotCardDDTO, hotCard);
-        return hotCardDDTO;
+        logger.info("==================[CashCardSBBean.releaseHotCard START] - 카드번호: {}", hotCardDDTO.getCardNumber());
+        try {
+            HotCard hotCard = findByHotCard(hotCardDDTO, commonDTO);
+            setReleaseHotCard(hotCardDDTO, hotCard);
+            logger.info("==================[CashCardSBBean.releaseHotCard END] - 카드번호: {}", hotCardDDTO.getCardNumber());
+            return hotCardDDTO;
+        } catch (Exception e) {
+            logger.error("==================[CashCardSBBean.releaseHotCard ERROR] - 카드번호: {}, 에러: {}", hotCardDDTO.getCardNumber(), e.getMessage(), e);
+            throw e;
+        }
     }
 
     private void setReleaseHotCard(HotCardDDTO hotCardDDTO, HotCard hotCard) {

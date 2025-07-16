@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">카드 발급 신청</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb-item a {
+            color: #28a745;
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item.active {
+            color: #666;
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-section h5 {
+            color: #28a745;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 0.5rem;
+        }
+        
+        .required-field::after {
+            content: " *";
+            color: #dc3545;
+        }
+        
+        .card-preview {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .card-number-preview {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+        
+        .card-info-preview {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .is-invalid {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+        }
+        
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+            color: #dc3545;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit"><i class="fas fa-piggy-bank"></i> Deposit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller"><i class="fas fa-user-tie"></i> Teller</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user"><i class="fas fa-users"></i> User</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> 홈</a></li>
+                <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
+                <li class="breadcrumb-item"><a href="/cashcard/issue">카드 발급</a></li>
+                <li class="breadcrumb-item active" aria-current="page">카드 발급 신청</li>
+            </ol>
+        </nav>
+
+        <div class="page-header">
+            <h1><i class="fas fa-file-alt"></i> <span th:text="${pageTitle}">카드 발급 신청</span></h1>
+            <p th:text="${description}">카드 발급을 신청합니다</p>
+        </div>
+        
+        <div class="content-card">
+            <!-- 에러 메시지 표시 -->
+            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span th:text="${errorMessage}">오류가 발생했습니다.</span>
+            </div>
+            
+            <form action="/cashcard/issue/apply" method="post">
+                <!-- 고객 정보 섹션 -->
+                <div class="form-section">
+                    <h5><i class="fas fa-user"></i> 고객 정보</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="customerName" class="form-label required-field">고객명</label>
+                                <input type="text" class="form-control" id="customerName" name="customerName" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="customerId" class="form-label required-field">주민등록번호</label>
+                                <input type="text" class="form-control" id="customerId" name="customerId" placeholder="000000-0000000" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="phoneNumber" class="form-label required-field">연락처</label>
+                                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="010-0000-0000" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">이메일</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="example@email.com">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label required-field">주소</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                </div>
+
+                <!-- 계좌 정보 섹션 -->
+                <div class="form-section">
+                    <h5><i class="fas fa-piggy-bank"></i> 계좌 정보</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="accountNumber" class="form-label required-field">계좌번호</label>
+                                <input type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="000-000000-00-000" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="accountType" class="form-label required-field">계좌종류</label>
+                                <select class="form-select" id="accountType" name="accountType" required>
+                                    <option value="">선택하세요</option>
+                                    <option value="checking">입출금통장</option>
+                                    <option value="savings">저축예금</option>
+                                    <option value="time">정기예금</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="branchCode" class="form-label required-field">지점코드</label>
+                                <input type="text" class="form-control" id="branchCode" name="branchCode" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="bankCode" class="form-label required-field">은행코드</label>
+                                <input type="text" class="form-control" id="bankCode" name="bankCode" value="03" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 카드 정보 섹션 -->
+                <div class="form-section">
+                    <h5><i class="fas fa-credit-card"></i> 카드 정보</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="cardType" class="form-label required-field">카드종류</label>
+                                <select class="form-select" id="cardType" name="cardType" required>
+                                    <option value="">선택하세요</option>
+                                    <option value="cash">현금카드</option>
+                                    <option value="debit">체크카드</option>
+                                    <option value="credit">신용카드</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="cardDesign" class="form-label">카드디자인</label>
+                                <select class="form-select" id="cardDesign" name="cardDesign">
+                                    <option value="standard">기본디자인</option>
+                                    <option value="premium">프리미엄디자인</option>
+                                    <option value="custom">커스텀디자인</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="dailyLimit" class="form-label required-field">일일한도</label>
+                                <select class="form-select" id="dailyLimit" name="dailyLimit" required>
+                                    <option value="">선택하세요</option>
+                                    <option value="500000">₩500,000</option>
+                                    <option value="1000000">₩1,000,000</option>
+                                    <option value="2000000">₩2,000,000</option>
+                                    <option value="5000000">₩5,000,000</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="deliveryMethod" class="form-label required-field">배송방법</label>
+                                <select class="form-select" id="deliveryMethod" name="deliveryMethod" required>
+                                    <option value="">선택하세요</option>
+                                    <option value="branch">지점수령</option>
+                                    <option value="home">자택배송</option>
+                                    <option value="office">직장배송</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 카드 미리보기 -->
+                <div class="card-preview">
+                    <h5><i class="fas fa-eye"></i> 카드 미리보기</h5>
+                    <div class="card-number-preview">****-****-****-****</div>
+                    <div class="card-info-preview">
+                        <div>
+                            <div>고객명</div>
+                            <div id="previewName">-</div>
+                        </div>
+                        <div>
+                            <div>유효기간</div>
+                            <div>MM/YY</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 약관 동의 -->
+                <div class="form-section">
+                    <h5><i class="fas fa-file-contract"></i> 약관 동의</h5>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="termsAgreement" name="termsAgreement" required>
+                            <label class="form-check-label required-field" for="termsAgreement">
+                                현금카드 이용약관에 동의합니다
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="privacyAgreement" name="privacyAgreement" required>
+                            <label class="form-check-label required-field" for="privacyAgreement">
+                                개인정보 수집 및 이용에 동의합니다
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="marketingAgreement" name="marketingAgreement">
+                            <label class="form-check-label" for="marketingAgreement">
+                                마케팅 정보 수신에 동의합니다 (선택)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 제출 버튼 -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success btn-submit">
+                        <i class="fas fa-paper-plane"></i> 신청서 제출
+                    </button>
+                    <a href="/cashcard/issue" class="btn btn-secondary ms-2">
+                        <i class="fas fa-arrow-left"></i> 돌아가기
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 고객명 입력 시 미리보기 업데이트
+        document.getElementById('customerName').addEventListener('input', function() {
+            const previewName = document.getElementById('previewName');
+            previewName.textContent = this.value || '-';
+        });
+        
+        // 폼 제출 시 유효성 검사
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const requiredFields = this.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(function(field) {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('is-invalid');
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+            
+            // 약관 동의 확인
+            const termsAgreement = document.getElementById('termsAgreement');
+            const privacyAgreement = document.getElementById('privacyAgreement');
+            
+            if (!termsAgreement.checked || !privacyAgreement.checked) {
+                isValid = false;
+                alert('필수 약관에 동의해주세요.');
+                e.preventDefault();
+                return;
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('필수 항목을 모두 입력해주세요.');
+                return;
+            }
+            
+            // 제출 버튼 비활성화
+            const submitBtn = document.querySelector('.btn-submit');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 제출 중...';
+        });
+        
+        // 입력 필드 유효성 검사 실시간 업데이트
+        document.querySelectorAll('input, select').forEach(function(field) {
+            field.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.classList.add('is-invalid');
+                } else {
+                    this.classList.remove('is-invalid');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

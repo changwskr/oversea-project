@@ -70,52 +70,72 @@ public class TPMsvcutil extends AbstractTPMSVCAPI
   public IEvent result;
 
   public static synchronized TPMsvcutil getInstance(String ip,String port) {
-    if (instance == null) {
-      try{
-        instance = new TPMsvcutil(ip,port);
+    logger.info("==================[TPMsvcutil.getInstance START] - IP: {}, Port: {}", ip, port);
+    try {
+      if (instance == null) {
+        try{
+          instance = new TPMsvcutil(ip,port);
+        }
+        catch(Exception igex)
+        {
+          System.out.println(igex);
+          return null;
+        }
       }
-      catch(Exception igex)
-      {
-        System.out.println(igex);
-        return null;
-      }
+      logger.info("==================[TPMsvcutil.getInstance END] - IP: {}, Port: {}", ip, port);
+      return instance;
+    } catch (Exception e) {
+      logger.error("==================[TPMsvcutil.getInstance ERROR] - IP: {}, Port: {}, 에러: {}", ip, port, e.getMessage(), e);
+      throw e;
     }
-    return instance;
   }
 
   public TPMsvcutil(String ip,String port) throws Exception{
+    logger.info("==================[TPMsvcutil.TPMsvcutil START] - IP: {}, Port: {}", ip, port);
     try{
       url = "http://"+ip+":"+port; // Changed from t3:// to http:// for Spring
       System.out.println("Spring Service URL : "+ url );
       ctx = applicationContext; // Use Spring ApplicationContext
       event = new EPlatonEvent();
+      logger.info("==================[TPMsvcutil.TPMsvcutil END] - IP: {}, Port: {}", ip, port);
     }catch(Exception ex){
+      logger.error("==================[TPMsvcutil.TPMsvcutil ERROR] - IP: {}, Port: {}, 에러: {}", ip, port, ex.getMessage(), ex);
       ex.printStackTrace();
       throw ex;
     }
   }
 
   public static synchronized TPMsvcutil getInstance() {
-    if (instance == null) {
-      try{
-        instance = new TPMsvcutil();
+    logger.info("==================[TPMsvcutil.getInstance START]");
+    try {
+      if (instance == null) {
+        try{
+          instance = new TPMsvcutil();
+        }
+        catch(Exception igex)
+        {
+          System.out.println(igex);
+          return null;
+        }
       }
-      catch(Exception igex)
-      {
-        System.out.println(igex);
-        return null;
-      }
+      logger.info("==================[TPMsvcutil.getInstance END]");
+      return instance;
+    } catch (Exception e) {
+      logger.error("==================[TPMsvcutil.getInstance ERROR] - {}", e.getMessage(), e);
+      throw e;
     }
-    return instance;
   }
 
   public TPMsvcutil() throws Exception{
+    logger.info("==================[TPMsvcutil.TPMsvcutil START]");
     try{
       url = getProperty("service.call.url", "http://localhost:8080"); // Use Spring property
       System.out.println("--2 Spring Service URL : "+ url );
       ctx = applicationContext; // Use Spring ApplicationContext
       event = new EPlatonEvent();
+      logger.info("==================[TPMsvcutil.TPMsvcutil END]");
     }catch(Exception ex){
+      logger.error("==================[TPMsvcutil.TPMsvcutil ERROR] - {}", ex.getMessage(), ex);
       ex.printStackTrace();
       throw ex;
     }

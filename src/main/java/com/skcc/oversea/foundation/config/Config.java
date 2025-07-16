@@ -30,17 +30,18 @@ import java.util.Map;
 @Configuration
 public class Config {
 
-  private static final Logger logger = LoggerFactory.getLogger(Config.class);
+      private static final Logger logger = LoggerFactory.getLogger(Config.class);
 
-  // Static instance for legacy compatibility
-  private static Config instance;
+    // Static instance for legacy compatibility
+    private static Config instance;
+    private static boolean configLoaded = false;
 
   @Autowired
   private ResourceLoader resourceLoader;
 
-  @Value("${skcc.oversea.config.xml.file:classpath:config/skcc-oversea.xml}")
+  @Value("${skcc.oversea.config.xml.file:classpath:config/oversea-config.xml}")
   private String configXmlFile;
-
+  
   private final Map<String, Document> xmlCache = new HashMap<>();
   private Document configDocument;
 
@@ -48,12 +49,19 @@ public class Config {
    * Legacy compatibility method for static access
    */
   public static Config getInstance() {
-    if (instance == null) {
-      logger.warn("Config instance not initialized via Spring, creating default instance");
-      instance = new Config();
-      instance.loadDefaultConfig();
+    logger.info("==================[Config.getInstance START]");
+    try {
+      if (instance == null) {
+        logger.warn("Config instance not initialized via Spring, creating default instance");
+        instance = new Config();
+        instance.loadDefaultConfig();
+      }
+      logger.info("==================[Config.getInstance END]");
+      return instance;
+    } catch (Exception e) {
+      logger.error("==================[Config.getInstance ERROR] - {}", e.getMessage(), e);
+      throw e;
     }
-    return instance;
   }
 
   /**
@@ -68,9 +76,11 @@ public class Config {
    */
   @PostConstruct
   public void init() {
+    // Override configXmlFile to use the correct path
+    this.configXmlFile = "classpath:config/oversea-config.xml";
     loadXmlConfig();
     setStaticInstance(); // Set static instance for legacy compatibility
-    logger.info("SKCC Oversea Configuration initialized");
+    logger.info("SKCC Oversea Configuration initialized with file: {}", configXmlFile);
   }
 
   /**
@@ -79,7 +89,7 @@ public class Config {
   private void loadDefaultConfig() {
     try {
       // Try to load from classpath
-      InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config/skcc-oversea.xml");
+      InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config/oversea-config.xml");
       if (inputStream != null) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -87,13 +97,16 @@ public class Config {
         configDocument.getDocumentElement().normalize();
         inputStream.close();
         logger.info("Default XML Configuration loaded");
+        configLoaded = true;
       } else {
         logger.warn("Default XML Configuration file not found");
         configDocument = createDefaultDocument();
+        configLoaded = true;
       }
     } catch (Exception e) {
       logger.error("Failed to load default XML configuration: {}", e.getMessage());
       configDocument = createDefaultDocument();
+      configLoaded = true;
     }
   }
 
@@ -106,15 +119,44 @@ public class Config {
       DocumentBuilder builder = factory.newDocumentBuilder();
       Document doc = builder.newDocument();
 
-      Element root = doc.createElement("config");
+      Element root = doc.createElement("ENVIRONMENT");
       doc.appendChild(root);
 
-      // Add transaction-log-service element
-      Element transactionLog = doc.createElement("transaction-log-service");
-      Element fileLog = doc.createElement("file-log");
-      fileLog.setTextContent("/tmp/transaction.log");
-      transactionLog.appendChild(fileLog);
-      root.appendChild(transactionLog);
+      // Add TRANSACTION-BLOCKING element with default values
+      Element transactionBlocking = doc.createElement("TRANSACTION-BLOCKING");
+      Element txBlockCnt = doc.createElement("TXBLOCKCNT");
+      txBlockCnt.setTextContent("5");
+      transactionBlocking.appendChild(txBlockCnt);
+      
+      // Add TPFQ element
+      Element tpfq = doc.createElement("TPFQ");
+      Element emode = doc.createElement("EMODE");
+      emode.setTextContent("OFF");
+      tpfq.appendChild(emode);
+      transactionBlocking.appendChild(tpfq);
+      
+      // Add TXCODE element
+      Element txcode = doc.createElement("TXCODE");
+      Element txEmode = doc.createElement("EMODE");
+      txEmode.setTextContent("OFF");
+      txcode.appendChild(txEmode);
+      transactionBlocking.appendChild(txcode);
+      
+      // Add TELLER element
+      Element teller = doc.createElement("TELLER");
+      Element tMode = doc.createElement("TMODE");
+      tMode.setTextContent("OFF");
+      teller.appendChild(tMode);
+      transactionBlocking.appendChild(teller);
+      
+      // Add BRANCH element
+      Element branch = doc.createElement("BRANCH");
+      Element bMode = doc.createElement("BMODE");
+      bMode.setTextContent("OFF");
+      branch.appendChild(bMode);
+      transactionBlocking.appendChild(branch);
+      
+      root.appendChild(transactionBlocking);
 
       return doc;
     } catch (Exception e) {
@@ -138,13 +180,16 @@ public class Config {
           configDocument.getDocumentElement().normalize();
         }
         logger.info("XML Configuration loaded from: {}", configXmlFile);
+        configLoaded = true;
       } else {
         logger.warn("XML Configuration file not found: {}", configXmlFile);
         configDocument = createDefaultDocument();
+        configLoaded = true;
       }
     } catch (Exception e) {
       logger.error("Failed to load XML configuration: {}", e.getMessage());
       configDocument = createDefaultDocument();
+      configLoaded = true;
     }
   }
 
@@ -159,6 +204,14 @@ public class Config {
 
     try {
       Element rootElement = configDocument.getDocumentElement();
+      
+      // Handle both <config> and <ENVIRONMENT> root elements
+      String rootName = rootElement.getNodeName();
+      if (!"ENVIRONMENT".equals(rootName) && !"config".equals(rootName)) {
+        logger.warn("Unexpected root element: {}", rootName);
+        return null;
+      }
+      
       NodeList serviceNodes = rootElement.getElementsByTagName(serviceName);
 
       if (serviceNodes.getLength() > 0) {
@@ -183,24 +236,32 @@ public class Config {
    * compatibility)
    */
   public ConfigElement getElement(String serviceName) {
-    if (configDocument == null) {
-      logger.warn("Configuration document not loaded");
-      return new ConfigElement(null);
-    }
-
+    logger.info("==================[Config.getElement START] - 서비스명: {}", serviceName);
     try {
-      Element rootElement = configDocument.getDocumentElement();
-      NodeList serviceNodes = rootElement.getElementsByTagName(serviceName);
-
-      if (serviceNodes.getLength() > 0) {
-        return new ConfigElement((Element) serviceNodes.item(0));
+      if (!configLoaded) {
+        logger.warn("Configuration not loaded, attempting to load default config");
+        loadDefaultConfig();
       }
 
-      logger.debug("Configuration element not found: {}", serviceName);
-      return new ConfigElement(null);
+      if (configDocument == null) {
+        logger.error("Configuration document is null");
+        return null;
+      }
+
+      NodeList nodeList = configDocument.getElementsByTagName(serviceName);
+      if (nodeList.getLength() > 0) {
+        Element element = (Element) nodeList.item(0);
+        ConfigElement result = new ConfigElement(element);
+        logger.info("==================[Config.getElement END] - 서비스명: {}", serviceName);
+        return result;
+      } else {
+        logger.warn("Service element not found: {}", serviceName);
+        logger.info("==================[Config.getElement END] - 서비스명: {} (not found)", serviceName);
+        return null;
+      }
     } catch (Exception e) {
-      logger.error("Error getting configuration element: {}", serviceName, e);
-      return new ConfigElement(null);
+      logger.error("==================[Config.getElement ERROR] - 서비스명: {}, 에러: {}", serviceName, e.getMessage(), e);
+      throw e;
     }
   }
 

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">핫카드 관리</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb-item a {
+            color: #28a745;
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item.active {
+            color: #666;
+        }
+        
+        .hotcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .hotcard-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .hotcard-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .hotcard-icon {
+            font-size: 3rem;
+            color: #dc3545;
+            margin-bottom: 1rem;
+        }
+        
+        .hotcard-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .hotcard-description {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-hotcard {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .hotcard-list {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hotcard-entry {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .hotcard-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .card-number {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .hotcard-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .hotcard-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .detail-item {
+            font-size: 0.9rem;
+        }
+        
+        .detail-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .reason-badge {
+            background: #fff3cd;
+            color: #856404;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit"><i class="fas fa-piggy-bank"></i> Deposit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller"><i class="fas fa-user-tie"></i> Teller</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user"><i class="fas fa-users"></i> User</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> 홈</a></li>
+                <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
+                <li class="breadcrumb-item active" aria-current="page">핫카드 관리</li>
+            </ol>
+        </nav>
+
+        <div class="page-header">
+            <h1><i class="fas fa-exclamation-triangle"></i> <span th:text="${pageTitle}">핫카드 관리</span></h1>
+            <p th:text="${description}">분실/도난 카드를 관리합니다</p>
+        </div>
+        
+        <div class="content-card">
+            <div class="hotcard-grid">
+                <div class="hotcard-item">
+                    <i class="fas fa-plus-circle hotcard-icon"></i>
+                    <div class="hotcard-title">핫카드 등록</div>
+                    <div class="hotcard-description">
+                        분실/도난 카드를 핫카드로 등록합니다
+                    </div>
+                    <a href="/cashcard/hotcard/register" class="btn btn-danger btn-hotcard">
+                        <i class="fas fa-plus"></i> 등록하기
+                    </a>
+                </div>
+                
+                <div class="hotcard-item">
+                    <i class="fas fa-check-circle hotcard-icon"></i>
+                    <div class="hotcard-title">핫카드 해제</div>
+                    <div class="hotcard-description">
+                        핫카드 상태를 해제하고 정상 사용을 재개합니다
+                    </div>
+                    <a href="/cashcard/hotcard/release" class="btn btn-success btn-hotcard">
+                        <i class="fas fa-check"></i> 해제하기
+                    </a>
+                </div>
+                
+                <div class="hotcard-item">
+                    <i class="fas fa-search hotcard-icon"></i>
+                    <div class="hotcard-title">핫카드 조회</div>
+                    <div class="hotcard-description">
+                        등록된 핫카드 목록을 조회합니다
+                    </div>
+                    <a href="/cashcard/search" class="btn btn-primary btn-hotcard">
+                        <i class="fas fa-search"></i> 조회하기
+                    </a>
+                </div>
+                
+                <div class="hotcard-item">
+                    <i class="fas fa-chart-bar hotcard-icon"></i>
+                    <div class="hotcard-title">통계 현황</div>
+                    <div class="hotcard-description">
+                        핫카드 등록 현황 및 통계를 확인합니다
+                    </div>
+                    <a href="#" class="btn btn-warning btn-hotcard">
+                        <i class="fas fa-chart-line"></i> 통계보기
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-card">
+            <h4><i class="fas fa-list"></i> 등록된 핫카드 목록</h4>
+            
+            <div class="hotcard-list">
+                <div class="hotcard-entry">
+                    <div class="hotcard-header">
+                        <span class="card-number">9876-5432-1098-7654</span>
+                        <span class="hotcard-status">핫카드</span>
+                    </div>
+                    <div class="hotcard-details">
+                        <div class="detail-item">
+                            <div class="detail-label">고객명</div>
+                            <div class="detail-value">이영희</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">계좌번호</div>
+                            <div class="detail-value">456-789012-34-567</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">등록일</div>
+                            <div class="detail-value">2024-01-20</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">등록자</div>
+                            <div class="detail-value">김관리</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">사유</div>
+                            <div class="detail-value">
+                                분실신고
+                                <span class="reason-badge">고객신고</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">상태</div>
+                            <div class="detail-value">처리중</div>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="/cashcard/detail?cardNumber=9876-5432-1098-7654" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-eye"></i> 상세보기
+                        </a>
+                        <a href="/cashcard/hotcard/release" class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-check"></i> 해제하기
+                        </a>
+                        <a href="#" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-edit"></i> 수정
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hotcard-entry">
+                    <div class="hotcard-header">
+                        <span class="card-number">1111-2222-3333-4444</span>
+                        <span class="hotcard-status">핫카드</span>
+                    </div>
+                    <div class="hotcard-details">
+                        <div class="detail-item">
+                            <div class="detail-label">고객명</div>
+                            <div class="detail-value">박민수</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">계좌번호</div>
+                            <div class="detail-value">789-123456-78-901</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">등록일</div>
+                            <div class="detail-value">2024-01-18</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">등록자</div>
+                            <div class="detail-value">이관리</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">사유</div>
+                            <div class="detail-value">
+                                도난신고
+                                <span class="reason-badge">경찰신고</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">상태</div>
+                            <div class="detail-value">처리중</div>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="/cashcard/detail?cardNumber=1111-2222-3333-4444" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-eye"></i> 상세보기
+                        </a>
+                        <a href="/cashcard/hotcard/release" class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-check"></i> 해제하기
+                        </a>
+                        <a href="#" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-edit"></i> 수정
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-card">
+            <h4><i class="fas fa-info-circle"></i> 핫카드 관리 안내</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>핫카드 등록 사유</h5>
+                    <ul>
+                        <li>고객 분실 신고</li>
+                        <li>고객 도난 신고</li>
+                        <li>경찰 신고 접수</li>
+                        <li>의심스러운 거래 감지</li>
+                        <li>관리자 판단에 의한 등록</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>핫카드 해제 조건</h5>
+                    <ul>
+                        <li>고객 본인 확인 완료</li>
+                        <li>카드 재발급 완료</li>
+                        <li>보안 검증 통과</li>
+                        <li>관리자 승인</li>
+                        <li>필요시 추가 서류 제출</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

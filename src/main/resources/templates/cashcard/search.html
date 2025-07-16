@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">카드 조회</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb-item a {
+            color: #28a745;
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item.active {
+            color: #666;
+        }
+        
+        .search-form {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .search-result {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #28a745;
+        }
+        
+        .card-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .info-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-value {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-hot {
+            background: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit"><i class="fas fa-piggy-bank"></i> Deposit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller"><i class="fas fa-user-tie"></i> Teller</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user"><i class="fas fa-users"></i> User</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> 홈</a></li>
+                <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
+                <li class="breadcrumb-item active" aria-current="page">카드 조회</li>
+            </ol>
+        </nav>
+
+        <div class="page-header">
+            <h1><i class="fas fa-search"></i> <span th:text="${pageTitle}">현금카드 조회</span></h1>
+            <p th:text="${description}">현금카드 정보를 조회합니다</p>
+        </div>
+        
+        <div class="content-card">
+            <div class="search-form">
+                <h4><i class="fas fa-search"></i> 카드 검색</h4>
+                <form>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="cardNumber" class="form-label">카드번호</label>
+                                <input type="text" class="form-control" id="cardNumber" placeholder="카드번호를 입력하세요">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="accountNumber" class="form-label">계좌번호</label>
+                                <input type="text" class="form-control" id="accountNumber" placeholder="계좌번호를 입력하세요">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="customerName" class="form-label">고객명</label>
+                                <input type="text" class="form-control" id="customerName" placeholder="고객명을 입력하세요">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="cardStatus" class="form-label">카드 상태</label>
+                                <select class="form-select" id="cardStatus">
+                                    <option value="">전체</option>
+                                    <option value="active">활성</option>
+                                    <option value="inactive">비활성</option>
+                                    <option value="hot">핫카드</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="issueDate" class="form-label">발급일자</label>
+                                <input type="date" class="form-control" id="issueDate">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-search"></i> 검색
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="content-card">
+            <h4><i class="fas fa-list"></i> 검색 결과</h4>
+            
+            <!-- 샘플 검색 결과 -->
+            <div class="search-result">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h5>카드번호: 1234-5678-9012-3456</h5>
+                    <span class="status-badge status-active">활성</span>
+                </div>
+                <div class="card-info">
+                    <div class="info-item">
+                        <div class="info-label">고객명</div>
+                        <div class="info-value">김철수</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">계좌번호</div>
+                        <div class="info-value">123-456789-01-234</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">발급일</div>
+                        <div class="info-value">2024-01-15</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">만료일</div>
+                        <div class="info-value">2029-01-15</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">일일한도</div>
+                        <div class="info-value">₩2,000,000</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">잔액</div>
+                        <div class="info-value">₩1,250,000</div>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="/cashcard/detail?cardNumber=1234-5678-9012-3456" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-eye"></i> 상세보기
+                    </a>
+                    <a href="/cashcard/manage" class="btn btn-outline-warning btn-sm">
+                        <i class="fas fa-edit"></i> 수정
+                    </a>
+                    <a href="/cashcard/hotcard/register" class="btn btn-outline-danger btn-sm">
+                        <i class="fas fa-exclamation-triangle"></i> 핫카드 등록
+                    </a>
+                </div>
+            </div>
+            
+            <div class="search-result">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h5>카드번호: 9876-5432-1098-7654</h5>
+                    <span class="status-badge status-hot">핫카드</span>
+                </div>
+                <div class="card-info">
+                    <div class="info-item">
+                        <div class="info-label">고객명</div>
+                        <div class="info-value">이영희</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">계좌번호</div>
+                        <div class="info-value">456-789012-34-567</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">발급일</div>
+                        <div class="info-value">2023-12-20</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">만료일</div>
+                        <div class="info-value">2028-12-20</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">일일한도</div>
+                        <div class="info-value">₩1,500,000</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">등록일</div>
+                        <div class="info-value">2024-01-20</div>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="/cashcard/detail?cardNumber=9876-5432-1098-7654" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-eye"></i> 상세보기
+                    </a>
+                    <a href="/cashcard/hotcard/release" class="btn btn-outline-success btn-sm">
+                        <i class="fas fa-check"></i> 핫카드 해제
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

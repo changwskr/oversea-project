@@ -55,33 +55,62 @@ public class IOBoundCardRegisterImpl implements IOBoundCardRegister {
     private String ES2 = "?";
 
     public void setAccountNo(String acctno) {
-        PAN = "00000" + acctno;
-        PAN2 = "00000" + acctno;
+        logger.debug("==================[IOBoundCardRegisterImpl.setAccountNo START] - acctno: {}", acctno);
+        try {
+            PAN = "00000" + acctno;
+            PAN2 = "00000" + acctno;
+            logger.debug("==================[IOBoundCardRegisterImpl.setAccountNo END] - acctno: {}", acctno);
+        } catch (Exception e) {
+            logger.error("==================[IOBoundCardRegisterImpl.setAccountNo ERROR] - acctno: {}, 에러: {}", acctno, e.getMessage(), e);
+            throw e;
+        }
     }
 
     public void setName(String name) {
-        Name = PSpaceToStr(name, Name_Len);
+        logger.debug("==================[IOBoundCardRegisterImpl.setName START] - name: {}", name);
+        try {
+            Name = PSpaceToStr(name, Name_Len);
+            logger.debug("==================[IOBoundCardRegisterImpl.setName END] - name: {}", name);
+        } catch (Exception e) {
+            logger.error("==================[IOBoundCardRegisterImpl.setName ERROR] - name: {}, 에러: {}", name, e.getMessage(), e);
+            throw e;
+        }
     }
 
     public void setBranchCode(String branch) {
-        BranchCode = branch;
-        if (BranchCode.equals("0238")) {
-            serialNo2 = "013";
-            RegionCode = "50";
-        }
-        if (BranchCode.equals("0239")) {
-            serialNo2 = "018";
-            RegionCode = "10";
+        logger.debug("==================[IOBoundCardRegisterImpl.setBranchCode START] - branch: {}", branch);
+        try {
+            BranchCode = branch;
+            if (BranchCode.equals("0238")) {
+                serialNo2 = "013";
+                RegionCode = "50";
+            }
+            if (BranchCode.equals("0239")) {
+                serialNo2 = "018";
+                RegionCode = "10";
+            }
+            logger.debug("==================[IOBoundCardRegisterImpl.setBranchCode END] - branch: {}", branch);
+        } catch (Exception e) {
+            logger.error("==================[IOBoundCardRegisterImpl.setBranchCode ERROR] - branch: {}, 에러: {}", branch, e.getMessage(), e);
+            throw e;
         }
     }
 
     public void setCardNo(String cardno) {
-        CardNo = cardno;
-        CardNo2 = CardNo;
+        logger.debug("==================[IOBoundCardRegisterImpl.setCardNo START] - cardno: {}", cardno);
+        try {
+            CardNo = cardno;
+            CardNo2 = CardNo;
+            logger.debug("==================[IOBoundCardRegisterImpl.setCardNo END] - cardno: {}", cardno);
+        } catch (Exception e) {
+            logger.error("==================[IOBoundCardRegisterImpl.setCardNo ERROR] - cardno: {}, 에러: {}", cardno, e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Override
     public synchronized void execute(String fname) {
+        logger.info("==================[IOBoundCardRegisterImpl.execute START] - fname: {}", fname);
         String name = null, acctno = null, branch = null, cardno = null;
 
         try {
@@ -120,35 +149,54 @@ public class IOBoundCardRegisterImpl implements IOBoundCardRegister {
                     }
                     i++;
                 }
-                Thread.currentThread().sleep(50);
+                // Simple delay without InterruptedException
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    logger.warn("Thread sleep interrupted: {}", e.getMessage());
+                    Thread.currentThread().interrupt();
+                }
 
                 String CardSeq = getCardSeq();
                 this.makefile(null, CardSeq + this.CardNo + Track1_toString() + Track2_toString());
                 logger.debug(CardSeq + this.CardNo + Track1_toString() + Track2_toString());
                 setCardSeq(CardSeq, GetSysDate());
             }
+            ipin.close();
+            logger.info("==================[IOBoundCardRegisterImpl.execute END] - fname: {}", fname);
+        } catch (IOException e) {
+            logger.error("==================[IOBoundCardRegisterImpl.execute ERROR] - fname: {}, IOException: {}", fname, e.getMessage(), e);
+            throw new RuntimeException("Failed to execute card registration from file", e);
         } catch (Exception ex) {
-            logger.error("Error executing card registration from file: " + fname, ex);
+            logger.error("==================[IOBoundCardRegisterImpl.execute ERROR] - fname: {}, 에러: {}", fname, ex.getMessage(), ex);
+            throw ex;
         }
     }
 
     @Override
     public synchronized void execute(String acctno, String name, String branch, String cardno) {
-        setName(name);
-        setAccountNo(acctno);
-        setBranchCode(branch);
-        setCardNo(cardno);
+        logger.info("==================[IOBoundCardRegisterImpl.execute START] - acctno: {}, name: {}, branch: {}, cardno: {}", acctno, name, branch, cardno);
+        try {
+            setName(name);
+            setAccountNo(acctno);
+            setBranchCode(branch);
+            setCardNo(cardno);
 
-        if (BranchCode.equals("0238")) {
-        } else if (BranchCode.equals("0239")) {
-        } else {
-            logger.debug("-------------- branchcode not match");
-            return;
+            if (BranchCode.equals("0238")) {
+            } else if (BranchCode.equals("0239")) {
+            } else {
+                logger.debug("-------------- branchcode not match");
+                return;
+            }
+
+            String CardSeq = getCardSeq();
+            this.makefile(null, CardSeq + this.CardNo + Track1_toString() + Track2_toString());
+            setCardSeq(CardSeq, GetSysDate());
+            logger.info("==================[IOBoundCardRegisterImpl.execute END] - acctno: {}, name: {}, branch: {}, cardno: {}", acctno, name, branch, cardno);
+        } catch (Exception e) {
+            logger.error("==================[IOBoundCardRegisterImpl.execute ERROR] - acctno: {}, name: {}, branch: {}, cardno: {}, 에러: {}", acctno, name, branch, cardno, e.getMessage(), e);
+            throw e;
         }
-
-        String CardSeq = getCardSeq();
-        this.makefile(null, CardSeq + this.CardNo + Track1_toString() + Track2_toString());
-        setCardSeq(CardSeq, GetSysDate());
     }
 
     public String Track2_toString() {
@@ -305,7 +353,7 @@ public class IOBoundCardRegisterImpl implements IOBoundCardRegister {
             }
             f.mkdirs();
             if (!f.isDirectory())
-                throw new IOException(FName + "DIR does not make dir");
+                throw new RuntimeException(FName + "DIR does not make dir");
         } catch (Exception ex) {
             logger.debug("DIRmake Exception :: " + ex.getMessage());
             logger.debug("DIRmake FileName  :: " + FName);
@@ -334,6 +382,9 @@ public class IOBoundCardRegisterImpl implements IOBoundCardRegister {
                 setCardSeq("00000001", GetSysDate());
                 return "00000001";
             }
+        } catch (IOException e) {
+            logger.error("Error getting card sequence - IOException: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to get card sequence", e);
         } catch (Exception e) {
             logger.error("Error getting card sequence", e);
             return null;
@@ -348,6 +399,9 @@ public class IOBoundCardRegisterImpl implements IOBoundCardRegister {
             p.setProperty("LSeq", seq);
             p.setProperty("LDate", date);
             p.store(new FileOutputStream(FName), "INI REFERENCE[CardSeq.INI]");
+        } catch (IOException e) {
+            logger.error("Error setting card sequence - IOException: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to set card sequence", e);
         } catch (Exception e) {
             logger.error("Error setting card sequence", e);
             return false;

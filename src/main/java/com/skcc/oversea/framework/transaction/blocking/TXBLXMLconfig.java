@@ -5,6 +5,8 @@ import java.io.*;
 import java.util.*;
 import jakarta.annotation.PostConstruct;
 import com.skcc.oversea.foundation.base.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 사용예]
@@ -97,6 +99,7 @@ import com.skcc.oversea.foundation.config.Config;
 
 @Component
 public class TXBLXMLconfig {
+  private static final Logger logger = LoggerFactory.getLogger(TXBLXMLconfig.class);
   private static TXBLXMLconfig instance;
   public static long otxctlmode = 0;
   public static long ntxctlmode = 0;
@@ -108,28 +111,50 @@ public class TXBLXMLconfig {
   private Config config;
 
   public static synchronized TXBLXMLconfig getInstance() {
-    if (instance == null) {
-      try {
-        instance = new TXBLXMLconfig();
-      } catch (Exception igex) {
-        igex.printStackTrace();
-        System.out.println(igex);
+    logger.info("==================[TXBLXMLconfig.getInstance START]");
+    try {
+      if (instance == null) {
+        try {
+          instance = new TXBLXMLconfig();
+        } catch (Exception igex) {
+          igex.printStackTrace();
+          System.out.println(igex);
+        }
       }
+      logger.info("==================[TXBLXMLconfig.getInstance END]");
+      return instance;
+    } catch (Exception e) {
+      logger.error("==================[TXBLXMLconfig.getInstance ERROR] - {}", e.getMessage(), e);
+      throw e;
     }
-    return instance;
   }
 
   public void setInBound(EPlatonEvent in) {
-    this.in = in;
+    logger.info("==================[TXBLXMLconfig.setInBound START]");
+    try {
+      this.in = in;
+      logger.info("==================[TXBLXMLconfig.setInBound END]");
+    } catch (Exception e) {
+      logger.error("==================[TXBLXMLconfig.setInBound ERROR] - {}", e.getMessage(), e);
+      throw e;
+    }
   }
 
   public TXBLXMLconfig() throws IOException {
-    // Initialize with default values to avoid recursion
-    // The actual configuration will be loaded when Spring injects the config
+    logger.info("==================[TXBLXMLconfig.TXBLXMLconfig START]");
+    try {
+      // Initialize with default values to avoid recursion
+      // The actual configuration will be loaded when Spring injects the config
+      logger.info("==================[TXBLXMLconfig.TXBLXMLconfig END]");
+    } catch (Exception e) {
+      logger.error("==================[TXBLXMLconfig.TXBLXMLconfig ERROR] - {}", e.getMessage(), e);
+      throw e;
+    }
   }
 
   @PostConstruct
   public void initializeConfig() {
+    logger.info("==================[TXBLXMLconfig.initializeConfig START]");
     try {
       // 기본값 설정
       String txBlockCnt = GetEnvValue("TRANSACTION-BLOCKING", "TXBLOCKCNT");
@@ -183,7 +208,9 @@ public class TXBLXMLconfig {
         System.out.println((String) ht.get("BRCHE" + ii));
       }
 
+      logger.info("==================[TXBLXMLconfig.initializeConfig END]");
     } catch (Exception ex) {
+      logger.error("==================[TXBLXMLconfig.initializeConfig ERROR] - {}", ex.getMessage(), ex);
       ex.printStackTrace();
     }
   }
