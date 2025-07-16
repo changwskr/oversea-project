@@ -9,16 +9,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommonManagementSBean {
 
-  @Autowired
+  @Autowired(required = false)
   private TPMUtil tpmUtil;
 
-  @Autowired
+  @Autowired(required = false)
   private TPSsendrecv tpsSendRecv;
 
   public void processCommonTransaction(String transactionId) {
-    // 怨듯넻 ?몃옖??뀡 泥섎━ 濡쒖쭅
-    tpmUtil.initializeTPM();
-    tpsSendRecv.sendMessage("Transaction: " + transactionId);
+    // 공통 거래 처리 로직
+    if (tpmUtil != null) {
+      tpmUtil.initializeTPM();
+    }
+    if (tpsSendRecv != null) {
+      tpsSendRecv.sendMessage("Transaction: " + transactionId);
+    }
   }
 
   public DepositTransferDTO getDepositInfo(String accountNumber) {

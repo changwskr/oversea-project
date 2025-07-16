@@ -20,7 +20,7 @@ public class SpringServiceLocator {
 
     private static final Logger logger = LoggerFactory.getLogger(SpringServiceLocator.class);
 
-    @Autowired
+    @Autowired(required = false)
     private ICashCardRuleSB cashCardRuleService;
 
     @Autowired
@@ -32,6 +32,10 @@ public class SpringServiceLocator {
     public ICashCardRuleSB getCashCardRuleService() {
         logger.info("==================[SpringServiceLocator.getCashCardRuleService START]");
         try {
+            if (cashCardRuleService == null) {
+                logger.warn("CashCardRuleService is not available");
+                return null;
+            }
             logger.info("==================[SpringServiceLocator.getCashCardRuleService END]");
             return cashCardRuleService;
         } catch (Exception e) {

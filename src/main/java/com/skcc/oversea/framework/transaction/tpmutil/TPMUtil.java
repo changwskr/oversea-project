@@ -2,7 +2,9 @@ package com.skcc.oversea.framework.transaction.tpmutil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TPMUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(TPMUtil.class);

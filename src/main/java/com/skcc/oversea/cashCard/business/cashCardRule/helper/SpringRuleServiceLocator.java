@@ -23,7 +23,7 @@ public class SpringRuleServiceLocator {
     @Autowired
     private ICashCardSB cashCardService;
 
-    @Autowired
+    @Autowired(required = false)
     private ICommonManagementSB commonManagementService;
 
     @Autowired
@@ -43,6 +43,10 @@ public class SpringRuleServiceLocator {
     public ICommonManagementSB getCommonManagementService() {
         logger.info("==================[SpringRuleServiceLocator.getCommonManagementService START]");
         try {
+            if (commonManagementService == null) {
+                logger.warn("CommonManagementService is not available");
+                return null;
+            }
             logger.info("==================[SpringRuleServiceLocator.getCommonManagementService END]");
             return commonManagementService;
         } catch (Exception e) {
