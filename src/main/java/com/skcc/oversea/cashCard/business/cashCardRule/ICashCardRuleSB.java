@@ -4,6 +4,7 @@ import com.skcc.oversea.cashCard.business.cashCard.model.CashCardDDTO;
 import com.skcc.oversea.cashCard.business.cashCard.model.HotCardDDTO;
 import com.skcc.oversea.framework.transfer.CosesCommonDTO;
 import com.skcc.oversea.framework.exception.CosesAppException;
+import java.util.List;
 
 /**
  * Cash Card Rule Service Interface
@@ -55,6 +56,8 @@ public interface ICashCardRuleSB {
      * @throws CosesAppException 비즈니스 예외
      */
     CashCardDDTO getCashCardInfo(String cardNumber, CosesCommonDTO commonDTO) throws CosesAppException;
+    
+    List<CashCardDDTO> getCashCardsByCustomerName(String customerName, CosesCommonDTO commonDTO) throws CosesAppException;
 
     /**
      * 카드 정보 수정 규칙 검증 및 처리

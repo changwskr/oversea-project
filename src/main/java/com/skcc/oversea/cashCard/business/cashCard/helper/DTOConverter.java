@@ -48,7 +48,7 @@ public class DTOConverter {
         cashCardDDTO.setRegisterTime(cashCard.getRegisterTime());
         cashCardDDTO.setRemark(cashCard.getRemark());
         cashCardDDTO.setSecondaryAccountNo(cashCard.getSecondaryAccountNo());
-        cashCardDDTO.setSequenceNo(cashCard.getSequenceNo());
+        cashCardDDTO.setSequenceNo(cashCard.getId().intValue()); // id를 int로 변환하여 sequenceNo로 설정
         cashCardDDTO.setStatus(cashCard.getStatus());
         cashCardDDTO.setTernaryAccountNo(cashCard.getTernaryAccountNo());
         cashCardDDTO.setType(cashCard.getType());

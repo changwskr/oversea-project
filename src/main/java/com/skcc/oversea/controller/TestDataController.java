@@ -299,9 +299,9 @@ public class TestDataController {
     public ResponseEntity<Common> getCommonByCommonId(@PathVariable String commonId) {
         logger.info("==================[TestDataController.getCommonByCommonId START] - 공통ID: {}", commonId);
         try {
-            // CommonRepository에 findByCommonId 메서드가 없으므로 findAll에서 필터링
+            // CommonRepository에 findByCommonCode 메서드가 없으므로 findAll에서 필터링
             ResponseEntity<Common> result = commonRepository.findAll().stream()
-                    .filter(common -> commonId.equals(common.getCommonId()))
+                    .filter(common -> commonId.equals(common.getCommonCode()))
                     .findFirst()
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());

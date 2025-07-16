@@ -5,37 +5,36 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity(name = "CashCardBusiness")
-@Table(name = "CASH_CARD")
-@IdClass(CashCardPK.class)
+@Table(name = "cash_card")
 public class CashCard {
 
     @Id
-    @Column(name = "SEQUENCE_NO")
-    private int sequenceNo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Id
-    @Column(name = "CARD_NUMBER", length = 20)
+    @Column(name = "card_number", length = 20, unique = true)
     private String cardNumber;
 
-    @Column(name = "BANK_CODE", length = 10)
+    @Column(name = "bank_code", length = 10)
     private String bankCode;
 
-    @Column(name = "PRIMARY_ACCOUNT_NO", length = 20)
+    @Column(name = "primary_account_no", length = 20)
     private String primaryAccountNo;
 
-    @Column(name = "BANK_TYPE", length = 10)
+    @Column(name = "bank_type", length = 10)
     private String bankType;
 
-    @Column(name = "BRANCH_CODE", length = 10)
+    @Column(name = "branch_code", length = 10)
     private String branchCode;
 
-    @Column(name = "TYPE", length = 10)
+    @Column(name = "type", length = 10)
     private String type;
 
-    @Column(name = "CIF_NO", length = 20)
+    @Column(name = "cif_no", length = 20)
     private String cifNo;
 
-    @Column(name = "CIF_NAME", length = 100)
+    @Column(name = "cif_name", length = 100)
     private String cifName;
 
     @Column(name = "PASSWORD_NO", length = 20)
@@ -135,20 +134,19 @@ public class CashCard {
     public CashCard() {
     }
 
-    public CashCard(int sequenceNo, String cardNumber, String bankCode, String primaryAccountNo) {
-        this.sequenceNo = sequenceNo;
+    public CashCard(String cardNumber, String bankCode, String primaryAccountNo) {
         this.cardNumber = cardNumber;
         this.bankCode = bankCode;
         this.primaryAccountNo = primaryAccountNo;
     }
 
     // Getters and Setters
-    public int getSequenceNo() {
-        return sequenceNo;
+    public Long getId() {
+        return id;
     }
 
-    public void setSequenceNo(int sequenceNo) {
-        this.sequenceNo = sequenceNo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCardNumber() {

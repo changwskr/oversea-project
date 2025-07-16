@@ -6,9 +6,8 @@ import com.skcc.oversea.framework.transfer.CosesCommonDTO;
 
 import com.skcc.oversea.cashCard.transfer.*;
 import com.skcc.oversea.cashCard.business.cashCard.entity.CashCard;
-import com.skcc.oversea.cashCard.business.cashCard.entity.CashCardPK;
 
-public interface ICashCardDAO extends IDAO<CashCard, CashCardPK> {
+public interface ICashCardDAO extends IDAO<CashCard, Long> {
         public int getLastSequenceNoForRegisterCashCard(CashCardCDTO cashCardCDTO,
                         CosesCommonDTO commonDTO) throws CosesAppException;
 

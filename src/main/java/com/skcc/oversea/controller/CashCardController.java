@@ -20,6 +20,11 @@ import com.skcc.oversea.framework.exception.CosesAppException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 /**
  * Cash Card 서비스 컨트롤러
@@ -95,9 +100,31 @@ public class CashCardController {
     public String cardManage(Model model) {
         logger.info("==================[CashCardController.cardManage START]");
         try {
+            // CosesCommonDTO 생성
+            CosesCommonDTO commonDTO = new CosesCommonDTO();
+            commonDTO.setUserId("SYSTEM");
+            commonDTO.setBankCode("03");
+            commonDTO.setBranchCode("001");
+            commonDTO.setBusinessDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+            commonDTO.setSystemDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+            commonDTO.setSystemInTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss")));
+            commonDTO.setTransactionNo("TXN" + System.currentTimeMillis());
+            
+            // 모든 카드 정보 조회 (실제로는 페이징이나 필터링이 필요할 수 있음)
+            List<CashCardDDTO> cardList = new ArrayList<>();
+            try {
+                // TODO: Facade에서 모든 카드 목록을 조회하는 메서드가 필요
+                // 현재는 샘플 데이터로 대체
+                logger.info("카드 목록 조회 - 샘플 데이터 사용");
+            } catch (Exception e) {
+                logger.warn("카드 목록 조회 실패 - 에러: {}", e.getMessage());
+            }
+            
             model.addAttribute("title", "카드 관리");
             model.addAttribute("pageTitle", "현금카드 관리");
             model.addAttribute("description", "현금카드 정보를 관리합니다");
+            model.addAttribute("cardList", cardList);
+            
             logger.info("==================[CashCardController.cardManage END]");
             return "cashcard/manage";
         } catch (Exception e) {
@@ -131,15 +158,40 @@ public class CashCardController {
     public String cardDetail(@RequestParam String cardNumber, Model model) {
         logger.info("==================[CashCardController.cardDetail START] - 카드번호: {}", cardNumber);
         try {
+            // CosesCommonDTO 생성
+            CosesCommonDTO commonDTO = new CosesCommonDTO();
+            commonDTO.setUserId("SYSTEM");
+            commonDTO.setBankCode("03");
+            commonDTO.setBranchCode("001");
+            commonDTO.setBusinessDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+            commonDTO.setSystemDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+            commonDTO.setSystemInTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss")));
+            commonDTO.setTransactionNo("TXN" + System.currentTimeMillis());
+            
+            // Facade를 통해 카드번호로 카드 정보 조회
+            CashCardDDTO cardInfo = null;
+            try {
+                cardInfo = cashCardManagementSBBean.getCardInfo(cardNumber, commonDTO);
+                logger.info("카드 정보 조회 성공 - 카드번호: {}, 고객명: {}", cardNumber, cardInfo != null ? cardInfo.getCIFName() : "null");
+            } catch (Exception e) {
+                logger.warn("카드 정보 조회 실패 - 카드번호: {}, 에러: {}", cardNumber, e.getMessage());
+                // 카드 정보 조회 실패 시에도 페이지는 표시하되, cardInfo는 null로 설정
+            }
+            
             model.addAttribute("title", "카드 상세 정보");
             model.addAttribute("pageTitle", "카드 상세 정보");
             model.addAttribute("cardNumber", cardNumber);
+            model.addAttribute("cardInfo", cardInfo);
             model.addAttribute("description", "카드 상세 정보를 확인합니다");
+            
             logger.info("==================[CashCardController.cardDetail END] - 카드번호: {}", cardNumber);
             return "cashcard/detail";
         } catch (Exception e) {
             logger.error("==================[CashCardController.cardDetail ERROR] - 카드번호: {}, 에러: {}", cardNumber, e.getMessage(), e);
-            throw e;
+            model.addAttribute("errorMessage", "카드 상세 정보 조회 중 오류가 발생했습니다: " + e.getMessage());
+            model.addAttribute("cardNumber", cardNumber);
+            model.addAttribute("cardInfo", null);
+            return "cashcard/detail";
         }
     }
 
@@ -198,8 +250,8 @@ public class CashCardController {
             String cardNumber = cashCardManagementSBBean.generateCardNumber();
             cashCardDDTO.setCardNumber(cardNumber);
             
-            // 시퀀스 번호 설정
-            cashCardDDTO.setSequenceNo(1);
+            // 시퀀스 번호 설정 (자동 생성되므로 제거)
+            // cashCardDDTO.setSequenceNo(1);
             
             // 등록 정보 설정
             LocalDateTime now = LocalDateTime.now();
@@ -319,7 +371,7 @@ public class CashCardController {
     }
 
     /**
-     * 카드 정보 조회 처리
+     * 카드 정보 조회 처리 (카드번호로 검색)
      */
     @PostMapping("/search")
     public String searchCard(@RequestParam String cardNumber, Model model) {
@@ -359,23 +411,12 @@ public class CashCardController {
     }
 
     /**
-     * 카드 정보 수정 처리
+     * 고객명으로 카드 정보 조회 처리
      */
-    @PostMapping("/manage/update")
-    public String updateCard(@RequestParam String cardNumber,
-                            @RequestParam String dailyLimit,
-                            @RequestParam String status,
-                            @RequestParam(required = false) String amendReason,
-                            RedirectAttributes redirectAttributes) {
-        logger.info("==================[CashCardController.updateCard START] - 카드번호: {}", cardNumber);
+    @PostMapping("/search/customer")
+    public String searchCardByCustomer(@RequestParam String customerName, Model model) {
+        logger.info("==================[CashCardController.searchCardByCustomer START] - 고객명: {}", customerName);
         try {
-            // CashCardDDTO 생성 및 설정
-            CashCardDDTO cashCardDDTO = new CashCardDDTO();
-            cashCardDDTO.setCardNumber(cardNumber);
-            cashCardDDTO.setDailyLimitAmount(new BigDecimal(dailyLimit));
-            cashCardDDTO.setStatus(status);
-            cashCardDDTO.setAmendReason(amendReason);
-            
             // CosesCommonDTO 생성
             CosesCommonDTO commonDTO = new CosesCommonDTO();
             commonDTO.setUserId("SYSTEM");
@@ -386,24 +427,179 @@ public class CashCardController {
             commonDTO.setSystemInTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss")));
             commonDTO.setTransactionNo("TXN" + System.currentTimeMillis());
             
-            // Facade를 통해 카드 정보 수정 (Controller -> Facade -> Rule -> Thing)
-            CashCardDDTO result = cashCardManagementSBBean.updateCardInfo(cashCardDDTO, commonDTO);
+            // Facade를 통해 고객명으로 카드 정보 조회
+            List<CashCardDDTO> results = cashCardManagementSBBean.getCardsByCustomerName(customerName, commonDTO);
             
+            // 결과가 null인지 확인
+            if (results == null) {
+                logger.warn("검색 결과가 null입니다");
+                results = new ArrayList<>();
+            }
+            
+            // 디버깅을 위한 로그 추가
+            logger.info("검색 결과 크기: {}", results.size());
+            logger.info("검색 결과 리스트 타입: {}", results.getClass().getName());
+            logger.info("cardList class: {}", results.getClass().getName());
+            for (Object obj : results) {
+                logger.info("item class: {}", obj.getClass().getName());
+            }
+            
+            // 각 결과의 타입과 내용을 자세히 로깅
+            for (int i = 0; i < results.size(); i++) {
+                Object card = results.get(i);
+                logger.info("결과 {} 타입: {}", i, card != null ? card.getClass().getName() : "null");
+                logger.info("결과 {} toString: {}", i, card != null ? card.toString() : "null");
+                
+                if (card instanceof CashCardDDTO) {
+                    CashCardDDTO cashCardDDTO = (CashCardDDTO) card;
+                    logger.info("결과 {} - cardNumber: '{}', CIFName: '{}', PrimaryAccountNo: '{}'", 
+                        i, cashCardDDTO.getCardNumber(), cashCardDDTO.getCIFName(), cashCardDDTO.getPrimaryAccountNo());
+                    
+                    // 각 필드의 타입도 확인
+                    logger.info("결과 {} - cardNumber 타입: {}", i, cashCardDDTO.getCardNumber() != null ? cashCardDDTO.getCardNumber().getClass().getName() : "null");
+                    logger.info("결과 {} - CIFName 타입: {}", i, cashCardDDTO.getCIFName() != null ? cashCardDDTO.getCIFName().getClass().getName() : "null");
+                } else {
+                    logger.warn("결과 {}가 CashCardDDTO 타입이 아닙니다: {}", i, card != null ? card.getClass().getName() : "null");
+                }
+            }
+            
+            // DTO 객체를 직접 전달
+            logger.info("DTO 결과 개수: {}", results.size());
+            logger.info("DTO 리스트 타입: {}", results.getClass().getName());
+            
+            // Model에 추가하기 전에 최종 확인
+            logger.info("Model에 cardList 추가 전 - results 크기: {}", results.size());
+            
+            model.addAttribute("title", "고객명 검색 결과");
+            model.addAttribute("pageTitle", "고객명 검색 결과");
+            model.addAttribute("searchType", "customer");
+            model.addAttribute("customerName", customerName);
+            model.addAttribute("cardList", results);
+            model.addAttribute("successMessage", "고객명 '" + customerName + "'으로 검색된 카드 정보입니다.");
+            
+            logger.info("Model에 cardList 추가 완료");
+            
+            logger.info("==================[CashCardController.searchCardByCustomer END] - 고객명: {}, 검색결과: {}건", customerName, results.size());
+            return "cashcard/search-result";
+        } catch (CosesAppException e) {
+            logger.error("==================[CashCardController.searchCardByCustomer COSES_ERROR] - 고객명: {}, 에러: {}", 
+                customerName, e.getMessage(), e);
+            model.addAttribute("errorMessage", "고객명 검색 중 오류가 발생했습니다: " + e.getMessage());
+            return "cashcard/search";
+        } catch (Exception e) {
+            logger.error("==================[CashCardController.searchCardByCustomer ERROR] - 고객명: {}, 에러: {}", 
+                customerName, e.getMessage(), e);
+            model.addAttribute("errorMessage", "고객명 검색 중 오류가 발생했습니다: " + e.getMessage());
+            return "cashcard/search";
+        }
+    }
+
+    /**
+     * 카드 정보 수정 페이지
+     */
+    @GetMapping("/manage/edit")
+    public String cardEdit(@RequestParam String cardNumber, Model model) {
+        logger.info("==================[CashCardController.cardEdit START] - 카드번호: {}", cardNumber);
+        try {
+            // CosesCommonDTO 생성
+            CosesCommonDTO commonDTO = new CosesCommonDTO();
+            commonDTO.setUserId("SYSTEM");
+            commonDTO.setBankCode("03");
+            commonDTO.setBranchCode("001");
+            commonDTO.setBusinessDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+            commonDTO.setSystemDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+            commonDTO.setSystemInTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss")));
+            commonDTO.setTransactionNo("TXN" + System.currentTimeMillis());
+            
+            // Facade를 통해 카드번호로 카드 정보 조회
+            CashCardDDTO cardInfo = null;
+            try {
+                cardInfo = cashCardManagementSBBean.getCardInfo(cardNumber, commonDTO);
+                logger.info("카드 정보 조회 성공 - 카드번호: {}, 고객명: {}", cardNumber, cardInfo != null ? cardInfo.getCIFName() : "null");
+            } catch (Exception e) {
+                logger.warn("카드 정보 조회 실패 - 카드번호: {}, 에러: {}", cardNumber, e.getMessage());
+                // 카드 정보 조회 실패 시에도 페이지는 표시하되, cardInfo는 null로 설정
+            }
+            
+            model.addAttribute("title", "카드 정보 수정");
+            model.addAttribute("pageTitle", "카드 정보 수정");
+            model.addAttribute("cardNumber", cardNumber);
+            model.addAttribute("cardInfo", cardInfo);
+            model.addAttribute("description", "카드 정보를 수정합니다");
+            
+            logger.info("==================[CashCardController.cardEdit END] - 카드번호: {}", cardNumber);
+            return "cashcard/edit";
+        } catch (Exception e) {
+            logger.error("==================[CashCardController.cardEdit ERROR] - 카드번호: {}, 에러: {}", cardNumber, e.getMessage(), e);
+            model.addAttribute("errorMessage", "카드 정보 조회 중 오류가 발생했습니다: " + e.getMessage());
+            model.addAttribute("cardNumber", cardNumber);
+            model.addAttribute("cardInfo", null);
+            return "cashcard/edit";
+        }
+    }
+
+    /**
+     * 카드 정보 수정 처리
+     */
+    @PostMapping("/manage/update")
+    public String updateCardInfo(@RequestParam String cardNumber,
+                                @RequestParam String dailyLimit,
+                                @RequestParam String dailyTrfLimit,
+                                @RequestParam String status,
+                                @RequestParam(required = false) String amendReason,
+                                RedirectAttributes redirectAttributes) {
+        logger.info("==================[CashCardController.updateCardInfo START] - 카드번호: {}, 상태: {}", cardNumber, status);
+        try {
+            // CosesCommonDTO 생성
+            CosesCommonDTO commonDTO = new CosesCommonDTO();
+            commonDTO.setUserId("SYSTEM");
+            commonDTO.setBankCode("03");
+            commonDTO.setBranchCode("001");
+            commonDTO.setBusinessDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+            commonDTO.setSystemDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+            commonDTO.setSystemInTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss")));
+            commonDTO.setTransactionNo("TXN" + System.currentTimeMillis());
+            
+            // 기존 카드 정보 조회
+            CashCardDDTO existingCard = cashCardManagementSBBean.getCardInfo(cardNumber, commonDTO);
+            if (existingCard == null) {
+                throw new RuntimeException("카드 정보를 찾을 수 없습니다: " + cardNumber);
+            }
+            
+            // 수정할 정보 설정
+            existingCard.setDailyLimitAmount(new BigDecimal(dailyLimit));
+            existingCard.setDailyTrfLimitAmount(new BigDecimal(dailyTrfLimit));
+            existingCard.setStatus(status);
+            
+            // 수정 정보 설정
+            LocalDateTime now = LocalDateTime.now();
+            existingCard.setLastUpdateDate(now.format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+            existingCard.setLastUpdateTime(now.format(DateTimeFormatter.ofPattern("HHmmss")));
+            existingCard.setLastUpdateUserID("SYSTEM");
+            
+            // Facade를 통해 카드 정보 수정
+            CashCardDDTO updatedCard = cashCardManagementSBBean.updateCardInfo(existingCard, commonDTO);
+            
+            logger.info("카드 정보 수정 성공 - 카드번호: {}, 고객명: {}", cardNumber, updatedCard.getCIFName());
+            
+            // 성공 메시지 추가
             redirectAttributes.addFlashAttribute("successMessage", "카드 정보가 성공적으로 수정되었습니다.");
-            redirectAttributes.addFlashAttribute("cardNumber", cardNumber);
+            redirectAttributes.addFlashAttribute("updateInfo", 
+                String.format("카드번호: %s, 일일한도: %s, 이체한도: %s, 상태: %s", 
+                    cardNumber, dailyLimit, dailyTrfLimit, status));
             
-            logger.info("==================[CashCardController.updateCard END] - 카드번호: {}", cardNumber);
+            logger.info("==================[CashCardController.updateCardInfo END] - 카드번호: {}", cardNumber);
             return "redirect:/cashcard/manage";
         } catch (CosesAppException e) {
-            logger.error("==================[CashCardController.updateCard COSES_ERROR] - 카드번호: {}, 에러: {}", 
+            logger.error("==================[CashCardController.updateCardInfo COSES_ERROR] - 카드번호: {}, 에러: {}", 
                 cardNumber, e.getMessage(), e);
             redirectAttributes.addFlashAttribute("errorMessage", "카드 정보 수정 중 오류가 발생했습니다: " + e.getMessage());
-            return "redirect:/cashcard/manage";
+            return "redirect:/cashcard/manage/edit?cardNumber=" + cardNumber;
         } catch (Exception e) {
-            logger.error("==================[CashCardController.updateCard ERROR] - 카드번호: {}, 에러: {}", 
+            logger.error("==================[CashCardController.updateCardInfo ERROR] - 카드번호: {}, 에러: {}", 
                 cardNumber, e.getMessage(), e);
             redirectAttributes.addFlashAttribute("errorMessage", "카드 정보 수정 중 오류가 발생했습니다: " + e.getMessage());
-            return "redirect:/cashcard/manage";
+            return "redirect:/cashcard/manage/edit?cardNumber=" + cardNumber;
         }
     }
 

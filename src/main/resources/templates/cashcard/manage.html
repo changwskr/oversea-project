@@ -153,6 +153,16 @@
             color: #721c24;
         }
         
+        .status-hot {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-pending {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
         .card-details {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -239,7 +249,7 @@
                     <div class="management-description">
                         카드 정보 및 한도를 수정합니다
                     </div>
-                    <a href="#" class="btn btn-warning btn-management">
+                    <a href="/cashcard/search" class="btn btn-warning btn-management">
                         <i class="fas fa-edit"></i> 수정하기
                     </a>
                 </div>
@@ -271,38 +281,49 @@
         <div class="content-card">
             <h4><i class="fas fa-list"></i> 관리 대상 카드 목록</h4>
             
+            <!-- 성공/에러 메시지 -->
+            <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle"></i> <span th:text="${successMessage}">성공 메시지</span>
+            </div>
+            
+            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                <i class="fas fa-exclamation-triangle"></i> <span th:text="${errorMessage}">에러 메시지</span>
+            </div>
+            
             <div class="card-list">
-                <div class="card-item">
+                <!-- 실제 카드 목록이 있는 경우 -->
+                <div th:if="${cardList != null and !cardList.isEmpty()}" th:each="card : ${cardList}" class="card-item">
                     <div class="card-header">
-                        <span class="card-number">1234-5678-9012-3456</span>
-                        <span class="card-status status-active">활성</span>
+                        <span class="card-number" th:text="${card.cardNumber}">카드번호</span>
+                        <span th:class="${'card-status ' + (card.status == 'A' ? 'status-active' : (card.status == 'H' ? 'status-hot' : (card.status == 'P' ? 'status-pending' : 'status-inactive')))}" 
+                              th:text="${card.status == 'A' ? '활성' : (card.status == 'H' ? '핫카드' : (card.status == 'P' ? '승인대기' : '비활성'))}">상태</span>
                     </div>
                     <div class="card-details">
                         <div class="detail-item">
                             <div class="detail-label">고객명</div>
-                            <div class="detail-value">김철수</div>
+                            <div class="detail-value" th:text="${card.CIFName != null ? card.CIFName : '미등록'}">고객명</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">계좌번호</div>
-                            <div class="detail-value">123-456789-01-234</div>
+                            <div class="detail-value" th:text="${card.primaryAccountNo != null ? card.primaryAccountNo : '미등록'}">계좌번호</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">일일한도</div>
-                            <div class="detail-value">₩2,000,000</div>
+                            <div class="detail-value" th:text="${card.dailyLimitAmount != null ? '₩' + card.dailyLimitAmount : '설정안됨'}">일일한도</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">잔액</div>
-                            <div class="detail-value">₩1,250,000</div>
+                            <div class="detail-label">이체한도</div>
+                            <div class="detail-value" th:text="${card.dailyTrfLimitAmount != null ? '₩' + card.dailyTrfLimitAmount : '설정안됨'}">이체한도</div>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
-                        <a href="/cashcard/detail?cardNumber=1234-5678-9012-3456" class="btn btn-outline-primary btn-sm">
+                        <a th:href="@{/cashcard/detail(cardNumber=${card.cardNumber})}" class="btn btn-outline-primary btn-sm">
                             <i class="fas fa-eye"></i> 상세보기
                         </a>
-                        <a href="#" class="btn btn-outline-warning btn-sm">
+                        <a th:href="@{/cashcard/manage/edit(cardNumber=${card.cardNumber})}" class="btn btn-outline-warning btn-sm">
                             <i class="fas fa-edit"></i> 수정
                         </a>
-                        <a href="#" class="btn btn-outline-info btn-sm">
+                        <a th:href="@{/cashcard/manage/edit(cardNumber=${card.cardNumber})}" class="btn btn-outline-info btn-sm">
                             <i class="fas fa-sliders-h"></i> 한도설정
                         </a>
                         <a href="/cashcard/hotcard/register" class="btn btn-outline-danger btn-sm">
@@ -311,43 +332,14 @@
                     </div>
                 </div>
                 
-                <div class="card-item">
-                    <div class="card-header">
-                        <span class="card-number">9876-5432-1098-7654</span>
-                        <span class="card-status status-inactive">비활성</span>
-                    </div>
-                    <div class="card-details">
-                        <div class="detail-item">
-                            <div class="detail-label">고객명</div>
-                            <div class="detail-value">이영희</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">계좌번호</div>
-                            <div class="detail-value">456-789012-34-567</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">일일한도</div>
-                            <div class="detail-value">₩1,500,000</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">잔액</div>
-                            <div class="detail-value">₩0</div>
-                        </div>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <a href="/cashcard/detail?cardNumber=9876-5432-1098-7654" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-eye"></i> 상세보기
-                        </a>
-                        <a href="#" class="btn btn-outline-warning btn-sm">
-                            <i class="fas fa-edit"></i> 수정
-                        </a>
-                        <a href="#" class="btn btn-outline-success btn-sm">
-                            <i class="fas fa-toggle-on"></i> 활성화
-                        </a>
-                        <a href="/cashcard/hotcard/register" class="btn btn-outline-danger btn-sm">
-                            <i class="fas fa-exclamation-triangle"></i> 핫카드
-                        </a>
-                    </div>
+                <!-- 카드 목록이 없는 경우 -->
+                <div th:if="${cardList == null or cardList.isEmpty()}" class="text-center py-5">
+                    <i class="fas fa-search" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                    <h5 class="text-muted">관리할 카드가 없습니다</h5>
+                    <p class="text-muted">카드 검색을 통해 카드를 찾아보세요</p>
+                    <a href="/cashcard/search" class="btn btn-primary">
+                        <i class="fas fa-search"></i> 카드 검색
+                    </a>
                 </div>
             </div>
         </div>

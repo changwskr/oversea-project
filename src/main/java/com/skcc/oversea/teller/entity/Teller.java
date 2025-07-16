@@ -8,7 +8,11 @@ import java.time.LocalDateTime;
 public class Teller {
 
     @Id
-    @Column(name = "TELLER_ID", length = 20)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
+
+    @Column(name = "TELLER_ID", length = 20, unique = true)
     private String tellerId;
 
     @Column(name = "TELLER_NAME", length = 100)
@@ -17,27 +21,58 @@ public class Teller {
     @Column(name = "BRANCH_CODE", length = 10)
     private String branchCode;
 
-    @Column(name = "STATUS", length = 1)
+    @Column(name = "BANK_CODE", length = 10)
+    private String bankCode;
+
+    @Column(name = "STATUS", length = 10)
     private String status;
 
-    @Column(name = "CREATE_DATE")
-    private LocalDateTime createDate;
+    @Column(name = "REGISTER_DATE", length = 8)
+    private String registerDate;
 
-    @Column(name = "UPDATE_DATE")
-    private LocalDateTime updateDate;
+    @Column(name = "REGISTER_TIME", length = 6)
+    private String registerTime;
+
+    @Column(name = "REGISTER_BY", length = 20)
+    private String registerBy;
+
+    @Column(name = "LAST_UPDATE_DATE", length = 8)
+    private String lastUpdateDate;
+
+    @Column(name = "LAST_UPDATE_TIME", length = 6)
+    private String lastUpdateTime;
+
+    @Column(name = "LAST_UPDATE_USER_ID", length = 20)
+    private String lastUpdateUserId;
+
+    @Column(name = "CREATED_DATE")
+    private LocalDateTime createdDate;
+
+    @Column(name = "UPDATED_DATE")
+    private LocalDateTime updatedDate;
 
     // Constructors
     public Teller() {
+        this.createdDate = LocalDateTime.now();
+        this.updatedDate = LocalDateTime.now();
     }
 
     public Teller(String tellerId, String tellerName, String branchCode) {
+        this();
         this.tellerId = tellerId;
         this.tellerName = tellerName;
         this.branchCode = branchCode;
-        this.createDate = LocalDateTime.now();
     }
 
     // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getTellerId() {
         return tellerId;
     }
@@ -62,6 +97,14 @@ public class Teller {
         this.branchCode = branchCode;
     }
 
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -70,19 +113,67 @@ public class Teller {
         this.status = status;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public String getRegisterDate() {
+        return registerDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+    public void setRegisterDate(String registerDate) {
+        this.registerDate = registerDate;
     }
 
-    public LocalDateTime getUpdateDate() {
-        return updateDate;
+    public String getRegisterTime() {
+        return registerTime;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
-        this.updateDate = updateDate;
+    public void setRegisterTime(String registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    public String getRegisterBy() {
+        return registerBy;
+    }
+
+    public void setRegisterBy(String registerBy) {
+        this.registerBy = registerBy;
+    }
+
+    public String getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(String lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public String getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(String lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
+
+    public String getLastUpdateUserId() {
+        return lastUpdateUserId;
+    }
+
+    public void setLastUpdateUserId(String lastUpdateUserId) {
+        this.lastUpdateUserId = lastUpdateUserId;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

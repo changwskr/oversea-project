@@ -14,6 +14,8 @@ import com.skcc.oversea.framework.exception.CosesExceptionDetail;
 import com.skcc.oversea.cashCard.business.cashCard.model.*;
 import com.skcc.oversea.cashCard.business.cashCard.helper.*;
 import com.skcc.oversea.cashCard.business.cashCard.entity.*;
+import java.util.List;
+import java.util.ArrayList;
 import com.skcc.oversea.cashCard.business.cashCardRule.helper.IOBoundCardRegister;
 import com.skcc.oversea.cashCard.repository.CashCardRepository;
 import com.skcc.oversea.cashCard.repository.HotCardRepository;
@@ -43,13 +45,11 @@ public class CashCardSBBean implements ICashCardSB {
     // =================================//
 
     private CashCard findByCashCard(CashCardDDTO cashCardDDTO) throws CosesAppException {
-        logger.debug("Finding cash card - SequenceNo: {}, CardNumber: {}, BankCode: {}, PrimaryAccountNo: {}",
-                cashCardDDTO.getSequenceNo(), cashCardDDTO.getCardNumber(),
-                cashCardDDTO.getBankCode(), cashCardDDTO.getPrimaryAccountNo());
+        logger.debug("Finding cash card - CardNumber: {}, BankCode: {}, PrimaryAccountNo: {}",
+                cashCardDDTO.getCardNumber(), cashCardDDTO.getBankCode(), cashCardDDTO.getPrimaryAccountNo());
 
         try {
-            return cashCardRepository.findById(
-                    new CashCardPK(cashCardDDTO.getSequenceNo(), cashCardDDTO.getCardNumber()))
+            return cashCardRepository.findByCardNumber(cashCardDDTO.getBankCode(), cashCardDDTO.getCardNumber())
                     .orElseThrow(() -> new CosesAppException("ERR_0125_ACCOUNT_NUMBER_DOES_NOT_EXIST",
                             "Account number does not exist"));
         } catch (Exception e) {
@@ -106,9 +106,8 @@ public class CashCardSBBean implements ICashCardSB {
         try {
             CashCard cashCard = cashCardRepository.create(
                     cashCardDDTO.getBankType(), cashCardDDTO.getBankCode(),
-                    cashCardDDTO.getPrimaryAccountNo(), cashCardDDTO.getSequenceNo(),
-                    cashCardDDTO.getCardNumber(), cashCardDDTO.getBranchCode(),
-                    cashCardDDTO.getType());
+                    cashCardDDTO.getPrimaryAccountNo(), cashCardDDTO.getCardNumber(), 
+                    cashCardDDTO.getBranchCode(), cashCardDDTO.getType());
 
             DTOConverter.setCashCardDDTO(cashCardDDTO, cashCard);
 
@@ -135,8 +134,7 @@ public class CashCardSBBean implements ICashCardSB {
             throws CosesAppException {
         logger.info("==================[CashCardSBBean.findCashCardInfoByCardNo START] - 카드번호: {}", cashCardDDTO.getCardNumber());
         try {
-            CashCard cashCard = cashCardRepository.findByCardNumber(commonDTO.getBankCode(),
-                    cashCardDDTO.getCardNumber())
+            CashCard cashCard = cashCardRepository.findByCardNumberOnly(cashCardDDTO.getCardNumber())
                     .orElseThrow(() -> new CosesAppException("ERR_0100_ACCOUNT_DOES_NOT_EXIST",
                             "Account does not exist"));
             CashCardDDTO result = DTOConverter.getCashCardDDTO(cashCard, cashCardDDTO);
@@ -220,6 +218,42 @@ public class CashCardSBBean implements ICashCardSB {
             return hotCardDDTO;
         } catch (Exception e) {
             logger.error("==================[CashCardSBBean.releaseHotCard ERROR] - 카드번호: {}, 에러: {}", hotCardDDTO.getCardNumber(), e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CashCardDDTO> findCashCardsByCustomerName(String customerName, CosesCommonDTO commonDTO) throws CosesAppException {
+        logger.info("==================[CashCardSBBean.findCashCardsByCustomerName START] - 고객명: {}", customerName);
+        try {
+            // Repository를 통해 고객명으로 카드 정보 조회
+            List<CashCard> cashCards = cashCardRepository.findByCifNameContainingIgnoreCase(customerName);
+            
+            List<CashCardDDTO> results = new ArrayList<>();
+            logger.info("Repository에서 조회된 CashCard 개수: {}", cashCards.size());
+            
+            for (int i = 0; i < cashCards.size(); i++) {
+                CashCard cashCard = cashCards.get(i);
+                logger.info("CashCard {}: {}", i, cashCard != null ? cashCard.toString() : "null");
+                
+                CashCardDDTO cashCardDDTO = new CashCardDDTO();
+                CashCardDDTO convertedDTO = DTOConverter.getCashCardDDTO(cashCard, cashCardDDTO);
+                logger.info("변환된 CashCardDDTO {}: {}", i, convertedDTO != null ? convertedDTO.toString() : "null");
+                if (convertedDTO != null) {
+                    logger.info("변환된 CashCardDDTO {} - cardNumber: '{}', CIFName: '{}'", 
+                        i, convertedDTO.getCardNumber(), convertedDTO.getCIFName());
+                    results.add(convertedDTO);
+                } else {
+                    logger.warn("변환된 CashCardDDTO {}가 null입니다", i);
+                }
+            }
+            
+            logger.info("==================[CashCardSBBean.findCashCardsByCustomerName END] - 고객명: {}, 검색결과: {}건", customerName, results.size());
+            return results;
+        } catch (Exception e) {
+            logger.error("==================[CashCardSBBean.findCashCardsByCustomerName ERROR] - 고객명: {}, 에러: {}", 
+                        customerName, e.getMessage(), e);
             throw e;
         }
     }

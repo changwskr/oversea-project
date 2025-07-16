@@ -7,8 +7,8 @@ import java.time.LocalDate;
 /**
  * Teller Entity for JPA
  */
-@Entity
-@Table(name = "teller")
+@Entity(name = "EPlatonTeller")
+@Table(name = "eplaton_teller")
 public class Teller extends BaseEntity {
 
     @Column(name = "teller_id", length = 20, nullable = false, unique = true)

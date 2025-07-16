@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public User findById(String userId) {
         try {
             logger.info("Finding user by ID: {}", userId);
-            Optional<User> user = userRepository.findById(userId);
+            Optional<User> user = userRepository.findByUserId(userId);
             if (user.isPresent()) {
                 logger.info("Found user: {}", userId);
                 return user.get();
@@ -77,8 +77,13 @@ public class UserServiceImpl implements UserService {
     public void deleteById(String userId) {
         try {
             logger.info("Deleting user by ID: {}", userId);
-            userRepository.deleteById(userId);
-            logger.info("User deleted successfully: {}", userId);
+            Optional<User> user = userRepository.findByUserId(userId);
+            if (user.isPresent()) {
+                userRepository.delete(user.get());
+                logger.info("User deleted successfully: {}", userId);
+            } else {
+                logger.warn("User not found for deletion: {}", userId);
+            }
         } catch (Exception e) {
             logger.error("Error deleting user: {}", userId, e);
         }
@@ -89,7 +94,7 @@ public class UserServiceImpl implements UserService {
     public boolean existsById(String userId) {
         try {
             logger.debug("Checking if user exists: {}", userId);
-            boolean exists = userRepository.existsById(userId);
+            boolean exists = userRepository.existsByUserId(userId);
             logger.debug("User exists: {} = {}", userId, exists);
             return exists;
         } catch (Exception e) {

@@ -39,13 +39,13 @@ public interface CommonRepository extends JpaRepository<Common, Long> {
     /**
      * Find by effective date
      */
-    @Query("SELECT c FROM Common c WHERE c.effectiveDate <= :currentDate")
+    @Query("SELECT c FROM EPlatonCommon c WHERE c.effectiveDate <= :currentDate")
     List<Common> findEffectiveByDate(@Param("currentDate") LocalDate currentDate);
 
     /**
      * Find by expiry date
      */
-    @Query("SELECT c FROM Common c WHERE c.expiryDate >= :currentDate")
+    @Query("SELECT c FROM EPlatonCommon c WHERE c.expiryDate >= :currentDate")
     List<Common> findNotExpiredByDate(@Param("currentDate") LocalDate currentDate);
 
     /**
@@ -56,6 +56,6 @@ public interface CommonRepository extends JpaRepository<Common, Long> {
     /**
      * Find by description containing
      */
-    @Query("SELECT c FROM Common c WHERE c.description LIKE %:keyword%")
+    @Query("SELECT c FROM EPlatonCommon c WHERE c.description LIKE %:keyword%")
     List<Common> findByDescriptionContaining(@Param("keyword") String keyword);
 }

@@ -1,7 +1,6 @@
 package com.skcc.oversea.cashCard.business.facade.dao;
 
 import com.skcc.oversea.cashCard.business.cashCard.entity.CashCard;
-import com.skcc.oversea.cashCard.business.cashCard.entity.CashCardPK;
 import com.skcc.oversea.framework.business.dao.AbstractDAO;
 import com.skcc.oversea.framework.exception.CosesAppException;
 import com.skcc.oversea.framework.transfer.CosesCommonDTO;
@@ -9,7 +8,7 @@ import com.skcc.oversea.cashCard.transfer.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CashCardDAO extends AbstractDAO<CashCard, CashCardPK> implements ICashCardDAO {
+public class CashCardDAO extends AbstractDAO<CashCard, Long> implements ICashCardDAO {
     // Add custom DAO methods as needed
 
     @Override

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">카드 정보 수정</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #ffc107;
+            box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+        }
+        
+        .card-info-display {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .card-number-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-customer-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .btn-submit {
+            background: #ffc107;
+            border: none;
+            color: #333;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            background: #e0a800;
+            color: #333;
+            transform: translateY(-2px);
+        }
+        
+        .btn-cancel {
+            background: #6c757d;
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+        }
+        
+        .btn-cancel:hover {
+            background: #5a6268;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .readonly-field {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit"><i class="fas fa-piggy-bank"></i> Deposit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller"><i class="fas fa-user-tie"></i> Teller</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user"><i class="fas fa-users"></i> User</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> 홈</a></li>
+                <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
+                <li class="breadcrumb-item"><a href="/cashcard/manage">카드 관리</a></li>
+                <li class="breadcrumb-item active" aria-current="page">카드 정보 수정</li>
+            </ol>
+        </nav>
+
+        <div class="page-header">
+            <h1><i class="fas fa-edit"></i> <span th:text="${pageTitle}">카드 정보 수정</span></h1>
+            <p th:text="${description}">카드 정보를 수정합니다</p>
+        </div>
+        
+        <!-- 성공/에러 메시지 -->
+        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+            <i class="fas fa-check-circle"></i> <span th:text="${successMessage}">성공 메시지</span>
+        </div>
+        
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle"></i> <span th:text="${errorMessage}">에러 메시지</span>
+        </div>
+        
+        <div class="content-card">
+            <!-- 카드 정보가 없는 경우 -->
+            <div th:if="${cardInfo == null}" class="text-center py-5">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ffc107; margin-bottom: 1rem;"></i>
+                <h5 class="text-muted">카드 정보를 찾을 수 없습니다</h5>
+                <p class="text-muted">카드번호: <span th:text="${cardNumber}">카드번호</span></p>
+                <a href="/cashcard/manage" class="btn btn-warning">
+                    <i class="fas fa-arrow-left"></i> 관리 페이지로
+                </a>
+            </div>
+            
+            <!-- 카드 정보 수정 폼 -->
+            <div th:if="${cardInfo != null}">
+                <!-- 카드 정보 표시 -->
+                <div class="card-info-display">
+                    <div class="card-number-text" th:text="${cardInfo.cardNumber}">카드번호</div>
+                    <div class="card-customer-text" th:text="${cardInfo.CIFName != null ? cardInfo.CIFName + ' 고객님' : '고객정보 없음'}">고객명</div>
+                </div>
+                
+                <form th:action="@{/cashcard/manage/update}" method="post" th:object="${cardInfo}">
+                    <input type="hidden" name="cardNumber" th:value="${cardInfo.cardNumber}" />
+                    
+                    <!-- 한도 정보 섹션 -->
+                    <div class="form-section">
+                        <h4><i class="fas fa-chart-line"></i> 한도 정보</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="dailyLimit" class="form-label">일일 한도 (KRW)</label>
+                                <input type="number" class="form-control" id="dailyLimit" name="dailyLimit" 
+                                       th:value="${cardInfo.dailyLimitAmount != null ? cardInfo.dailyLimitAmount : 0}" 
+                                       min="0" step="10000" required />
+                                <div class="form-text">일일 최대 출금/결제 한도를 설정합니다</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="dailyTrfLimit" class="form-label">일일 이체 한도 (KRW)</label>
+                                <input type="number" class="form-control" id="dailyTrfLimit" name="dailyTrfLimit" 
+                                       th:value="${cardInfo.dailyTrfLimitAmount != null ? cardInfo.dailyTrfLimitAmount : 0}" 
+                                       min="0" step="10000" required />
+                                <div class="form-text">일일 최대 이체 한도를 설정합니다</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 상태 정보 섹션 -->
+                    <div class="form-section">
+                        <h4><i class="fas fa-toggle-on"></i> 상태 정보</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="status" class="form-label">카드 상태</label>
+                                <select class="form-select" id="status" name="status" required>
+                                    <option value="A" th:selected="${cardInfo.status == 'A'}">활성 (A)</option>
+                                    <option value="I" th:selected="${cardInfo.status == 'I'}">비활성 (I)</option>
+                                    <option value="S" th:selected="${cardInfo.status == 'S'}">정지 (S)</option>
+                                    <option value="P" th:selected="${cardInfo.status == 'P'}">승인대기 (P)</option>
+                                </select>
+                                <div class="form-text">카드의 사용 상태를 변경합니다</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="amendReason" class="form-label">변경 사유</label>
+                                <textarea class="form-control" id="amendReason" name="amendReason" rows="3" 
+                                          placeholder="상태 변경 사유를 입력하세요"></textarea>
+                                <div class="form-text">상태 변경 시 사유를 기록합니다</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 읽기 전용 정보 섹션 -->
+                    <div class="form-section">
+                        <h4><i class="fas fa-info-circle"></i> 기본 정보 (읽기 전용)</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">고객명</label>
+                                <input type="text" class="form-control readonly-field" 
+                                       th:value="${cardInfo.CIFName != null ? cardInfo.CIFName : '미등록'}" readonly />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">고객번호</label>
+                                <input type="text" class="form-control readonly-field" 
+                                       th:value="${cardInfo.CIFNo != null ? cardInfo.CIFNo : '미등록'}" readonly />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">주계좌번호</label>
+                                <input type="text" class="form-control readonly-field" 
+                                       th:value="${cardInfo.primaryAccountNo != null ? cardInfo.primaryAccountNo : '미등록'}" readonly />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">카드 종류</label>
+                                <input type="text" class="form-control readonly-field" 
+                                       th:value="${cardInfo.type != null ? cardInfo.type : '현금카드'}" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 버튼 영역 -->
+                    <div class="text-center mt-4">
+                        <a href="/cashcard/manage" class="btn-cancel">
+                            <i class="fas fa-times"></i> 취소
+                        </a>
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-save"></i> 수정 완료
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

@@ -5,6 +5,7 @@
 CREATE TABLE IF NOT EXISTS cash_card (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     card_number VARCHAR(20) NOT NULL UNIQUE,
+    card_no VARCHAR(20) NOT NULL UNIQUE,
     primary_account_no VARCHAR(20) NOT NULL,
     bank_code VARCHAR(10) NOT NULL,
     branch_code VARCHAR(10) NOT NULL,
@@ -74,7 +75,7 @@ CREATE TABLE IF NOT EXISTS deposit (
 -- Common Tables
 CREATE TABLE IF NOT EXISTS common (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    common_code VARCHAR(20) NOT NULL UNIQUE,
+    common_code VARCHAR(50) NOT NULL UNIQUE,
     common_name VARCHAR(100) NOT NULL,
     common_type VARCHAR(20) NOT NULL,
     common_value VARCHAR(200),
@@ -90,6 +91,25 @@ CREATE TABLE IF NOT EXISTS common (
     last_update_user_id VARCHAR(20),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- EPlaton Common Tables (for eplatonframework package)
+CREATE TABLE IF NOT EXISTS eplaton_common (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    common_code VARCHAR(20) NOT NULL UNIQUE,
+    common_name VARCHAR(100),
+    common_type VARCHAR(10),
+    common_value VARCHAR(200),
+    description VARCHAR(500),
+    is_active BOOLEAN DEFAULT TRUE,
+    effective_date DATE,
+    expiry_date DATE,
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(50),
+    modified_by VARCHAR(50),
+    is_deleted BOOLEAN DEFAULT FALSE
 );
 
 -- Teller Tables
@@ -110,8 +130,31 @@ CREATE TABLE IF NOT EXISTS teller (
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- EPlaton Teller Tables (for eplatonframework package)
+CREATE TABLE IF NOT EXISTS eplaton_teller (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    teller_id VARCHAR(20) NOT NULL UNIQUE,
+    teller_name VARCHAR(100),
+    branch_code VARCHAR(10),
+    teller_type VARCHAR(10),
+    teller_status VARCHAR(2),
+    hire_date DATE,
+    termination_date DATE,
+    daily_limit DECIMAL(15,2),
+    monthly_limit DECIMAL(15,2),
+    currency_code VARCHAR(3),
+    email VARCHAR(100),
+    phone VARCHAR(20),
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_date TIMESTAMP,
+    version BIGINT DEFAULT 0,
+    created_by VARCHAR(50),
+    modified_by VARCHAR(50),
+    is_deleted BOOLEAN DEFAULT FALSE
+);
+
 -- User Tables
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(20) NOT NULL UNIQUE,
     user_name VARCHAR(100) NOT NULL,
@@ -162,7 +205,7 @@ CREATE INDEX IF NOT EXISTS idx_deposit_cif_no ON deposit(cif_no);
 CREATE INDEX IF NOT EXISTS idx_common_code ON common(common_code);
 CREATE INDEX IF NOT EXISTS idx_common_type ON common(common_type);
 CREATE INDEX IF NOT EXISTS idx_teller_id ON teller(teller_id);
-CREATE INDEX IF NOT EXISTS idx_user_id ON user(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_id ON users(user_id);
 CREATE INDEX IF NOT EXISTS idx_transaction_log_transaction_id ON transaction_log(transaction_id);
 CREATE INDEX IF NOT EXISTS idx_transaction_log_user_id ON transaction_log(user_id);
 CREATE INDEX IF NOT EXISTS idx_transaction_log_system_name ON transaction_log(system_name); 

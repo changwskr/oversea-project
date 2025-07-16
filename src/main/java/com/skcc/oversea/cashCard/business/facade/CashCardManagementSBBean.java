@@ -349,6 +349,25 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
     }
 
     /**
+     * 고객명으로 카드 정보 조회
+     */
+    @Transactional(readOnly = true)
+    public List<CashCardDDTO> getCardsByCustomerName(String customerName, CosesCommonDTO commonDTO) throws CosesAppException {
+        logger.info("==================[CashCardManagementSBBean.getCardsByCustomerName START] - 고객명: {}", customerName);
+        try {
+            // 1. Rule 계층에서 고객명으로 카드 정보 조회
+            List<CashCardDDTO> results = cashCardRuleSBBean.getCashCardsByCustomerName(customerName, commonDTO);
+            
+            logger.info("==================[CashCardManagementSBBean.getCardsByCustomerName END] - 고객명: {}, 검색결과: {}건", customerName, results.size());
+            return results;
+        } catch (Exception e) {
+            logger.error("==================[CashCardManagementSBBean.getCardsByCustomerName ERROR] - 고객명: {}, 에러: {}", 
+                        customerName, e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
      * 카드 정보 수정
      */
     @Transactional

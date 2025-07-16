@@ -4,11 +4,14 @@ import com.skcc.oversea.framework.transfer.CosesCommonDTO;
 import com.skcc.oversea.framework.exception.CosesAppException;
 
 import com.skcc.oversea.cashCard.business.cashCard.model.*;
+import java.util.List;
 
 public interface ICashCardSB
 {
-    public CashCardDDTO getCashCardInfo(CashCardDDTO cashCardDDTO,
+    public     CashCardDDTO getCashCardInfo(CashCardDDTO cashCardDDTO,
             CosesCommonDTO commonDTO) throws CosesAppException;
+            
+    List<CashCardDDTO> findCashCardsByCustomerName(String customerName, CosesCommonDTO commonDTO) throws CosesAppException;
 
     public CashCardDDTO findCashCardInfoByCardNo(CashCardDDTO cashCardDDTO,
             CosesCommonDTO commonDTO) throws CosesAppException;

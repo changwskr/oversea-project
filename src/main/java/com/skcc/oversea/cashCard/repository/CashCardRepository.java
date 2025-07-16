@@ -1,21 +1,21 @@
 package com.skcc.oversea.cashCard.repository;
 
 import com.skcc.oversea.cashCard.business.cashCard.entity.CashCard;
-import com.skcc.oversea.cashCard.business.cashCard.entity.CashCardPK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.List;
 
 @Repository("cashCardMainRepository")
-public interface CashCardRepository extends JpaRepository<CashCard, CashCardPK> {
+public interface CashCardRepository extends JpaRepository<CashCard, Long> {
 
         /**
          * Find cash card by primary key
          */
-        Optional<CashCard> findById(CashCardPK primaryKey);
+        Optional<CashCard> findById(Long id);
 
         /**
          * Find cash card by card number and bank code
@@ -24,27 +24,38 @@ public interface CashCardRepository extends JpaRepository<CashCard, CashCardPK> 
         Optional<CashCard> findByCardNumber(@Param("bankCode") String bankCode, @Param("cardNumber") String cardNumber);
 
         /**
-         * Create a new cash card
+         * Find cash card by card number only
          */
-        @Query("SELECT c FROM CashCardBusiness c WHERE c.bankType = :bankType AND c.bankCode = :bankCode " +
-                        "AND c.primaryAccountNo = :primaryAccountNo AND c.sequenceNo = :sequenceNo " +
-                        "AND c.cardNumber = :cardNumber AND c.branchCode = :branchCode AND c.type = :type")
-        Optional<CashCard> findByCreateCriteria(@Param("bankType") String bankType,
-                        @Param("bankCode") String bankCode,
-                        @Param("primaryAccountNo") String primaryAccountNo,
-                        @Param("sequenceNo") int sequenceNo,
-                        @Param("cardNumber") String cardNumber,
-                        @Param("branchCode") String branchCode,
-                        @Param("type") String type);
+        @Query("SELECT c FROM CashCardBusiness c WHERE c.cardNumber = :cardNumber")
+        Optional<CashCard> findByCardNumberOnly(@Param("cardNumber") String cardNumber);
+
+        /**
+         * Find cash cards by customer name (case-insensitive partial match)
+         */
+        List<CashCard> findByCifNameContainingIgnoreCase(String customerName);
+
+        // /**
+        //  * Find cash card by creation criteria (without sequenceNo)
+        //  */
+        // @Query("SELECT c FROM CashCardBusiness c WHERE c.bankType = :bankType AND c.bankCode = :bankCode " +
+        //                 "AND c.primaryAccountNo = :primaryAccountNo AND c.cardNumber = :cardNumber " +
+        //                 "AND c.branchCode = :branchCode AND c.type = :type")
+        // Optional<CashCard> findByCreateCriteria(@Param("bankType") String bankType,
+        //                 @Param("bankCode") String bankCode,
+        //                 @Param("primaryAccountNo") String primaryAccountNo,
+        //                 @Param("cardNumber") String cardNumber,
+        //                 @Param("branchCode") String branchCode,
+        //                 @Param("type") String type);
 
         /**
          * Create method for cash card
          */
         default CashCard create(String bankType, String bankCode, String primaryAccountNo,
-                        int sequenceNo, String cardNumber, String branchCode, String type) {
+                        String cardNumber, String branchCode, String type) {
                 System.out.println("==================[CashCardRepository.create START]");
                 try {
-                        CashCard cashCard = new CashCard(sequenceNo, cardNumber, bankCode, primaryAccountNo);
+                        CashCard cashCard = new CashCard(cardNumber, bankCode, primaryAccountNo);
+                        cashCard.setCardNo(cardNumber); // CARD_NO 필드 설정
                         cashCard.setBankType(bankType);
                         cashCard.setBranchCode(branchCode);
                         cashCard.setType(type);

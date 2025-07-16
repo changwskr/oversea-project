@@ -7,8 +7,8 @@ import java.time.LocalDate;
 /**
  * Common Entity for JPA
  */
-@Entity
-@Table(name = "common")
+@Entity(name = "EPlatonCommon")
+@Table(name = "eplaton_common")
 public class Common extends BaseEntity {
 
     @Column(name = "common_code", length = 20, nullable = false, unique = true)

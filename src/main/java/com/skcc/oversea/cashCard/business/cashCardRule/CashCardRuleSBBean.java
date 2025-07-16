@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.List;
 
 @Service
 public class CashCardRuleSBBean implements ICashCardRuleSB {
@@ -124,6 +125,32 @@ public class CashCardRuleSBBean implements ICashCardRuleSB {
     }
 
     /**
+     * 고객명으로 카드 정보 조회 규칙 검증 및 처리
+     */
+    @Override
+    public List<CashCardDDTO> getCashCardsByCustomerName(String customerName, CosesCommonDTO commonDTO) throws CosesAppException {
+        logger.info("==================[CashCardRuleSBBean.getCashCardsByCustomerName START] - 고객명: {}", customerName);
+        try {
+            // 1. 조회 권한 규칙 검증
+            String ruleResult = getSystemParameter("CARD_SEARCH_BY_CUSTOMER_RULE");
+            logger.info("Card search by customer rule validation result: {}", ruleResult);
+            
+            // 2. 추가 규칙 검증 (예: 고객명 형식 검증, 조회 권한 검증 등)
+            validateCustomerSearchRules(customerName);
+            
+            // 3. Thing 계층에서 실제 카드 정보 조회
+            List<CashCardDDTO> results = cashCardSBBean.findCashCardsByCustomerName(customerName, commonDTO);
+            
+            logger.info("==================[CashCardRuleSBBean.getCashCardsByCustomerName END] - 고객명: {}, 검색결과: {}건", customerName, results.size());
+            return results;
+        } catch (Exception e) {
+            logger.error("==================[CashCardRuleSBBean.getCashCardsByCustomerName ERROR] - 고객명: {}, 에러: {}", 
+                        customerName, e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
      * 카드 정보 수정 규칙 검증 및 처리
      */
     @Override
@@ -232,6 +259,30 @@ public class CashCardRuleSBBean implements ICashCardRuleSB {
         } catch (Exception e) {
             logger.error("==================[CashCardRuleSBBean.validateCardIssuanceRules ERROR] - 카드번호: {}, 에러: {}", 
                         cashCardDDTO.getCardNumber(), e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 고객명 검색 규칙 검증
+     */
+    private void validateCustomerSearchRules(String customerName) throws CosesAppException {
+        logger.debug("==================[CashCardRuleSBBean.validateCustomerSearchRules START] - 고객명: {}", customerName);
+        try {
+            // 고객명 형식 검증
+            if (customerName == null || customerName.trim().isEmpty()) {
+                throw new CosesAppException("고객명은 필수입니다.");
+            }
+            
+            // 고객명 길이 검증 (최소 2자, 최대 50자)
+            if (customerName.trim().length() < 2 || customerName.trim().length() > 50) {
+                throw new CosesAppException("고객명은 2자 이상 50자 이하여야 합니다.");
+            }
+            
+            logger.debug("==================[CashCardRuleSBBean.validateCustomerSearchRules END] - 고객명: {}", customerName);
+        } catch (Exception e) {
+            logger.error("==================[CashCardRuleSBBean.validateCustomerSearchRules ERROR] - 고객명: {}, 에러: {}", 
+                        customerName, e.getMessage(), e);
             throw e;
         }
     }
