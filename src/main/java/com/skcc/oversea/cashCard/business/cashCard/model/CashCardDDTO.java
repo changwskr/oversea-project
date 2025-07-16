@@ -44,6 +44,7 @@ public class CashCardDDTO extends DTO {
     private String lastUpdateUserID = Constants.BLANK;
     private String MISSendDate = Constants.BLANK;
     private String issueDate = Constants.BLANK;
+    private String amendReason = Constants.BLANK;
 
     public CashCardDDTO() {
     }
@@ -197,6 +198,10 @@ public class CashCardDDTO extends DTO {
 
     public String getCIFName() {
         return CIFName;
+    }
+
+    public String getAmendReason() {
+        return amendReason;
     }
 
     public String getIssueDate() {
@@ -354,6 +359,10 @@ public class CashCardDDTO extends DTO {
         this.CIFName = CIFName;
     }
 
+    public void setAmendReason(String amendReason) {
+        this.amendReason = amendReason;
+    }
+
     public void setIssueDate(String issueDate) {
         this.issueDate = issueDate;
     }
@@ -399,6 +408,7 @@ public class CashCardDDTO extends DTO {
         result = prime * result + ((lastUpdateUserID == null) ? 0 : lastUpdateUserID.hashCode());
         result = prime * result + ((MISSendDate == null) ? 0 : MISSendDate.hashCode());
         result = prime * result + ((issueDate == null) ? 0 : issueDate.hashCode());
+        result = prime * result + ((amendReason == null) ? 0 : amendReason.hashCode());
         return result;
     }
 
@@ -590,6 +600,11 @@ public class CashCardDDTO extends DTO {
                 return false;
         } else if (!issueDate.equals(other.issueDate))
             return false;
+        if (amendReason == null) {
+            if (other.amendReason != null)
+                return false;
+        } else if (!amendReason.equals(other.amendReason))
+            return false;
         return true;
     }
 
@@ -633,6 +648,7 @@ public class CashCardDDTO extends DTO {
                 ", lastUpdateUserID='" + lastUpdateUserID + '\'' +
                 ", MISSendDate='" + MISSendDate + '\'' +
                 ", issueDate='" + issueDate + '\'' +
+                ", amendReason='" + amendReason + '\'' +
                 '}';
     }
 
@@ -676,6 +692,7 @@ public class CashCardDDTO extends DTO {
         cloned.lastUpdateUserID = this.lastUpdateUserID;
         cloned.MISSendDate = this.MISSendDate;
         cloned.issueDate = this.issueDate;
+        cloned.amendReason = this.amendReason;
         return cloned;
     }
 }

@@ -24,6 +24,10 @@ public class HotCardDDTO extends DTO {
     private String releasedTime = Constants.BLANK;
     private String releasedBy = Constants.BLANK;
     private String remark = Constants.BLANK;
+    private String reason = Constants.BLANK;
+    private String releaseReason = Constants.BLANK;
+    private String reportDate = Constants.BLANK;
+    private String reportTime = Constants.BLANK;
 
     public HotCardDDTO() {
     }
@@ -99,6 +103,22 @@ public class HotCardDDTO extends DTO {
 
     public String getCIFName() {
         return CIFName;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public String getReleaseReason() {
+        return releaseReason;
+    }
+
+    public String getReportDate() {
+        return reportDate;
+    }
+
+    public String getReportTime() {
+        return reportTime;
     }
     /*
      * public String getIssueDate()
@@ -179,6 +199,22 @@ public class HotCardDDTO extends DTO {
     public void setCIFName(String CIFName) {
         this.CIFName = CIFName;
     }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public void setReleaseReason(String releaseReason) {
+        this.releaseReason = releaseReason;
+    }
+
+    public void setReportDate(String reportDate) {
+        this.reportDate = reportDate;
+    }
+
+    public void setReportTime(String reportTime) {
+        this.reportTime = reportTime;
+    }
     /*
      * public void setIssueDate(String issueDate)
      * {
@@ -204,6 +240,10 @@ public class HotCardDDTO extends DTO {
         result = prime * result + ((releasedTime == null) ? 0 : releasedTime.hashCode());
         result = prime * result + ((releasedBy == null) ? 0 : releasedBy.hashCode());
         result = prime * result + ((remark == null) ? 0 : remark.hashCode());
+        result = prime * result + ((reason == null) ? 0 : reason.hashCode());
+        result = prime * result + ((releaseReason == null) ? 0 : releaseReason.hashCode());
+        result = prime * result + ((reportDate == null) ? 0 : reportDate.hashCode());
+        result = prime * result + ((reportTime == null) ? 0 : reportTime.hashCode());
         return result;
     }
 
@@ -283,6 +323,26 @@ public class HotCardDDTO extends DTO {
                 return false;
         } else if (!remark.equals(other.remark))
             return false;
+        if (reason == null) {
+            if (other.reason != null)
+                return false;
+        } else if (!reason.equals(other.reason))
+            return false;
+        if (releaseReason == null) {
+            if (other.releaseReason != null)
+                return false;
+        } else if (!releaseReason.equals(other.releaseReason))
+            return false;
+        if (reportDate == null) {
+            if (other.reportDate != null)
+                return false;
+        } else if (!reportDate.equals(other.reportDate))
+            return false;
+        if (reportTime == null) {
+            if (other.reportTime != null)
+                return false;
+        } else if (!reportTime.equals(other.reportTime))
+            return false;
         return true;
     }
 
@@ -303,6 +363,10 @@ public class HotCardDDTO extends DTO {
                 ", releasedTime='" + releasedTime + '\'' +
                 ", releasedBy='" + releasedBy + '\'' +
                 ", remark='" + remark + '\'' +
+                ", reason='" + reason + '\'' +
+                ", releaseReason='" + releaseReason + '\'' +
+                ", reportDate='" + reportDate + '\'' +
+                ", reportTime='" + reportTime + '\'' +
                 '}';
     }
 
@@ -323,6 +387,10 @@ public class HotCardDDTO extends DTO {
         cloned.releasedTime = this.releasedTime;
         cloned.releasedBy = this.releasedBy;
         cloned.remark = this.remark;
+        cloned.reason = this.reason;
+        cloned.releaseReason = this.releaseReason;
+        cloned.reportDate = this.reportDate;
+        cloned.reportTime = this.reportTime;
         return cloned;
     }
 }

@@ -60,6 +60,9 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
     @Autowired
     private EJBUtilFacade ejbUtilFacade;
 
+    @Autowired
+    private CashCardRuleSBBean cashCardRuleSBBean;
+
     // ======================== Private Method Area ========================//
 
     private boolean validateAccount(String accountNo, String bankCode) throws CosesAppException {
@@ -300,6 +303,171 @@ public class CashCardManagementSBBean implements ICashCardManagementSB {
         } catch (Exception e) {
             logger.error("==================[CashCardManagementSBBean.getBatchJobStatus ERROR] - jobId: {}, 에러: {}", jobId, e.getMessage(), e);
             throw new CosesAppException("Failed to get batch job status", e);
+        }
+    }
+
+    // ======================== Controller Service Methods ========================//
+
+    /**
+     * 카드 발급 신청 처리
+     */
+    @Transactional
+    public CashCardDDTO issueCard(CashCardDDTO cashCardDDTO, CosesCommonDTO commonDTO) throws CosesAppException {
+        logger.info("==================[CashCardManagementSBBean.issueCard START] - 고객명: {}, 계좌번호: {}", 
+                   cashCardDDTO.getCIFName(), cashCardDDTO.getPrimaryAccountNo());
+        try {
+            // 1. Rule 계층에서 카드 발급 규칙 검증 및 처리
+            CashCardDDTO result = cashCardRuleSBBean.issueCashCard(cashCardDDTO, commonDTO);
+            
+            logger.info("==================[CashCardManagementSBBean.issueCard END] - 고객명: {}, 계좌번호: {}", 
+                       cashCardDDTO.getCIFName(), cashCardDDTO.getPrimaryAccountNo());
+            return result;
+        } catch (Exception e) {
+            logger.error("==================[CashCardManagementSBBean.issueCard ERROR] - 고객명: {}, 계좌번호: {}, 에러: {}", 
+                        cashCardDDTO.getCIFName(), cashCardDDTO.getPrimaryAccountNo(), e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 카드 정보 조회
+     */
+    @Transactional(readOnly = true)
+    public CashCardDDTO getCardInfo(String cardNumber, CosesCommonDTO commonDTO) throws CosesAppException {
+        logger.info("==================[CashCardManagementSBBean.getCardInfo START] - 카드번호: {}", cardNumber);
+        try {
+            // 1. Rule 계층에서 조회 권한 검증 및 실제 조회 처리
+            CashCardDDTO result = cashCardRuleSBBean.getCashCardInfo(cardNumber, commonDTO);
+            
+            logger.info("==================[CashCardManagementSBBean.getCardInfo END] - 카드번호: {}", cardNumber);
+            return result;
+        } catch (Exception e) {
+            logger.error("==================[CashCardManagementSBBean.getCardInfo ERROR] - 카드번호: {}, 에러: {}", 
+                        cardNumber, e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 카드 정보 수정
+     */
+    @Transactional
+    public CashCardDDTO updateCardInfo(CashCardDDTO cashCardDDTO, CosesCommonDTO commonDTO) throws CosesAppException {
+        logger.info("==================[CashCardManagementSBBean.updateCardInfo START] - 카드번호: {}", 
+                   cashCardDDTO.getCardNumber());
+        try {
+            // 1. Rule 계층에서 수정 권한 검증 및 실제 수정 처리
+            CashCardDDTO result = cashCardRuleSBBean.updateCashCard(cashCardDDTO, commonDTO);
+            
+            logger.info("==================[CashCardManagementSBBean.updateCardInfo END] - 카드번호: {}", 
+                       cashCardDDTO.getCardNumber());
+            return result;
+        } catch (Exception e) {
+            logger.error("==================[CashCardManagementSBBean.updateCardInfo ERROR] - 카드번호: {}, 에러: {}", 
+                        cashCardDDTO.getCardNumber(), e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 핫카드 등록
+     */
+    @Transactional
+    public HotCardDDTO registerHotCard(HotCardDDTO hotCardDDTO, CosesCommonDTO commonDTO) throws CosesAppException {
+        logger.info("==================[CashCardManagementSBBean.registerHotCard START] - 카드번호: {}", 
+                   hotCardDDTO.getCardNumber());
+        try {
+            // 1. Rule 계층에서 핫카드 등록 규칙 검증 및 실제 등록 처리
+            HotCardDDTO result = cashCardRuleSBBean.registerHotCard(hotCardDDTO, commonDTO);
+            
+            logger.info("==================[CashCardManagementSBBean.registerHotCard END] - 카드번호: {}", 
+                       hotCardDDTO.getCardNumber());
+            return result;
+        } catch (Exception e) {
+            logger.error("==================[CashCardManagementSBBean.registerHotCard ERROR] - 카드번호: {}, 에러: {}", 
+                        hotCardDDTO.getCardNumber(), e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 핫카드 해제
+     */
+    @Transactional
+    public HotCardDDTO releaseHotCard(HotCardDDTO hotCardDDTO, CosesCommonDTO commonDTO) throws CosesAppException {
+        logger.info("==================[CashCardManagementSBBean.releaseHotCard START] - 카드번호: {}", 
+                   hotCardDDTO.getCardNumber());
+        try {
+            // 1. Rule 계층에서 핫카드 해제 규칙 검증 및 실제 해제 처리
+            HotCardDDTO result = cashCardRuleSBBean.releaseHotCard(hotCardDDTO, commonDTO);
+            
+            logger.info("==================[CashCardManagementSBBean.releaseHotCard END] - 카드번호: {}", 
+                       hotCardDDTO.getCardNumber());
+            return result;
+        } catch (Exception e) {
+            logger.error("==================[CashCardManagementSBBean.releaseHotCard ERROR] - 카드번호: {}, 에러: {}", 
+                        hotCardDDTO.getCardNumber(), e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 카드 번호 생성
+     */
+    public String generateCardNumber() {
+        logger.info("==================[CashCardManagementSBBean.generateCardNumber START]");
+        try {
+            // 1. Rule 계층에서 카드 번호 생성 규칙 적용
+            String ruleResult = cashCardRuleSBBean.getSystemParameter("CARD_NUMBER_GENERATION_RULE");
+            logger.info("Card number generation rule: {}", ruleResult);
+            
+            // 2. 실제 카드 번호 생성 로직
+            long timestamp = System.currentTimeMillis();
+            String timestampStr = String.valueOf(timestamp);
+            
+            // 16자리 카드 번호 생성 (BIN + 타임스탬프 + 체크섬)
+            String bin = "123456"; // 은행 식별 번호
+            String cardNumberBase = bin + timestampStr.substring(timestampStr.length() - 9);
+            
+            // Luhn 체크섬 계산
+            int checkDigit = calculateLuhnCheckDigit(cardNumberBase);
+            String cardNumber = cardNumberBase + checkDigit;
+            
+            logger.info("==================[CashCardManagementSBBean.generateCardNumber END] - 생성된 카드번호: {}", cardNumber);
+            return cardNumber;
+        } catch (Exception e) {
+            logger.error("==================[CashCardManagementSBBean.generateCardNumber ERROR] - {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * Luhn 체크섬 계산
+     */
+    private int calculateLuhnCheckDigit(String cardNumber) {
+        logger.debug("==================[CashCardManagementSBBean.calculateLuhnCheckDigit START] - 카드번호: {}", cardNumber);
+        try {
+            int sum = 0;
+            boolean alternate = false;
+            
+            for (int i = cardNumber.length() - 1; i >= 0; i--) {
+                int n = Integer.parseInt(cardNumber.substring(i, i + 1));
+                if (alternate) {
+                    n *= 2;
+                    if (n > 9) {
+                        n = (n % 10) + 1;
+                    }
+                }
+                sum += n;
+                alternate = !alternate;
+            }
+            
+            int checkDigit = (10 - (sum % 10)) % 10;
+            logger.debug("==================[CashCardManagementSBBean.calculateLuhnCheckDigit END] - 체크섬: {}", checkDigit);
+            return checkDigit;
+        } catch (Exception e) {
+            logger.error("==================[CashCardManagementSBBean.calculateLuhnCheckDigit ERROR] - {}", e.getMessage(), e);
+            throw e;
         }
     }
 }
