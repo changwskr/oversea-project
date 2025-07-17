@@ -13,8 +13,8 @@ import com.skcc.oversea.eplatonframework.business.entity.TransactionLog;
 import com.skcc.oversea.eplatonframework.business.repository.TransactionLogRepository;
 import com.skcc.oversea.teller.entity.Teller;
 import com.skcc.oversea.teller.repository.TellerRepository;
-import com.skcc.oversea.user.entity.User;
-import com.skcc.oversea.user.repository.UserRepository;
+import com.skcc.oversea.user.domain.User;
+import com.skcc.oversea.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,7 @@ public class TestDataController {
     private TellerRepository tellerRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private TransactionLogRepository transactionLogRepository;
@@ -78,7 +78,7 @@ public class TestDataController {
             summary.put("deposits", depositRepository.count());
             summary.put("commons", commonRepository.count());
             summary.put("tellers", tellerRepository.count());
-            summary.put("users", userRepository.count());
+            summary.put("users", userService.findAllUsers().size());
             summary.put("transactionLogs", transactionLogRepository.count());
             
             logger.info("==================[TestDataController.getTestDataSummary END]");
@@ -182,7 +182,7 @@ public class TestDataController {
     public ResponseEntity<List<User>> getAllUsers() {
         logger.info("==================[TestDataController.getAllUsers START]");
         try {
-            List<User> result = userRepository.findAll();
+            List<User> result = userService.findAllUsers();
             logger.info("==================[TestDataController.getAllUsers END]");
             return ResponseEntity.ok(result);
         } catch (Exception e) {
@@ -280,7 +280,9 @@ public class TestDataController {
     public ResponseEntity<User> getUserByUserId(@PathVariable String userId) {
         logger.info("==================[TestDataController.getUserByUserId START] - 사용자ID: {}", userId);
         try {
-            ResponseEntity<User> result = userRepository.findByUserId(userId)
+            ResponseEntity<User> result = userService.findAllUsers().stream()
+                    .filter(user -> userId.equals(user.getUserId()))
+                    .findFirst()
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
             logger.info("==================[TestDataController.getUserByUserId END] - 사용자ID: {}", userId);

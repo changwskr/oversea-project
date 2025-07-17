@@ -28,23 +28,32 @@ public class UserRestController {
 
     @PostMapping("/signup")
     public ApiResponse<UserResponse> signUp(@Valid @RequestBody UserCreateRequest userCreateRequest) {
-
+        log.info("[UserRestController] signUp START - email: {}", userCreateRequest.getEmail());
+        
         User user = userService.signUp(userCreateRequest.toModel());
+        
+        log.info("[UserRestController] signUp END - userId: {}", user.getUserId());
         return ApiResponse.ok(UserResponse.fromUser(user));
     }
 
     // 로그인
     @PostMapping("/authenticate")
     public ApiResponse<String> authenticate(@RequestBody UserAuthRequest userAuthRequest) {
+        log.info("[UserRestController] authenticate START - email: {}", userAuthRequest.getEmail());
+        
         String result = userService.authenticate(userAuthRequest.getEmail(), userAuthRequest.getPassword());
+        
+        log.info("[UserRestController] authenticate END - result: {}", result);
         return ApiResponse.ok(result);
     }
 
     @GetMapping
     public ApiResponse<List<UserResponse>> searchAllUser(Pageable pageable) {
+        log.info("[UserRestController] searchAllUser START - pageable: {}", pageable);
     
         Page<User> result = userService.findAll(pageable);
 
+        log.info("[UserRestController] searchAllUser END - totalElements: {}", result.getTotalElements());
         return ApiResponse.ok(result
                 .stream()
                 .map(UserResponse::fromUser)
@@ -53,7 +62,11 @@ public class UserRestController {
 
     @GetMapping("/all")
     public ApiResponse<List<UserResponse>> getAllUsers() {
+        log.info("[UserRestController] getAllUsers START");
+        
         List<User> users = userService.findAllUsers();
+        
+        log.info("[UserRestController] getAllUsers END - userCount: {}", users.size());
         return ApiResponse.ok(users.stream()
                 .map(UserResponse::fromUser)
                 .toList());
@@ -61,14 +74,21 @@ public class UserRestController {
 
     @GetMapping("/{id}")
     public ApiResponse<UserResponse> getById(@PathVariable long id) {
-        return ApiResponse
-                .ok(UserResponse.fromUser(userService.getById(id)));
+        log.info("[UserRestController] getById START - id: {}", id);
+        
+        User user = userService.getById(id);
+        
+        log.info("[UserRestController] getById END - userId: {}", user.getUserId());
+        return ApiResponse.ok(UserResponse.fromUser(user));
     }
 
     @GetMapping("/admin")
     public ApiResponse<List<UserResponse>> getAdminUsers(Pageable pageable) {
-        log.info("[Controller] : {}" , pageable);
+        log.info("[UserRestController] getAdminUsers START - pageable: {}", pageable);
+        
         Page<User> result = userService.findAdminUsers(pageable);
+        
+        log.info("[UserRestController] getAdminUsers END - totalElements: {}", result.getTotalElements());
         return ApiResponse.ok(result
                 .stream()
                 .map(UserResponse::fromUser)
@@ -77,7 +97,11 @@ public class UserRestController {
 
     @PatchMapping
     public ApiResponse<UserResponse> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
+        log.info("[UserRestController] updateUser START - userId: {}", userUpdateRequest.getUserId());
+        
         User user = userService.updateUser(userUpdateRequest.toModel());
+        
+        log.info("[UserRestController] updateUser END - userId: {}", user.getUserId());
         return ApiResponse.ok(UserResponse.fromUser(user));
     }
 

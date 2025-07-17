@@ -48,8 +48,24 @@ public class UserJpaEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
+    // 폼에서 사용하는 추가 필드들
+    @Column(length = 100)
+    private String name;          // 이름
+
+    @Column(length = 20)
+    private String phone;         // 전화번호
+
+    @Column(length = 100)
+    private String department;    // 부서
+
+    @Column(length = 100)
+    private String position;      // 직책
+
+    @Column(length = 50)
+    private String userType;      // 사용자 유형
+
     @Builder
-    public UserJpaEntity(Long id, String email, String password, String username, String userId, String address, String job, Integer age, String company, UserStatus status) {
+    public UserJpaEntity(Long id, String email, String password, String username, String userId, String address, String job, Integer age, String company, UserStatus status, String name, String phone, String department, String position, String userType) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -60,6 +76,11 @@ public class UserJpaEntity extends BaseEntity {
         this.age = age;
         this.company = company;
         this.status = status;
+        this.name = name;
+        this.phone = phone;
+        this.department = department;
+        this.position = position;
+        this.userType = userType;
     }
 
     public static UserJpaEntity from(User user) {
@@ -74,6 +95,11 @@ public class UserJpaEntity extends BaseEntity {
                 .age(user.getAge())
                 .company(user.getCompany())
                 .status(user.getStatus())
+                .name(user.getName())
+                .phone(user.getPhone())
+                .department(user.getDepartment())
+                .position(user.getPosition())
+                .userType(user.getUserType())
                 .build();
     }
 
@@ -89,6 +115,11 @@ public class UserJpaEntity extends BaseEntity {
                 .age(age)
                 .company(company)
                 .status(status)
+                .name(name)
+                .phone(phone)
+                .department(department)
+                .position(position)
+                .userType(userType)
                 .createdDate(getCreatedDate())
                 .lastModifiedDate(getLastModifiedDate())
                 .build();

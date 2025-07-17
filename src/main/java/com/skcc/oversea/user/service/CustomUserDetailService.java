@@ -1,6 +1,7 @@
 package com.skcc.oversea.user.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +24,7 @@ import java.util.List;
  * 이 클래스는 Spring Security의 인증 과정에서 사용됩니다.
  */
 @Service
+@Slf4j
 public class CustomUserDetailService implements UserDetailsService {
 
     /**
@@ -50,6 +52,8 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        log.info("[CustomUserDetailService] loadUserByUsername START - userId: {}", userId);
+        
         // userId로 사용자를 찾음
         User myUser = userRepositoryPort.findByUserId(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ELEMENT));
@@ -57,11 +61,14 @@ public class CustomUserDetailService implements UserDetailsService {
         List<UserRole> userRoleList = userRoleRepositoryPort.findByUserId(myUser.getId());
         String[] roleArr = userRoleList.stream().map(item->item.getRole().getRoleId()).toArray(String[]::new);
 
-        return org.springframework.security.core.userdetails.User.builder()
+        UserDetails result = org.springframework.security.core.userdetails.User.builder()
                 .username(myUser.getUserId())
                 .password(myUser.getPassword())
                 .roles(roleArr)
                 .build();
+        
+        log.info("[CustomUserDetailService] loadUserByUsername END - userId: {}, roles: {}", userId, Arrays.toString(roleArr));
+        return result;
     }
     
     /**
@@ -73,6 +80,8 @@ public class CustomUserDetailService implements UserDetailsService {
      */
     @Transactional
     public UserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
+        log.info("[CustomUserDetailService] loadUserByUserId START - userId: {}", userId);
+        
         // 사용자 ID로 사용자를 찾을 수 없으면 사용자 정의 예외를 던집니다.
         User myUser = userRepositoryPort.findByUserId(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ELEMENT));
@@ -80,10 +89,13 @@ public class CustomUserDetailService implements UserDetailsService {
         List<UserRole> userRoleList = userRoleRepositoryPort.findByUserId(myUser.getId());
         String[] roleArr = userRoleList.stream().map(item->item.getRole().getRoleId()).toArray(String[]::new);
 
-        return org.springframework.security.core.userdetails.User.builder()
+        UserDetails result = org.springframework.security.core.userdetails.User.builder()
                 .username(myUser.getUserId()) // JWT에서는 userId를 username으로 사용
                 .password(myUser.getPassword())
                 .roles(roleArr)
                 .build();
+        
+        log.info("[CustomUserDetailService] loadUserByUserId END - userId: {}, roles: {}", userId, Arrays.toString(roleArr));
+        return result;
     }
 }

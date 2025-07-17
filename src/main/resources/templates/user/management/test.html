@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클릭 이벤트 테스트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .test-card {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .test-card:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-5px);
+        }
+        
+        .test-card:active {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>클릭 이벤트 테스트</h1>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <a href="/user-management-web/register" class="test-card d-block text-decoration-none">
+                    <h3>사용자 등록</h3>
+                    <p>클릭하여 사용자 등록 페이지로 이동</p>
+                </a>
+            </div>
+            
+            <div class="col-md-4">
+                <a href="/user-management-web/roles" class="test-card d-block text-decoration-none">
+                    <h3>권한 관리</h3>
+                    <p>클릭하여 권한 관리 페이지로 이동</p>
+                </a>
+            </div>
+            
+            <div class="col-md-4">
+                <a href="/user-management-web/security" class="test-card d-block text-decoration-none">
+                    <h3>보안 관리</h3>
+                    <p>클릭하여 보안 관리 페이지로 이동</p>
+                </a>
+            </div>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <a href="/user-management-web/activity-logs" class="test-card d-block text-decoration-none">
+                    <h3>활동 로그</h3>
+                    <p>클릭하여 활동 로그 페이지로 이동</p>
+                </a>
+            </div>
+            
+            <div class="col-md-4">
+                <a href="/user-management-web" class="test-card d-block text-decoration-none">
+                    <h3>메인 페이지</h3>
+                    <p>클릭하여 메인 페이지로 이동</p>
+                </a>
+            </div>
+            
+            <div class="col-md-4">
+                <button class="test-card w-100 border-0" onclick="alert('버튼 클릭됨!')">
+                    <h3>JavaScript 테스트</h3>
+                    <p>클릭하여 JavaScript 이벤트 테스트</p>
+                </button>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <a href="/user-management-web" class="btn btn-primary">메인 페이지로 돌아가기</a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('테스트 페이지 로드됨');
+            
+            // 모든 링크에 클릭 이벤트 리스너 추가
+            const links = document.querySelectorAll('a');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    console.log('링크 클릭됨:', this.href);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

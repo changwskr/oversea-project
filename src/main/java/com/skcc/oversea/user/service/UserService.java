@@ -49,19 +49,20 @@ public class UserService implements UserServicePort {
     @Override
     @Transactional
     public User signUp(UserCreate userCreate) {
-
+        log.info("[UserService.signUp START]");
         // 입력받은 이메일로 회원 존재 점검
         checkUserExistByEmail(userCreate.getEmail());
         User model = User.from(userCreate, passwordEncoder);
         // 기본권한 확인
         User savedModel = userRepositoryPort.save(model);
-
+        log.info("[UserService.signUp END]");
         return savedModel;
     }
 
     // 인증
     @Override
     public String authenticate(String email, String rawPassword) {
+        log.info("[UserService.authenticate START]");
         User user = userRepositoryPort.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ELEMENT));
         boolean matches = passwordEncoder.matches(rawPassword, user.getPassword());
@@ -69,138 +70,152 @@ public class UserService implements UserServicePort {
             throw new CustomException(ErrorCode.NOT_MATCHED_PASSWORD);
         }
         log.info("Authentication successful for user: {}", user.getEmail());
+        log.info("[UserService.authenticate END]");
         return "Authentication successful";
     }
 
     // 전체 사용자 조회
     @Override
     public List<User> findAllUsers() {
-        return userRepositoryPort.findAll();
+        log.info("[UserService.findAllUsers START]");
+        List<User> users = userRepositoryPort.findAll();
+        log.info("[UserService.findAllUsers END]");
+        return users;
     }
 
     @Override
     public Page<User> findAll(Pageable pageable) {
-        return userRepositoryPort.findAll(pageable);
+        log.info("[UserService.findAll START]");
+        Page<User> result = userRepositoryPort.findAll(pageable);
+        log.info("[UserService.findAll END]");
+        return result;
     }
 
     @Override
     public User getById(Long id) {
-        return userRepositoryPort.findById(id)
+        log.info("[UserService.getById START]");
+        User user = userRepositoryPort.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ELEMENT));
+        log.info("[UserService.getById END]");
+        return user;
     }
 
     @Override
     public Page<User> findAdminUsers(Pageable pageable) {
-        log.info("[Service] findAdminUsers : {}", pageable);
+        log.info("[UserService.findAdminUsers START]");
         // Admin 사용자 조회 로직을 단순화 - 모든 사용자 반환
-        return userRepositoryPort.findAll(pageable);
+        Page<User> result = userRepositoryPort.findAll(pageable);
+        log.info("[UserService.findAdminUsers END]");
+        return result;
     }
 
     @Override
     public User updateUserStatus(User user) {
-
+        log.info("[UserService.updateUserStatus START]");
         // 조회
         User findUser = userRepositoryPort.findByEmail(user.getEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ELEMENT));
 
         // 상태값 없데이트
         User updateUser = findUser.updateStatus(user.getStatus());
-        return userRepositoryPort.updateStatus(updateUser);
+        User result = userRepositoryPort.updateStatus(updateUser);
+        log.info("[UserService.updateUserStatus END]");
+        return result;
     }
 
     @Override
     public User updateUser(User user) {
+        log.info("[UserService.updateUser START]");
         // 조회
         User findUser = userRepositoryPort.findByEmail(user.getEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ELEMENT));
 
         User updatedUser = findUser.updateUser(user, passwordEncoder);
-        return userRepositoryPort.save(updatedUser);
+        User result = userRepositoryPort.save(updatedUser);
+        log.info("[UserService.updateUser END]");
+        return result;
     }
 
     public User update(User user) {
+        log.info("[UserService.update START]");
         User existingUser = userRepositoryPort.findById(user.getId())
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
         User updatedUser = existingUser.updateUser(user, passwordEncoder);
-        return userRepositoryPort.save(updatedUser);
+        User result = userRepositoryPort.save(updatedUser);
+        log.info("[UserService.update END]");
+        return result;
     }
 
     // 이메일로 존재여부 체크
     private void checkUserExistByEmail(String email) {
+        log.info("[UserService.checkUserExistByEmail START]");
         Optional<User> optionalUser = userRepositoryPort.findByEmail(email);
         if (optionalUser.isPresent()) {
+            log.info("[UserService.checkUserExistByEmail END]");
             throw new CustomException(ErrorCode.EXIST_ELEMENT);
         }
+        log.info("[UserService.checkUserExistByEmail END]");
+    }
+    
+    /**
+     * 사용자 생성 (웹 컨트롤러용)
+     */
+    @Override
+    @Transactional
+    public User createUser(User user) {
+        log.info("[UserService.createUser START]");
+        
+        // 사용자 ID 중복 체크
+        Optional<User> existingUser = userRepositoryPort.findByUserId(user.getUserId());
+        if (existingUser.isPresent()) {
+            log.info("[UserService.createUser END]");
+            throw new CustomException(ErrorCode.EXIST_ELEMENT);
+        }
+        
+        // 이메일 중복 체크
+        checkUserExistByEmail(user.getEmail());
+        
+        // 새로운 User 객체 생성 (비밀번호 암호화 및 상태 설정)
+        User newUser = User.builder()
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .userId(user.getUserId())
+                .address(user.getAddress())
+                .job(user.getJob())
+                .age(user.getAge())
+                .company(user.getCompany())
+                .name(user.getName())
+                .phone(user.getPhone())
+                .department(user.getDepartment())
+                .position(user.getPosition())
+                .userType(user.getUserType())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .status(user.getStatus() != null ? user.getStatus() : com.skcc.oversea.user.domain.UserStatus.ACTIVE)
+                .createdDate(java.time.LocalDateTime.now())
+                .lastModifiedDate(java.time.LocalDateTime.now())
+                .build();
+        
+        // 사용자 저장
+        User savedUser = userRepositoryPort.save(newUser);
+        log.info("User created successfully: {}", savedUser.getUserId());
+        log.info("[UserService.createUser END]");
+        
+        return savedUser;
     }
 
-    /**
-     * SKCC Oversea Application
-     *
-     * Main Spring Boot application class for the SKCC Oversea banking system.
-     * This application has been migrated from legacy J2EE/EJB architecture to Spring Boot.
-     *
-     * Features:
-     * - Cash Card Management
-     * - Deposit Services
-     * - Common Services
-     * - Teller Management
-     * - User Management
-     * - Transaction Logging
-     *
-     * @author SKCC Development Team
-     * @version 1.0.0
-     */
-    @SpringBootApplication
-    @ComponentScan(basePackages = {
-        "com.skcc.oversea",
-        "com.skcc.oversea.controller",
-        "com.skcc.oversea.service",
-        "com.skcc.oversea.config",
-        "com.skcc.oversea.foundation",
-        "com.skcc.oversea.eplatonframework"
-    })
-    @EntityScan(basePackages = {
-        "com.skcc.oversea.cashCard.business.cashCard.entity",
-        "com.skcc.oversea.deposit.entity",
-        "com.skcc.oversea.common.entity",
-        "com.skcc.oversea.teller.entity",
-        "com.skcc.oversea.user.entity",
-        "com.skcc.oversea.user.infrastructure.jpa",
-        "com.skcc.oversea.eplatonframework.business.entity"
-    })
-    @EnableJpaRepositories(basePackages = {
-        "com.skcc.oversea.cashCard.repository",
-        "com.skcc.oversea.deposit.repository",
-        "com.skcc.oversea.common.repository",
-        "com.skcc.oversea.teller.repository",
-        "com.skcc.oversea.user.repository",
-        "com.skcc.oversea.user.infrastructure.jpa",
-        "com.skcc.oversea.eplatonframework.business.repository"
-    })
-    @EnableTransactionManagement
-    @EnableAsync
-    @EnableScheduling
-    public static class OverseaApplication {
+    @Override
+    public Optional<User> findByUserId(String userId) {
+        log.info("[UserService.findByUserId START] - userId: {}", userId);
+        Optional<User> result = userRepositoryPort.findByUserId(userId);
+        log.info("[UserService.findByUserId END] - found: {}", result.isPresent());
+        return result;
+    }
 
-        private static final Logger logger = LoggerFactory.getLogger(OverseaApplication.class);
-
-        public static void main(String[] args) {
-            logger.info("==================[OverseaApplication.main START]");
-            try {
-                logger.info("Starting SKCC Oversea Banking System...");
-                logger.info("System Version: 1.0.0");
-                logger.info("Spring Boot Version: 3.x");
-                logger.info("Java Version: {}", System.getProperty("java.version"));
-
-                SpringApplication.run(OverseaApplication.class, args);
-
-                logger.info("SKCC Oversea Banking System started successfully!");
-                logger.info("==================[OverseaApplication.main END]");
-            } catch (Exception e) {
-                logger.error("==================[OverseaApplication.main ERROR] - {}", e.getMessage(), e);
-                System.exit(1);
-            }
-        }
+    @Override
+    public void deleteUser(Long id) {
+        log.info("[UserService.deleteUser START] - id: {}", id);
+        userRepositoryPort.deleteById(id);
+        log.info("[UserService.deleteUser END] - id: {}", id);
     }
 }

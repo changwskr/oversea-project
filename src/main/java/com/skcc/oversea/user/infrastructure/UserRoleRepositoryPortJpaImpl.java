@@ -19,25 +19,40 @@ public class UserRoleRepositoryPortJpaImpl implements UserRoleRepositoryPort {
 
     @Override
     public List<UserRole> findByUserId(Long userId) {
-        return userRoleRepositoryJpa.findByUserId(userId)
+        log.info("[UserRoleRepositoryPortJpaImpl] findByUserId START - userId: {}", userId);
+        
+        List<UserRole> result = userRoleRepositoryJpa.findByUserId(userId)
                 .stream()
                 .map(this::toUserRole)
                 .toList();
+        
+        log.info("[UserRoleRepositoryPortJpaImpl] findByUserId END - count: {}", result.size());
+        return result;
     }
 
     @Override
     public List<UserRole> findByRoleId(Long roleId) {
-        return userRoleRepositoryJpa.findByRoleId(roleId)
+        log.info("[UserRoleRepositoryPortJpaImpl] findByRoleId START - roleId: {}", roleId);
+        
+        List<UserRole> result = userRoleRepositoryJpa.findByRoleId(roleId)
                 .stream()
                 .map(this::toUserRole)
                 .toList();
+        
+        log.info("[UserRoleRepositoryPortJpaImpl] findByRoleId END - count: {}", result.size());
+        return result;
     }
 
     private UserRole toUserRole(UserRoleEntity entity) {
-        return UserRole.builder()
+        log.debug("[UserRoleRepositoryPortJpaImpl] toUserRole START - entityId: {}", entity.getId());
+        
+        UserRole result = UserRole.builder()
                 .id(entity.getId())
                 .user(entity.getUser().toModel())
                 .role(entity.getRole().toModel())
                 .build();
+        
+        log.debug("[UserRoleRepositoryPortJpaImpl] toUserRole END - userRoleId: {}", result.getId());
+        return result;
     }
 } 

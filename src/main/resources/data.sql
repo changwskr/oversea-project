@@ -255,27 +255,28 @@ INSERT INTO transaction_log (transaction_id, transaction_no, host_name, system_n
 -- ========================================
 
 -- Users JPA Table Data (사용자 JPA 테이블 데이터)
-INSERT INTO users_jpa (user_id, username, email, password, status, register_date, register_by) VALUES
+INSERT INTO users_jpa (email, password, username, user_id, address, job, age, company, status, name, phone, department, position, user_type, created_date, last_modified_date) VALUES
 -- Regular Users (일반 사용자)
-('USER001,김철수', 'kim.cs@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
-('USER002,이영희', 'lee.yh@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
-('USER003, 박민수', 'park.ms@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
-('USER004, 최영수', 'choi.ys@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
-('USER005, 정미영', 'jung.my@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
-('USER006,한지민', 'han.jm@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
-('USER007, 송혜교', 'song.hg@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
-('USER008, 강동원', 'kang.dw@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
-('USER009,배두나', 'bae.dn@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
-('USER010,원빈', 'won.b@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '20240101', 'SYSTEM'),
+('kim.cs@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '김철수', 'USER001', '서울시 강남구', '개발자', 30, 'SKCC', 'ACTIVE', '김철수', '010-1234-5678', 'IT', '사원', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('lee.yh@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '이영희', 'USER002', '서울시 서초구', '디자이너', 28, 'SKCC', 'ACTIVE', '이영희', '010-2345-6789', '디자인', '사원', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('park.ms@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '박민수', 'USER003', '부산시 해운대구', '기획자', 32, 'SKCC', 'ACTIVE', '박민수', '010-3456-7890', '기획', '대리', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('choi.ys@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '최영수', 'USER004', '인천시 연수구', '테스터', 29, 'SKCC', 'ACTIVE', '최영수', '010-4567-8901', 'QA', '사원', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('jung.my@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '정미영', 'USER005', '대구시 수성구', '운영자', 31, 'SKCC', 'ACTIVE', '정미영', '010-5678-9012', '운영', '대리', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('han.jm@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '한지민', 'USER006', '대전시 유성구', '보안관리자', 33, 'SKCC', 'ACTIVE', '한지민', '010-6789-0123', '보안', '과장', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('song.hg@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '송혜교', 'USER007', '광주시 서구', '데이터분석가', 27, 'SKCC', 'ACTIVE', '송혜교', '010-7890-1234', '데이터', '사원', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('kang.dw@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '강동원', 'USER008', '울산시 남구', '인프라관리자', 34, 'SKCC', 'ACTIVE', '강동원', '010-8901-2345', '인프라', '과장', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('bae.dn@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '배두나', 'USER009', '세종시 조치원읍', '프로젝트매니저', 35, 'SKCC', 'ACTIVE', '배두나', '010-9012-3456', 'PM', '팀장', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('won.b@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '원빈', 'USER010', '제주시 아라동', '아키텍트', 36, 'SKCC', 'ACTIVE', '원빈', '010-0123-4567', '아키텍처', '수석', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 
 -- Inactive Users (비활성 사용자)
-('USER011, 활성', 'kim.inactive@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7TVEFDa', 'INACTIVE', '202411', 'SYSTEM'),
-('USER012,이잠금', 'lee.locked@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'LOCKED', '20240101', 'YSTEM'),
+('kim.inactive@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '김비활성', 'USER011', '서울시 강북구', '개발자', 30, 'SKCC', 'INACTIVE', '김비활성', '010-1111-1111', 'IT', '사원', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('lee.locked@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '이잠금', 'USER012', '서울시 마포구', '디자이너', 28, 'SKCC', 'LOCKED', '이잠금', '010-2222-2222', '디자인', '사원', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 
 -- Admin Users (관리자)
-('ADMIN001', '시스템관리자', 'admin@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
-('ADMIN002', '운영관리자', 'operator@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
-('ADMIN003', '보안관리자', 'security@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '20240101', 'YSTEM');
+('admin@example.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '관리자', 'admin', '서울시 강남구', '시스템관리자', 40, 'SKCC', 'ACTIVE', '관리자', '010-0000-0000', 'IT', '팀장', 'ADMIN', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('admin@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '시스템관리자', 'ADMIN001', '서울시 강남구', '시스템관리자', 40, 'SKCC', 'ACTIVE', '시스템관리자', '010-9999-9999', 'IT', '팀장', 'ADMIN', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('operator@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '운영관리자', 'ADMIN002', '서울시 서초구', '운영관리자', 38, 'SKCC', 'ACTIVE', '운영관리자', '010-8888-8888', '운영', '팀장', 'ADMIN', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+('security@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '보안관리자', 'ADMIN003', '서울시 마포구', '보안관리자', 42, 'SKCC', 'ACTIVE', '보안관리자', '010-7777-7777', '보안', '팀장', 'ADMIN', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 -- Roles JPA Table Data (역할 JPA 테이블 데이터)
 INSERT INTO roles_jpa (role_id, role_name, description, is_active, register_date, register_by) VALUES

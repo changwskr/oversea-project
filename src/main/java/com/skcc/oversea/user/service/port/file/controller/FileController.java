@@ -44,11 +44,15 @@ public class FileController {
             @RequestParam("file") MultipartFile file,
             @RequestParam("policyKey") String policyKey) {
 
+        log.info("[FileController] uploadFile START - fileName: {}, policyKey: {}", file.getOriginalFilename(), policyKey);
+
         try {
             FileModel uploadedFileModel = fileServicePort.storeFile(file, policyKey);
 
+            log.info("[FileController] uploadFile END - fileId: {}", uploadedFileModel.getId());
             return ApiResponse.ok(FileUploadResponse.from(uploadedFileModel));
         } catch (IOException e) {
+            log.error("[FileController] uploadFile END - IOException: {}", e.getMessage());
             return ApiResponse.fail(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionDto.builder().message("파일 저장 중 오류가 발생 하였습니다.").build() );
         }
     }
@@ -64,10 +68,15 @@ public class FileController {
             @RequestParam("files") List<MultipartFile> files,
             @RequestParam("policyKey") String policyKey) {
 
+        log.info("[FileController] uploadMultipleFiles START - fileCount: {}, policyKey: {}", files.size(), policyKey);
+
         try {
             List<FileModel> uploadFileModels = fileServicePort.storeFiles(files, policyKey);
+            
+            log.info("[FileController] uploadMultipleFiles END - uploadedCount: {}", uploadFileModels.size());
             return ApiResponse.ok(uploadFileModels.stream().map(FileUploadResponse::from).toList());
         } catch (IOException e) {
+            log.error("[FileController] uploadMultipleFiles END - IOException: {}", e.getMessage());
             return ApiResponse.fail(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionDto.builder().message("파일 저장 중 오류가 발생 하였습니다.").build() );
         }
     }
@@ -81,6 +90,9 @@ public class FileController {
     @PostMapping("/download")
     public ResponseEntity<Resource> downloadFile(@RequestBody FileDownloadRequest fileDownloadRequest) {
 
+        log.info("[FileController] downloadFile START - fileId: {}, dirPath: {}, orgName: {}", 
+                fileDownloadRequest.getFileId(), fileDownloadRequest.getDirPath(), fileDownloadRequest.getOrgName());
+
         FileDownload fileDownload = fileServicePort.getFileDownload(fileDownloadRequest.toModel());
         if (fileDownload != null) {
             // URL 인코딩된 한글 파일명
@@ -90,10 +102,13 @@ public class FileController {
             headers.add(CONTENT_DISPOSITION, String.format("attachment; filename=%s" , encodedFileName));
             headers.add(CONTENT_TYPE, APPLICATION_OCTET_STREAM_VALUE);
 
+            log.info("[FileController] downloadFile END - fileName: {}", fileDownload.fileName());
             return ResponseEntity.ok()
                     .headers(headers)
                     .body(fileDownload.resource());
         }
+        
+        log.warn("[FileController] downloadFile END - file not found");
         return null;
     }
 

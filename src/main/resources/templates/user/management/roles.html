@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">권한 관리</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: #667eea !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background: #667eea;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link.active {
+            background: #667eea;
+            color: white !important;
+        }
+        
+        .main-container {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .btn-back {
+            background: #6c757d;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-back:hover {
+            background: #5a6268;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .role-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .role-card .role-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .role-card .role-description {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .role-card .role-permissions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .permission-badge {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .stats-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .stats-card .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-card .stats-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .table thead th {
+            background: #667eea;
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .table tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 바 -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cashcard">
+                            <i class="fas fa-credit-card"></i> Cash Card
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit">
+                            <i class="fas fa-piggy-bank"></i> Deposit
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller">
+                            <i class="fas fa-user-tie"></i> Teller
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/user-management-web">
+                            <i class="fas fa-users"></i> User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eplaton/manage">
+                            <i class="fas fa-cogs"></i> EPlaton
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container" style="margin-top: 80px;">
+        <div class="page-header">
+            <h1><i class="fas fa-user-shield"></i> 권한 관리</h1>
+            <p>사용자 권한과 역할을 관리합니다</p>
+        </div>
+        
+        <div class="text-center">
+            <a href="/user-management-web" class="btn-back">
+                <i class="fas fa-arrow-left"></i> 사용자 관리로 돌아가기
+            </a>
+        </div>
+        
+        <!-- 통계 카드 -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number">5</div>
+                    <div class="stats-label">전체 역할</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number">12</div>
+                    <div class="stats-label">전체 권한</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number">150</div>
+                    <div class="stats-label">역할 할당된 사용자</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number">3</div>
+                    <div class="stats-label">활성 역할</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-container">
+            <!-- 역할 관리 섹션 -->
+            <div class="row mb-4">
+                <div class="col-md-8">
+                    <h3><i class="fas fa-list"></i> 역할 목록</h3>
+                </div>
+                <div class="col-md-4 text-end">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+                        <i class="fas fa-plus"></i> 새 역할 추가
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 역할 카드들 -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="role-card">
+                        <div class="role-name">
+                            <i class="fas fa-crown"></i> 관리자 (ADMIN)
+                        </div>
+                        <div class="role-description">
+                            시스템 전체 관리 권한을 가진 최고 권한 역할입니다.
+                        </div>
+                        <div class="role-permissions">
+                            <span class="permission-badge">사용자 관리</span>
+                            <span class="permission-badge">시스템 설정</span>
+                            <span class="permission-badge">보안 정책</span>
+                            <span class="permission-badge">로그 조회</span>
+                        </div>
+                        <div class="mt-3">
+                            <span class="status-badge status-active">활성</span>
+                            <span class="ms-2 text-muted">사용자: 3명</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <div class="role-card">
+                        <div class="role-name">
+                            <i class="fas fa-user-tie"></i> 직원 (EMPLOYEE)
+                        </div>
+                        <div class="role-description">
+                            일반 업무 수행을 위한 기본 권한을 가진 역할입니다.
+                        </div>
+                        <div class="role-permissions">
+                            <span class="permission-badge">업무 처리</span>
+                            <span class="permission-badge">데이터 조회</span>
+                            <span class="permission-badge">보고서 생성</span>
+                        </div>
+                        <div class="mt-3">
+                            <span class="status-badge status-active">활성</span>
+                            <span class="ms-2 text-muted">사용자: 120명</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <div class="role-card">
+                        <div class="role-name">
+                            <i class="fas fa-user"></i> 고객 (CUSTOMER)
+                        </div>
+                        <div class="role-description">
+                            고객 서비스 이용을 위한 제한된 권한을 가진 역할입니다.
+                        </div>
+                        <div class="role-permissions">
+                            <span class="permission-badge">서비스 이용</span>
+                            <span class="permission-badge">정보 조회</span>
+                        </div>
+                        <div class="mt-3">
+                            <span class="status-badge status-active">활성</span>
+                            <span class="ms-2 text-muted">사용자: 27명</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <div class="role-card">
+                        <div class="role-name">
+                            <i class="fas fa-eye"></i> 감사자 (AUDITOR)
+                        </div>
+                        <div class="role-description">
+                            시스템 감사 및 모니터링을 위한 읽기 전용 권한입니다.
+                        </div>
+                        <div class="role-permissions">
+                            <span class="permission-badge">로그 조회</span>
+                            <span class="permission-badge">감사 보고서</span>
+                        </div>
+                        <div class="mt-3">
+                            <span class="status-badge status-inactive">비활성</span>
+                            <span class="ms-2 text-muted">사용자: 0명</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 권한 관리 섹션 -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h3><i class="fas fa-key"></i> 권한 관리</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>권한명</th>
+                                    <th>설명</th>
+                                    <th>역할</th>
+                                    <th>상태</th>
+                                    <th>작업</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>USER_CREATE</strong></td>
+                                    <td>사용자 생성 권한</td>
+                                    <td>관리자</td>
+                                    <td><span class="status-badge status-active">활성</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">수정</button>
+                                        <button class="btn btn-sm btn-outline-danger">삭제</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>USER_READ</strong></td>
+                                    <td>사용자 조회 권한</td>
+                                    <td>관리자, 직원</td>
+                                    <td><span class="status-badge status-active">활성</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">수정</button>
+                                        <button class="btn btn-sm btn-outline-danger">삭제</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>USER_UPDATE</strong></td>
+                                    <td>사용자 수정 권한</td>
+                                    <td>관리자</td>
+                                    <td><span class="status-badge status-active">활성</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">수정</button>
+                                        <button class="btn btn-sm btn-outline-danger">삭제</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>USER_DELETE</strong></td>
+                                    <td>사용자 삭제 권한</td>
+                                    <td>관리자</td>
+                                    <td><span class="status-badge status-active">활성</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">수정</button>
+                                        <button class="btn btn-sm btn-outline-danger">삭제</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SYSTEM_CONFIG</strong></td>
+                                    <td>시스템 설정 권한</td>
+                                    <td>관리자</td>
+                                    <td><span class="status-badge status-active">활성</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">수정</button>
+                                        <button class="btn btn-sm btn-outline-danger">삭제</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 새 역할 추가 모달 -->
+    <div class="modal fade" id="addRoleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">새 역할 추가</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="roleName" class="form-label">역할명</label>
+                            <input type="text" class="form-control" id="roleName" placeholder="역할명을 입력하세요">
+                        </div>
+                        <div class="mb-3">
+                            <label for="roleDescription" class="form-label">설명</label>
+                            <textarea class="form-control" id="roleDescription" rows="3" placeholder="역할에 대한 설명을 입력하세요"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">권한 선택</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="perm1">
+                                <label class="form-check-label" for="perm1">사용자 관리</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="perm2">
+                                <label class="form-check-label" for="perm2">시스템 설정</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="perm3">
+                                <label class="form-check-label" for="perm3">보안 정책</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="perm4">
+                                <label class="form-check-label" for="perm4">로그 조회</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary">역할 추가</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

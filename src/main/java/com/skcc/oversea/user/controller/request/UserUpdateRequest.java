@@ -11,6 +11,7 @@ import com.skcc.oversea.user.domain.UserStatus;
 public class UserUpdateRequest {
 
     @NotNull(message = "{javax.validation.constraints.NotNull.message}")
+    private final Long userId;
     private final String email;
     private final String username;
     private final String password;
@@ -18,6 +19,7 @@ public class UserUpdateRequest {
 
     public User toModel() {
         return User.builder()
+                .id(userId)
                 .email(email)
                 .username(username)
                 .password(password)

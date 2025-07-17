@@ -39,10 +39,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authz -> authz
-                // 메인 페이지 및 공통 리소스
+                // 루트 경로는 로그인 페이지로 리다이렉트
                 .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+                
+                // 홈 페이지는 인증된 사용자만 접근 가능
+                .requestMatchers(new AntPathRequestMatcher("/home")).authenticated()
+                
+                // 기타 공통 리소스
                 .requestMatchers(new AntPathRequestMatcher("/index")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/favicon.ico")).permitAll()
                 
@@ -106,7 +110,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/home")
                 .failureUrl("/login?error=true")
                 .permitAll()
             )

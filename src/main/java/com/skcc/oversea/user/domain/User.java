@@ -2,28 +2,42 @@ package com.skcc.oversea.user.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 public class User {
 
-    private final Long id;
-    private final String email;
-    private final String password;
-    private final String username;
-    private final String userId;        // 요구사항: USERID
-    private final String address;       // 요구사항: 주소
-    private final String job;           // 요구사항: 직업
-    private final Integer age;          // 요구사항: 나이
-    private final String company;       // 요구사항: 회사
-    private final UserStatus status;
-    private final LocalDateTime createdDate;
-    private final LocalDateTime lastModifiedDate;
+    private Long id;
+    private String email;
+    private String password;
+    private String username;
+    private String userId;        // 요구사항: USERID
+    private String address;       // 요구사항: 주소
+    private String job;           // 요구사항: 직업
+    private Integer age;          // 요구사항: 나이
+    private String company;       // 요구사항: 회사
+    private UserStatus status;
+    private LocalDateTime createdDate;
+    private LocalDateTime lastModifiedDate;
+    
+    // 폼에서 사용하는 추가 필드들
+    private String name;          // 이름
+    private String phone;         // 전화번호
+    private String department;    // 부서
+    private String position;      // 직책
+    private String userType;      // 사용자 유형
+
+    // 기본 생성자 추가
+    public User() {
+        // 기본 생성자 - Thymeleaf 폼 바인딩을 위해 필요
+    }
 
     @Builder
-    public User(Long id, String email, String password, String username, String userId, String address, String job, Integer age, String company, UserStatus status, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+    public User(Long id, String email, String password, String username, String userId, String address, String job, Integer age, String company, UserStatus status, LocalDateTime createdDate, LocalDateTime lastModifiedDate, String name, String phone, String department, String position, String userType) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -36,6 +50,11 @@ public class User {
         this.status = status;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
+        this.name = name;
+        this.phone = phone;
+        this.department = department;
+        this.position = position;
+        this.userType = userType;
     }
 
     /**
@@ -54,6 +73,11 @@ public class User {
                 .job(userCreate.getJob())
                 .age(userCreate.getAge())
                 .company(userCreate.getCompany())
+                .name(userCreate.getName())
+                .phone(userCreate.getPhone())
+                .department(userCreate.getDepartment())
+                .position(userCreate.getPosition())
+                .userType(userCreate.getUserType())
                 .password(passwordEncoder.encode(userCreate.getPassword()))
                 .status(UserStatus.PENDING)
                 // JPA의 경우 BaseEntity에 처리
@@ -88,6 +112,11 @@ public class User {
                 .age(age)
                 .company(company)
                 .password(password)
+                .name(name)
+                .phone(phone)
+                .department(department)
+                .position(position)
+                .userType(userType)
                 .status(requestStatus)
                 .build();
         return target;
@@ -106,9 +135,28 @@ public class User {
                 .job(updateUser.getJob() != null ? updateUser.getJob() : job)
                 .age(updateUser.getAge() != null ? updateUser.getAge() : age)
                 .company(updateUser.getCompany() != null ? updateUser.getCompany() : company)
+                .name(updateUser.getName() != null ? updateUser.getName() : name)
+                .phone(updateUser.getPhone() != null ? updateUser.getPhone() : phone)
+                .department(updateUser.getDepartment() != null ? updateUser.getDepartment() : department)
+                .position(updateUser.getPosition() != null ? updateUser.getPosition() : position)
+                .userType(updateUser.getUserType() != null ? updateUser.getUserType() : userType)
                 .password(updateUser.getPassword() != null ? passwordEncoder.encode(updateUser.getPassword()) : password)
                 .status(updateUser.getStatus() != null ? updateUser.getStatus() : status)
                 .build();
         return userToUpdate;
+    }
+
+    /**
+     * 생성일시 반환
+     */
+    public LocalDateTime getCreatedAt() {
+        return createdDate;
+    }
+
+    /**
+     * 수정일시 반환
+     */
+    public LocalDateTime getUpdatedAt() {
+        return lastModifiedDate;
     }
 }

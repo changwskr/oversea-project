@@ -1,10 +1,27 @@
 package com.skcc.oversea.user.service.port.file.controller.request;
 
 import com.skcc.oversea.user.service.port.file.domain.FileModel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public record FileDownloadRequest(
-        long id,
-        String filePath) {
+@Getter
+@AllArgsConstructor
+public class FileDownloadRequest {
+    
+    private final long id;
+    private final String filePath;
+
+    public long getFileId() {
+        return this.id;
+    }
+
+    public String getDirPath() {
+        return getDirectoryPath(this.filePath);
+    }
+
+    public String getOrgName() {
+        return getFileName(this.filePath);
+    }
 
     public FileModel toModel() {
 
@@ -39,6 +56,4 @@ public record FileDownloadRequest(
         }
         return lastSeparatorIndex;
     }
-
-
 }

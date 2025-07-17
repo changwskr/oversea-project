@@ -17,5 +17,10 @@ public class UserCreate {
     private final String job;           // 요구사항: 직업
     private final Integer age;          // 요구사항: 나이
     private final String company;       // 요구사항: 회사
+    private final String name;          // 이름
+    private final String phone;         // 전화번호
+    private final String department;    // 부서
+    private final String position;      // 직책
+    private final String userType;      // 사용자 유형
 
 }

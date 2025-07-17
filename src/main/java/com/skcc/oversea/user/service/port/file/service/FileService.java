@@ -123,12 +123,16 @@ public class FileService implements FileServicePort {
      */
     @Override
     public List<FileModel> storeFiles(List<MultipartFile> multipartFiles, String policy) throws IOException {
+        log.info("[FileService] storeFiles START - fileCount: {}, policy: {}", multipartFiles.size(), policy);
+        
         List<FileModel> storeFileModelResult = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
                 storeFileModelResult.add(storeFile(multipartFile, policy));
             }
         }
+        
+        log.info("[FileService] storeFiles END - savedCount: {}", storeFileModelResult.size());
         return storeFileModelResult;
     }
 
@@ -276,7 +280,7 @@ public class FileService implements FileServicePort {
 
     @Override
     public List<FileModel> getAllFiles() {
-        log.info("START - FileService.getAllFiles");
+        log.info("[FileService] getAllFiles START");
         
         try {
             List<FileModel> files = repository.findAll();
@@ -291,7 +295,7 @@ public class FileService implements FileServicePort {
 
     @Override
     public void deleteFile(Long id) {
-        log.info("START - FileService.deleteFile - id: {}", id);
+        log.info("[FileService] deleteFile START - id: {}", id);
         
         try {
             // 1. DB에서 파일 정보 조회

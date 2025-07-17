@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserServicePort {
 
@@ -32,4 +33,13 @@ public interface UserServicePort {
 
     // 사용자 정보 변경
     User updateUser(User user);
+    
+    // 사용자 생성 (웹 컨트롤러용)
+    User createUser(User user);
+
+    // 사용자 ID로 조회
+    Optional<User> findByUserId(String userId);
+
+    // 사용자 삭제
+    void deleteUser(Long id);
 }

@@ -171,6 +171,27 @@ CREATE TABLE IF NOT EXISTS users (
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- Users JPA Table (JPA 엔티티용 테이블)
+CREATE TABLE IF NOT EXISTS users_jpa (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    username VARCHAR(100) NOT NULL,
+    user_id VARCHAR(20) NOT NULL UNIQUE,
+    address VARCHAR(500),
+    job VARCHAR(100),
+    age INT,
+    company VARCHAR(200),
+    status VARCHAR(20) DEFAULT 'ACTIVE',
+    name VARCHAR(100),
+    phone VARCHAR(20),
+    department VARCHAR(100),
+    position VARCHAR(100),
+    user_type VARCHAR(50),
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 -- Transaction Log Tables
 CREATE TABLE IF NOT EXISTS transaction_log (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -206,6 +227,8 @@ CREATE INDEX IF NOT EXISTS idx_common_code ON common(common_code);
 CREATE INDEX IF NOT EXISTS idx_common_type ON common(common_type);
 CREATE INDEX IF NOT EXISTS idx_teller_id ON teller(teller_id);
 CREATE INDEX IF NOT EXISTS idx_user_id ON users(user_id);
+CREATE INDEX IF NOT EXISTS idx_users_jpa_user_id ON users_jpa(user_id);
+CREATE INDEX IF NOT EXISTS idx_users_jpa_email ON users_jpa(email);
 CREATE INDEX IF NOT EXISTS idx_transaction_log_transaction_id ON transaction_log(transaction_id);
 CREATE INDEX IF NOT EXISTS idx_transaction_log_user_id ON transaction_log(user_id);
 CREATE INDEX IF NOT EXISTS idx_transaction_log_system_name ON transaction_log(system_name); 

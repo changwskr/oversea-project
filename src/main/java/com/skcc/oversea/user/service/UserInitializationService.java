@@ -16,17 +16,23 @@ public class UserInitializationService implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        log.info("[UserInitializationService] run START");
+        
         try {
             // 테스트용 사용자가 없으면 생성
-            log.info("초기 사용자 생성 시작");
+            log.info("[UserInitializationService] 초기 사용자 생성 시작");
             createInitialUser();
-            log.info("초기 사용자 생성 완료");
+            log.info("[UserInitializationService] 초기 사용자 생성 완료");
         } catch (Exception e) {
-            log.error("초기 사용자 생성 중 오류 발생: {}", e.getMessage());
+            log.error("[UserInitializationService] 초기 사용자 생성 중 오류 발생: {}", e.getMessage());
         }
+        
+        log.info("[UserInitializationService] run END");
     }
 
     private void createInitialUser() {
+        log.info("[UserInitializationService] createInitialUser START");
+        
         UserCreate adminUser = UserCreate.builder()
                 .userId("admin")
                 .username("관리자")
@@ -39,6 +45,6 @@ public class UserInitializationService implements ApplicationRunner {
                 .build();
 
         userService.signUp(adminUser);
-        log.info("초기 관리자 사용자 생성: {}", adminUser.getUserId());
+        log.info("[UserInitializationService] createInitialUser END - adminUser: {}", adminUser.getUserId());
     }
 } 

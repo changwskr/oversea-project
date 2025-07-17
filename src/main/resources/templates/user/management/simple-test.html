@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단한 클릭 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        
+        .test-card {
+            background: white;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+            display: block;
+        }
+        
+        .test-card:hover {
+            background: #007bff;
+            color: white;
+        }
+        
+        .debug-info {
+            background: #e9ecef;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>간단한 클릭 테스트</h1>
+    
+    <div class="debug-info">
+        <h3>디버그 정보:</h3>
+        <p>페이지 로드 시간: <span id="loadTime"></span></p>
+        <p>JavaScript 상태: <span id="jsStatus">확인 중...</span></p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        <a href="/user-management-web/register" class="test-card" onclick="alert('사용자 등록 클릭!')">
+            <h3>사용자 등록</h3>
+            <p>클릭하여 사용자 등록 페이지로 이동</p>
+        </a>
+        
+        <a href="/user-management-web/roles" class="test-card" onclick="alert('권한 관리 클릭!')">
+            <h3>권한 관리</h3>
+            <p>클릭하여 권한 관리 페이지로 이동</p>
+        </a>
+        
+        <a href="/user-management-web/security" class="test-card" onclick="alert('보안 관리 클릭!')">
+            <h3>보안 관리</h3>
+            <p>클릭하여 보안 관리 페이지로 이동</p>
+        </a>
+        
+        <a href="/user-management-web/activity-logs" class="test-card" onclick="alert('활동 로그 클릭!')">
+            <h3>활동 로그</h3>
+            <p>클릭하여 활동 로그 페이지로 이동</p>
+        </a>
+    </div>
+    
+    <div style="margin-top: 30px;">
+        <button onclick="testButton()" style="padding: 10px 20px; font-size: 16px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            JavaScript 버튼 테스트
+        </button>
+        
+        <a href="/user-management-web" style="margin-left: 10px; padding: 10px 20px; font-size: 16px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+            메인 페이지로 돌아가기
+        </a>
+    </div>
+    
+    <script>
+        // 페이지 로드 시 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('간단한 테스트 페이지 로드됨');
+            
+            // 디버그 정보 업데이트
+            document.getElementById('loadTime').textContent = new Date().toLocaleString();
+            document.getElementById('jsStatus').textContent = '활성화됨';
+            
+            // 모든 링크에 이벤트 리스너 추가
+            const links = document.querySelectorAll('a');
+            console.log('링크 개수:', links.length);
+            
+            links.forEach((link, index) => {
+                link.addEventListener('click', function(e) {
+                    console.log(`링크 ${index + 1} 클릭됨:`, this.href);
+                });
+            });
+        });
+        
+        function testButton() {
+            alert('JavaScript 버튼이 작동합니다!');
+            console.log('버튼 클릭 성공');
+        }
+    </script>
+</body>
+</html> 

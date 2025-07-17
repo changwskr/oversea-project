@@ -20,11 +20,20 @@ public class MainController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
     /**
-     * 메인 페이지 - 서비스 선택 화면
+     * 메인 페이지 - 로그인 페이지로 리다이렉트
      */
     @GetMapping
-    public String mainPage(Model model) {
-        logger.info("==================[MainController.mainPage START]");
+    public String mainPage() {
+        logger.info("==================[MainController.mainPage START] - Redirecting to login");
+        return "redirect:/login";
+    }
+    
+    /**
+     * 홈 페이지 - 서비스 선택 화면 (로그인 후 접근)
+     */
+    @GetMapping("/home")
+    public String homePage(Model model) {
+        logger.info("==================[MainController.homePage START]");
         try {
             model.addAttribute("title", "SKCC Oversea Banking System");
             model.addAttribute("services", new String[]{"cashcard", "deposit", "teller", "user"});
@@ -40,10 +49,10 @@ public class MainController {
                 model.addAttribute("username", authentication.getName());
             }
             
-            logger.info("==================[MainController.mainPage END] - isAuthenticated: {}", isAuthenticated);
+            logger.info("==================[MainController.homePage END] - isAuthenticated: {}", isAuthenticated);
             return "main";
         } catch (Exception e) {
-            logger.error("==================[MainController.mainPage ERROR] - {}", e.getMessage(), e);
+            logger.error("==================[MainController.homePage ERROR] - {}", e.getMessage(), e);
             throw e;
         }
     }

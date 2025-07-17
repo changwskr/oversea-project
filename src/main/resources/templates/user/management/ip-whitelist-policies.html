@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">IP 화이트리스트 정책</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: #667eea !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background: #667eea;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link.active {
+            background: #667eea;
+            color: white !important;
+        }
+        
+        .main-container {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .policy-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .policy-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .policy-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .policy-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+        
+        .policy-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .policy-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .ip-list {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .ip-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .ip-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .ip-address {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .ip-description {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .ip-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn {
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            border: none;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            border: none;
+            color: #212529;
+        }
+        
+        .btn-warning:hover {
+            background: #e0a800;
+            color: #212529;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            border: none;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            border: none;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .form-switch {
+            padding-left: 2.5rem;
+        }
+        
+        .form-check-input {
+            width: 3rem;
+            height: 1.5rem;
+            margin-left: -2.5rem;
+        }
+        
+        .form-check-input:checked {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        .ip-stats {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .ip-stats h6 {
+            color: #1976d2;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ip-stats p {
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+        
+        .stats-number {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 바 -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cashcard">
+                            <i class="fas fa-credit-card"></i> Cash Card
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit">
+                            <i class="fas fa-piggy-bank"></i> Deposit
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller">
+                            <i class="fas fa-user-tie"></i> Teller
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/user-management">
+                            <i class="fas fa-users"></i> User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eplaton/manage">
+                            <i class="fas fa-cogs"></i> EPlaton
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container" style="margin-top: 80px;">
+        <div class="page-header">
+            <h1><i class="fas fa-network-wired"></i> IP 화이트리스트 정책</h1>
+            <p>허용된 IP 주소 목록을 관리합니다</p>
+        </div>
+        
+        <!-- 성공/에러 메시지 -->
+        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+            <i class="fas fa-check-circle"></i>
+            <span th:text="${successMessage}">IP 화이트리스트가 성공적으로 업데이트되었습니다.</span>
+        </div>
+        
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span th:text="${errorMessage}">IP 화이트리스트 업데이트 중 오류가 발생했습니다.</span>
+        </div>
+        
+        <div class="content-container">
+            <!-- IP 통계 -->
+            <div class="ip-stats">
+                <h6><i class="fas fa-chart-bar"></i> IP 화이트리스트 통계</h6>
+                <div class="row">
+                    <div class="col-md-3">
+                        <p><strong>전체 IP:</strong> <span class="stats-number">12개</span></p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>활성 IP:</strong> <span class="stats-number">10개</span></p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>차단된 접근:</strong> <span class="stats-number">45회</span></p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>마지막 업데이트:</strong> <span class="stats-number">2025-07-17 13:30</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- IP 화이트리스트 정책 -->
+            <div class="policy-card">
+                <div class="policy-header">
+                    <h5 class="policy-title">IP 화이트리스트 정책</h5>
+                    <span class="policy-status status-active">활성</span>
+                </div>
+                <p class="policy-description">
+                    허용된 IP 주소에서만 접근을 허용하는 정책입니다.
+                    네트워크 보안을 강화하기 위한 접근 제어 정책입니다.
+                </p>
+                
+                <form th:action="@{/user-management/security/ip-whitelist-policies}" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="enableIPWhitelist" 
+                                       name="enableIPWhitelist" checked>
+                                <label class="form-check-label" for="enableIPWhitelist">
+                                    <strong>IP 화이트리스트 활성화</strong>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="logBlockedAccess" 
+                                       name="logBlockedAccess" checked>
+                                <label class="form-check-label" for="logBlockedAccess">
+                                    <strong>차단된 접근 로깅</strong>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> 정책 저장
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- IP 주소 목록 -->
+            <div class="policy-card">
+                <div class="policy-header">
+                    <h5 class="policy-title">허용된 IP 주소 목록</h5>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addIPModal">
+                        <i class="fas fa-plus"></i> IP 추가
+                    </button>
+                </div>
+                <p class="policy-description">
+                    시스템 접근이 허용된 IP 주소 목록입니다.
+                    개별 IP 또는 CIDR 표기법을 사용할 수 있습니다.
+                </p>
+                
+                <div class="ip-list">
+                    <div class="ip-item">
+                        <div>
+                            <div class="ip-address">192.168.1.0/24</div>
+                            <div class="ip-description">내부 네트워크 (사무실)</div>
+                        </div>
+                        <div class="ip-actions">
+                            <button class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> 수정
+                            </button>
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> 삭제
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="ip-item">
+                        <div>
+                            <div class="ip-address">10.0.0.0/8</div>
+                            <div class="ip-description">사설 네트워크</div>
+                        </div>
+                        <div class="ip-actions">
+                            <button class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> 수정
+                            </button>
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> 삭제
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="ip-item">
+                        <div>
+                            <div class="ip-address">172.16.0.0/12</div>
+                            <div class="ip-description">사설 네트워크</div>
+                        </div>
+                        <div class="ip-actions">
+                            <button class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> 수정
+                            </button>
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> 삭제
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="ip-item">
+                        <div>
+                            <div class="ip-address">203.241.xxx.xxx</div>
+                            <div class="ip-description">외부 접속 허용 IP</div>
+                        </div>
+                        <div class="ip-actions">
+                            <button class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> 수정
+                            </button>
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> 삭제
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="ip-item">
+                        <div>
+                            <div class="ip-address">127.0.0.1</div>
+                            <div class="ip-description">로컬호스트</div>
+                        </div>
+                        <div class="ip-actions">
+                            <button class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> 수정
+                            </button>
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> 삭제
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <button class="btn btn-success me-2">
+                        <i class="fas fa-download"></i> 목록 내보내기
+                    </button>
+                    <button class="btn btn-warning">
+                        <i class="fas fa-upload"></i> 목록 가져오기
+                    </button>
+                </div>
+            </div>
+            
+            <!-- IP 접근 로그 -->
+            <div class="policy-card">
+                <div class="policy-header">
+                    <h5 class="policy-title">IP 접근 로그</h5>
+                    <button class="btn btn-info btn-sm">
+                        <i class="fas fa-eye"></i> 전체 로그 보기
+                    </button>
+                </div>
+                <p class="policy-description">
+                    최근 IP 접근 시도 로그입니다.
+                    허용된 IP와 차단된 IP의 접근 기록을 확인할 수 있습니다.
+                </p>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>시간</th>
+                                <th>IP 주소</th>
+                                <th>사용자</th>
+                                <th>상태</th>
+                                <th>액션</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025-07-17 13:30:00</td>
+                                <td>192.168.1.100</td>
+                                <td>admin</td>
+                                <td><span class="badge bg-success">허용</span></td>
+                                <td>로그인</td>
+                            </tr>
+                            <tr>
+                                <td>2025-07-17 13:25:00</td>
+                                <td>203.241.xxx.xxx</td>
+                                <td>user1</td>
+                                <td><span class="badge bg-success">허용</span></td>
+                                <td>로그인</td>
+                            </tr>
+                            <tr>
+                                <td>2025-07-17 13:20:00</td>
+                                <td>192.168.2.50</td>
+                                <td>-</td>
+                                <td><span class="badge bg-danger">차단</span></td>
+                                <td>접근 시도</td>
+                            </tr>
+                            <tr>
+                                <td>2025-07-17 13:15:00</td>
+                                <td>10.0.0.100</td>
+                                <td>user2</td>
+                                <td><span class="badge bg-success">허용</span></td>
+                                <td>API 호출</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="/user-management/security" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> 보안 관리로
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- IP 추가 모달 -->
+    <div class="modal fade" id="addIPModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-plus"></i> IP 주소 추가
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="ipAddress" class="form-label">IP 주소 *</label>
+                            <input type="text" class="form-control" id="ipAddress" 
+                                   placeholder="예: 192.168.1.0/24 또는 203.241.xxx.xxx" required>
+                            <div class="form-text">
+                                개별 IP 주소 또는 CIDR 표기법을 사용하세요.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="ipDescription" class="form-label">설명</label>
+                            <input type="text" class="form-control" id="ipDescription" 
+                                   placeholder="예: 사무실 내부 네트워크">
+                        </div>
+                        
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="ipEnabled" checked>
+                            <label class="form-check-label" for="ipEnabled">
+                                즉시 활성화
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary">IP 추가</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

@@ -27,17 +27,17 @@ public class FileManagementController {
 
     @GetMapping
     public String fileMain() {
-        log.info("START - FileManagementController.fileMain");
+        log.info("[FileManagementController] fileMain START");
         String result = "redirect:/file/upload";
-        log.info("END - FileManagementController.fileMain");
+        log.info("[FileManagementController] fileMain END");
         return result;
     }
 
     @GetMapping("/upload")
     public String uploadForm(Model model) {
-        log.info("START - FileManagementController.uploadForm");
+        log.info("[FileManagementController] uploadForm START");
         model.addAttribute("title", "파일 업로드");
-        log.info("END - FileManagementController.uploadForm");
+        log.info("[FileManagementController] uploadForm END");
         return "file/upload";
     }
 
@@ -47,14 +47,14 @@ public class FileManagementController {
             @RequestParam(value = "policyKey", defaultValue = "defaultPolicy") String policyKey,
             Model model) {
 
-        log.info("START - FileManagementController.uploadFile - policyKey: {}, fileName: {}", 
+        log.info("[FileManagementController] uploadFile START - policyKey: {}, fileName: {}", 
                  policyKey, file.getOriginalFilename());
 
         try {
             if (file.isEmpty()) {
-                log.warn("업로드할 파일이 비어있음");
+                log.warn("[FileManagementController] 업로드할 파일이 비어있음");
                 model.addAttribute("error", "업로드할 파일을 선택해주세요.");
-                log.info("END - FileManagementController.uploadFile - 파일 없음");
+                log.info("[FileManagementController] uploadFile END - 파일 없음");
                 return "file/upload";
             }
 
@@ -62,17 +62,17 @@ public class FileManagementController {
             model.addAttribute("success", "파일이 성공적으로 업로드되었습니다.");
             model.addAttribute("uploadedFile", uploadedFile);
 
-            log.info("파일 업로드 완료: {}", uploadedFile.getOrgName());
-            log.info("END - FileManagementController.uploadFile - 성공");
+            log.info("[FileManagementController] 파일 업로드 완료: {}", uploadedFile.getOrgName());
+            log.info("[FileManagementController] uploadFile END - 성공");
 
         } catch (IOException e) {
-            log.error("파일 업로드 중 IOException 발생: {}", e.getMessage(), e);
+            log.error("[FileManagementController] 파일 업로드 중 IOException 발생: {}", e.getMessage(), e);
             model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
-            log.info("END - FileManagementController.uploadFile - IOException");
+            log.info("[FileManagementController] uploadFile END - IOException");
         } catch (Exception e) {
-            log.error("파일 업로드 중 예상치 못한 오류 발생: {}", e.getMessage(), e);
+            log.error("[FileManagementController] 파일 업로드 중 예상치 못한 오류 발생: {}", e.getMessage(), e);
             model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
-            log.info("END - FileManagementController.uploadFile - 예상치 못한 오류");
+            log.info("[FileManagementController] uploadFile END - 예상치 못한 오류");
         }
 
         return "file/upload";
@@ -84,14 +84,14 @@ public class FileManagementController {
             @RequestParam(value = "policyKey", defaultValue = "defaultPolicy") String policyKey,
             Model model) {
 
-        log.info("START - FileManagementController.uploadMultipleFiles - policyKey: {}, fileCount: {}", 
+        log.info("[FileManagementController] uploadMultipleFiles START - policyKey: {}, fileCount: {}", 
                  policyKey, files.size());
 
         try {
             if (files.isEmpty() || files.stream().allMatch(MultipartFile::isEmpty)) {
-                log.warn("업로드할 파일이 없음");
+                log.warn("[FileManagementController] 업로드할 파일이 없음");
                 model.addAttribute("error", "업로드할 파일을 선택해주세요.");
-                log.info("END - FileManagementController.uploadMultipleFiles - 파일 없음");
+                log.info("[FileManagementController] uploadMultipleFiles END - 파일 없음");
                 return "file/upload";
             }
 
@@ -99,27 +99,27 @@ public class FileManagementController {
             model.addAttribute("success", files.size() + "개의 파일이 성공적으로 업로드되었습니다.");
             model.addAttribute("uploadedFiles", uploadedFiles);
 
-            log.info("다중 파일 업로드 완료: {}개", uploadedFiles.size());
+            log.info("[FileManagementController] 다중 파일 업로드 완료: {}개", uploadedFiles.size());
 
         } catch (IOException e) {
-            log.error("다중 파일 업로드 중 IOException 발생: {}", e.getMessage(), e);
+            log.error("[FileManagementController] 다중 파일 업로드 중 IOException 발생: {}", e.getMessage(), e);
             model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
         } catch (Exception e) {
-            log.error("다중 파일 업로드 중 예상치 못한 오류 발생: {}", e.getMessage(), e);
+            log.error("[FileManagementController] 다중 파일 업로드 중 예상치 못한 오류 발생: {}", e.getMessage(), e);
             model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
         }
 
-        log.info("END - FileManagementController.uploadMultipleFiles");
+        log.info("[FileManagementController] uploadMultipleFiles END");
         return "file/upload";
     }
 
     @GetMapping("/list")
     public String fileList(Model model) {
-        log.info("START - FileManagementController.fileList");
+        log.info("[FileManagementController] fileList START");
         
         try {
             List<FileModel> files = fileServicePort.getAllFiles();
-            log.info("파일 목록 조회 완료 - count: {}", files.size());
+            log.info("[FileManagementController] 파일 목록 조회 완료 - count: {}", files.size());
             
             model.addAttribute("files", files);
             model.addAttribute("title", "파일 목록");
@@ -128,62 +128,62 @@ public class FileManagementController {
             model.addAttribute("fileHelper", new FileHelper());
 
         } catch (Exception e) {
-            log.error("파일 목록 조회 중 오류 발생: {}", e.getMessage(), e);
+            log.error("[FileManagementController] 파일 목록 조회 중 오류 발생: {}", e.getMessage(), e);
             model.addAttribute("error", "파일 목록 조회 중 오류가 발생했습니다.");
             model.addAttribute("files", new ArrayList<>());
         }
 
-        log.info("END - FileManagementController.fileList");
+        log.info("[FileManagementController] fileList END");
         return "file/list";
     }
 
     @PostMapping("/download")
     public ResponseEntity<Resource> downloadFile(@RequestParam("fileId") Long fileId) {
-        log.info("START - FileManagementController.downloadFile - fileId: {}", fileId);
+        log.info("[FileManagementController] downloadFile START - fileId: {}", fileId);
 
         try {
             FileModel fileModel = FileModel.builder().id(fileId).build();
             FileDownload fileDownload = fileServicePort.getFileDownload(fileModel);
 
             if (fileDownload != null) {
-                log.info("파일 다운로드 성공: {}", fileDownload.fileName());
-                log.info("END - FileManagementController.downloadFile - 성공");
+                log.info("[FileManagementController] 파일 다운로드 성공: {}", fileDownload.fileName());
+                log.info("[FileManagementController] downloadFile END - 성공");
                 return ResponseEntity.ok()
                     .header("Content-Disposition", "attachment; filename=\"" + fileDownload.fileName() + "\"")
                     .header("Content-Type", "application/octet-stream")
                     .body(fileDownload.resource());
             } else {
-                log.warn("파일을 찾을 수 없음 - fileId: {}", fileId);
-                log.info("END - FileManagementController.downloadFile - 파일 없음");
+                log.warn("[FileManagementController] 파일을 찾을 수 없음 - fileId: {}", fileId);
+                log.info("[FileManagementController] downloadFile END - 파일 없음");
                 return ResponseEntity.notFound().build();
             }
 
         } catch (Exception e) {
-            log.error("파일 다운로드 중 오류 발생: {}", e.getMessage(), e);
-            log.info("END - FileManagementController.downloadFile - 오류");
+            log.error("[FileManagementController] 파일 다운로드 중 오류 발생: {}", e.getMessage(), e);
+            log.info("[FileManagementController] downloadFile END - 오류");
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @PostMapping("/delete/{id}")
     public String deleteFile(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        log.info("START - FileManagementController.deleteFile - id: {}", id);
+        log.info("[FileManagementController] deleteFile START - id: {}", id);
         
         try {
             fileServicePort.deleteFile(id);
-            log.info("파일 삭제 성공 - id: {}", id);
+            log.info("[FileManagementController] 파일 삭제 성공 - id: {}", id);
             redirectAttributes.addFlashAttribute("success", "파일이 성공적으로 삭제되었습니다.");
-            log.info("END - FileManagementController.deleteFile - 성공");
+            log.info("[FileManagementController] deleteFile END - 성공");
             
         } catch (IllegalArgumentException e) {
-            log.error("파일을 찾을 수 없음 - id: {}, error: {}", id, e.getMessage());
+            log.error("[FileManagementController] 파일을 찾을 수 없음 - id: {}, error: {}", id, e.getMessage());
             redirectAttributes.addFlashAttribute("error", "파일을 찾을 수 없습니다.");
-            log.info("END - FileManagementController.deleteFile - 파일 없음");
+            log.info("[FileManagementController] deleteFile END - 파일 없음");
             
         } catch (Exception e) {
-            log.error("파일 삭제 중 오류 발생 - id: {}, error: {}", id, e.getMessage(), e);
+            log.error("[FileManagementController] 파일 삭제 중 오류 발생 - id: {}, error: {}", id, e.getMessage(), e);
             redirectAttributes.addFlashAttribute("error", "파일 삭제 중 오류가 발생했습니다.");
-            log.info("END - FileManagementController.deleteFile - 오류");
+            log.info("[FileManagementController] deleteFile END - 오류");
         }
         
         return "redirect:/file/list";
@@ -192,12 +192,12 @@ public class FileManagementController {
     @GetMapping("/test-korean-log")
     @ResponseBody
     public String testKoreanLog() {
-        log.info("=== 한글 로그 테스트 시작 ===");
-        log.debug("디버그: 파일 업로드가 완료되었습니다");
-        log.info("정보: 사용자가 파일을 다운로드했습니다");
-        log.warn("경고: 파일 크기가 제한을 초과했습니다");
-        log.error("오류: 파일을 찾을 수 없습니다");
-        log.info("=== 한글 로그 테스트 종료 ===");
+        log.info("[FileManagementController] === 한글 로그 테스트 시작 ===");
+        log.debug("[FileManagementController] 디버그: 파일 업로드가 완료되었습니다");
+        log.info("[FileManagementController] 정보: 사용자가 파일을 다운로드했습니다");
+        log.warn("[FileManagementController] 경고: 파일 크기가 제한을 초과했습니다");
+        log.error("[FileManagementController] 오류: 파일을 찾을 수 없습니다");
+        log.info("[FileManagementController] === 한글 로그 테스트 종료 ===");
         return "한글 로그 테스트 완료";
     }
 

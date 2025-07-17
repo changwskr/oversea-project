@@ -220,6 +220,11 @@ public class DataInitializer implements CommandLineRunner {
                 .email(email)
                 .password(password)
                 .status(status)
+                .name(userName)  // 이름 필드 추가
+                .phone(phone)    // 전화번호 필드 추가
+                .department("IT") // 기본 부서
+                .position("직원") // 기본 직책
+                .userType("admin".equals(userId) ? "ADMIN" : "EMPLOYEE") // 사용자 유형
                 .build();
     }
 

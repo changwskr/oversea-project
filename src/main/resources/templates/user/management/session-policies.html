@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">세션 정책</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: #667eea !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background: #667eea;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link.active {
+            background: #667eea;
+            color: white !important;
+        }
+        
+        .main-container {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .policy-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .policy-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .policy-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .policy-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+        
+        .policy-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .policy-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .policy-settings {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .setting-label {
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .setting-value {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .btn {
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            border: none;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            border: none;
+            color: #212529;
+        }
+        
+        .btn-warning:hover {
+            background: #e0a800;
+            color: #212529;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            border: none;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .form-switch {
+            padding-left: 2.5rem;
+        }
+        
+        .form-check-input {
+            width: 3rem;
+            height: 1.5rem;
+            margin-left: -2.5rem;
+        }
+        
+        .form-check-input:checked {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        .session-info {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .session-info h6 {
+            color: #1976d2;
+            margin-bottom: 0.5rem;
+        }
+        
+        .session-info p {
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+        
+        .time-display {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 바 -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cashcard">
+                            <i class="fas fa-credit-card"></i> Cash Card
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit">
+                            <i class="fas fa-piggy-bank"></i> Deposit
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller">
+                            <i class="fas fa-user-tie"></i> Teller
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/user-management">
+                            <i class="fas fa-users"></i> User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eplaton/manage">
+                            <i class="fas fa-cogs"></i> EPlaton
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container" style="margin-top: 80px;">
+        <div class="page-header">
+            <h1><i class="fas fa-clock"></i> 세션 정책</h1>
+            <p>사용자 세션 관리 정책을 설정합니다</p>
+        </div>
+        
+        <!-- 성공/에러 메시지 -->
+        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+            <i class="fas fa-check-circle"></i>
+            <span th:text="${successMessage}">세션 정책이 성공적으로 업데이트되었습니다.</span>
+        </div>
+        
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span th:text="${errorMessage}">세션 정책 업데이트 중 오류가 발생했습니다.</span>
+        </div>
+        
+        <div class="content-container">
+            <!-- 현재 세션 정보 -->
+            <div class="session-info">
+                <h6><i class="fas fa-info-circle"></i> 현재 세션 정보</h6>
+                <p><strong>사용자:</strong> admin</p>
+                <p><strong>로그인 시간:</strong> <span class="time-display">2025-07-17 13:30:00</span></p>
+                <p><strong>세션 ID:</strong> <span class="time-display">ABC123XYZ789</span></p>
+                <p><strong>IP 주소:</strong> 192.168.1.100</p>
+                <p><strong>남은 시간:</strong> <span class="time-display" id="remainingTime">25분 30초</span></p>
+            </div>
+            
+            <!-- 세션 타임아웃 정책 -->
+            <div class="policy-card">
+                <div class="policy-header">
+                    <h5 class="policy-title">세션 타임아웃 정책</h5>
+                    <span class="policy-status status-active">활성</span>
+                </div>
+                <p class="policy-description">
+                    사용자 세션의 자동 종료 시간을 설정합니다.
+                    보안을 위해 일정 시간 후 자동 로그아웃을 수행합니다.
+                </p>
+                
+                <form th:action="@{/user-management/security/session-policies}" method="post">
+                    <div class="policy-settings">
+                        <div class="setting-item">
+                            <span class="setting-label">세션 타임아웃</span>
+                            <div class="d-flex align-items-center">
+                                <input type="range" class="form-range me-3" id="sessionTimeout" name="sessionTimeout" 
+                                       min="5" max="120" value="30" style="width: 150px;">
+                                <span class="setting-value" id="sessionTimeoutValue">30분</span>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <span class="setting-label">유휴 타임아웃</span>
+                            <div class="d-flex align-items-center">
+                                <input type="range" class="form-range me-3" id="idleTimeout" name="idleTimeout" 
+                                       min="5" max="60" value="15" style="width: 150px;">
+                                <span class="setting-value" id="idleTimeoutValue">15분</span>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <span class="setting-label">최대 동시 세션 수</span>
+                            <div class="d-flex align-items-center">
+                                <input type="range" class="form-range me-3" id="maxConcurrentSessions" 
+                                       name="maxConcurrentSessions" min="1" max="10" value="3" style="width: 150px;">
+                                <span class="setting-value" id="maxConcurrentSessionsValue">3개</span>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <span class="setting-label">자동 로그아웃</span>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="autoLogout" 
+                                       name="autoLogout" checked>
+                                <label class="form-check-label" for="autoLogout">활성화</label>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <span class="setting-label">세션 연장 허용</span>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="allowSessionExtension" 
+                                       name="allowSessionExtension" checked>
+                                <label class="form-check-label" for="allowSessionExtension">활성화</label>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <span class="setting-label">로그인 시 기존 세션 종료</span>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="terminateExistingSessions" 
+                                       name="terminateExistingSessions">
+                                <label class="form-check-label" for="terminateExistingSessions">활성화</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> 정책 저장
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- 세션 보안 정책 -->
+            <div class="policy-card">
+                <div class="policy-header">
+                    <h5 class="policy-title">세션 보안 정책</h5>
+                    <span class="policy-status status-active">활성</span>
+                </div>
+                <p class="policy-description">
+                    세션 보안을 강화하기 위한 추가 정책을 설정합니다.
+                    IP 변경 감지, 브라우저 변경 감지 등을 관리합니다.
+                </p>
+                
+                <div class="policy-settings">
+                    <div class="setting-item">
+                        <span class="setting-label">IP 변경 감지</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="detectIPChange" checked>
+                            <label class="form-check-label" for="detectIPChange">활성화</label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <span class="setting-label">브라우저 변경 감지</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="detectBrowserChange">
+                            <label class="form-check-label" for="detectBrowserChange">활성화</label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <span class="setting-label">User-Agent 변경 감지</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="detectUserAgentChange">
+                            <label class="form-check-label" for="detectUserAgentChange">활성화</label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <span class="setting-label">세션 하이재킹 방지</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="preventSessionHijacking" checked>
+                            <label class="form-check-label" for="preventSessionHijacking">활성화</label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <span class="setting-label">HTTPS 강제</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="forceHTTPS" checked>
+                            <label class="form-check-label" for="forceHTTPS">활성화</label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <span class="setting-label">세션 쿠키 보안</span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="secureSessionCookie" checked>
+                            <label class="form-check-label" for="secureSessionCookie">활성화</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-save"></i> 보안 정책 저장
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 세션 모니터링 -->
+            <div class="policy-card">
+                <div class="policy-header">
+                    <h5 class="policy-title">세션 모니터링</h5>
+                </div>
+                <p class="policy-description">
+                    현재 활성 세션을 모니터링하고 관리합니다.
+                </p>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="policy-settings">
+                            <div class="setting-item">
+                                <span class="setting-label">활성 세션 수</span>
+                                <span class="setting-value">15개</span>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">오늘 로그인</span>
+                                <span class="setting-value">45회</span>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">세션 만료</span>
+                                <span class="setting-value">3회</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-center">
+                            <button class="btn btn-warning me-2">
+                                <i class="fas fa-eye"></i> 세션 목록
+                            </button>
+                            <button class="btn btn-danger">
+                                <i class="fas fa-trash"></i> 모든 세션 종료
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="/user-management/security" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> 보안 관리로
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 슬라이더 값 업데이트
+        document.getElementById('sessionTimeout').addEventListener('input', function() {
+            document.getElementById('sessionTimeoutValue').textContent = this.value + '분';
+        });
+        
+        document.getElementById('idleTimeout').addEventListener('input', function() {
+            document.getElementById('idleTimeoutValue').textContent = this.value + '분';
+        });
+        
+        document.getElementById('maxConcurrentSessions').addEventListener('input', function() {
+            document.getElementById('maxConcurrentSessionsValue').textContent = this.value + '개';
+        });
+        
+        // 남은 시간 카운트다운
+        function updateRemainingTime() {
+            const now = new Date();
+            const loginTime = new Date('2025-07-17T13:30:00');
+            const sessionTimeout = 30 * 60 * 1000; // 30분
+            const endTime = new Date(loginTime.getTime() + sessionTimeout);
+            const remaining = endTime - now;
+            
+            if (remaining > 0) {
+                const minutes = Math.floor(remaining / (1000 * 60));
+                const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+                document.getElementById('remainingTime').textContent = 
+                    `${minutes}분 ${seconds}초`;
+            } else {
+                document.getElementById('remainingTime').textContent = '만료됨';
+            }
+        }
+        
+        // 1초마다 업데이트
+        setInterval(updateRemainingTime, 1000);
+        updateRemainingTime();
+    </script>
+</body>
+</html> 
