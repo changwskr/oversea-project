@@ -248,4 +248,59 @@ INSERT INTO transaction_log (transaction_id, transaction_no, host_name, system_n
 
 -- Batch Job Transactions (배치 작업 거래)
 ('TXN025', 'TXN20240101025', 'HOST001', 'BATCH', 'dailySettlement', '001', '001', 'SYSTEM', 'BATCH', '20240101', '20240101', '000000', '000500', 300000, 'I0000', 'EVT025', '192.168.1.105'),
-('TXN026', 'TXN20240101026', 'HOST001', 'BATCH', 'monthlyReport', '001', '001', 'SYSTEM', 'BATCH', '20240101', '20240101', '010000', '010300', 180000, 'I0000', 'EVT026', '192.168.1.105'); 
+('TXN026', 'TXN20240101026', 'HOST001', 'BATCH', 'monthlyReport', '001', '001', 'SYSTEM', 'BATCH', '20240101', '20240101', '010000', '010300', 180000, 'I0000', 'EVT026', '192.168.1.105');
+
+-- ========================================
+--8EW JPA TABLES DATA (새로운 JPA 테이블 데이터)
+-- ========================================
+
+-- Users JPA Table Data (사용자 JPA 테이블 데이터)
+INSERT INTO users_jpa (user_id, username, email, password, status, register_date, register_by) VALUES
+-- Regular Users (일반 사용자)
+('USER001,김철수', 'kim.cs@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
+('USER002,이영희', 'lee.yh@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
+('USER003, 박민수', 'park.ms@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
+('USER004, 최영수', 'choi.ys@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
+('USER005, 정미영', 'jung.my@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
+('USER006,한지민', 'han.jm@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
+('USER007, 송혜교', 'song.hg@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
+('USER008, 강동원', 'kang.dw@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
+('USER009,배두나', 'bae.dn@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
+('USER010,원빈', 'won.b@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '20240101', 'SYSTEM'),
+
+-- Inactive Users (비활성 사용자)
+('USER011, 활성', 'kim.inactive@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7TVEFDa', 'INACTIVE', '202411', 'SYSTEM'),
+('USER012,이잠금', 'lee.locked@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'LOCKED', '20240101', 'YSTEM'),
+
+-- Admin Users (관리자)
+('ADMIN001', '시스템관리자', 'admin@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
+('ADMIN002', '운영관리자', 'operator@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '202411', 'SYSTEM'),
+('ADMIN003', '보안관리자', 'security@skcc.com', '$2a$10$N.zmdr9k7OCQb376NoUnuTJ8At6Z5EHsM8E9lBOsl7iKTVEFDa', 'ACTIVE', '20240101', 'YSTEM');
+
+-- Roles JPA Table Data (역할 JPA 테이블 데이터)
+INSERT INTO roles_jpa (role_id, role_name, description, is_active, register_date, register_by) VALUES
+('ROLE_USER', '일반사용자', '일반 사용자 역할', true, '202411', 'SYSTEM'),
+('ROLE_ADMIN', '관리자', '시스템 관리자 역할', true, '202411', 'SYSTEM'),
+('ROLE_OPERATOR', '운영자', '시스템 운영자 역할', true, '202411', 'SYSTEM'),
+('ROLE_SECURITY', '보안관리자', '보안 관리자 역할', true, '20240101', 'SYSTEM');
+
+-- User Roles JPA Table Data (사용자 역할 JPA 테이블 데이터)
+INSERT INTO user_roles_jpa (user_id, role_id, register_date, register_by) VALUES
+-- Regular Users with USER role
+('USER001', 'ROLE_USER', '202411', 'SYSTEM'),
+('USER002', 'ROLE_USER', '202411', 'SYSTEM'),
+('USER003', 'ROLE_USER', '202411', 'SYSTEM'),
+('USER004', 'ROLE_USER', '202411', 'SYSTEM'),
+('USER005', 'ROLE_USER', '202411', 'SYSTEM'),
+('USER006', 'ROLE_USER', '202411', 'SYSTEM'),
+('USER007', 'ROLE_USER', '202411', 'SYSTEM'),
+('USER008', 'ROLE_USER', '202411', 'SYSTEM'),
+('USER009', 'ROLE_USER', '202411', 'SYSTEM'),
+('USER010', 'ROLE_USER', '202411', 'SYSTEM'),
+('USER011', 'ROLE_USER', '202411', 'SYSTEM'),
+('USER012', 'ROLE_USER', '20240101', 'SYSTEM'),
+
+-- Admin Users with ADMIN role
+('ADMIN001', 'ROLE_ADMIN', '202411', 'SYSTEM'),
+('ADMIN002', 'ROLE_OPERATOR', '202411', 'SYSTEM'),
+('ADMIN003', 'ROLE_SECURITY', '20240101'); 

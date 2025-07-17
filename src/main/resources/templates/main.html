@@ -13,6 +13,37 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: #667eea !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background: #667eea;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link.active {
+            background: #667eea;
+            color: white !important;
+        }
+        
         .main-container {
             padding: 2rem 0;
         }
@@ -107,11 +138,70 @@
             .service-card {
                 padding: 1.5rem;
             }
+            
+            .navbar-nav .nav-link {
+                margin: 0.25rem 0;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container main-container">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cashcard">
+                            <i class="fas fa-credit-card"></i> Cash Card
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit">
+                            <i class="fas fa-piggy-bank"></i> Deposit
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller">
+                            <i class="fas fa-user-tie"></i> Teller
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user">
+                            <i class="fas fa-users"></i> User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eplaton/manage">
+                            <i class="fas fa-cogs"></i> EPlaton
+                        </a>
+                    </li>
+                    <li class="nav-item" th:if="${!isAuthenticated}">
+                        <a class="nav-link" href="/login">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item" th:if="${isAuthenticated}">
+                        <form th:action="@{/logout}" method="post" style="display: inline;">
+                            <button type="submit" class="nav-link btn btn-link" style="border: none; background: none; padding: 0.5rem 1rem;">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container" style="margin-top: 80px;">
         <div class="header">
             <h1><i class="fas fa-university"></i> SKCC Oversea</h1>
             <p>Banking System Management Portal</p>

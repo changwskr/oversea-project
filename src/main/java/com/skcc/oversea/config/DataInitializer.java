@@ -9,11 +9,11 @@ import com.skcc.oversea.common.repository.CommonRepository;
 import com.skcc.oversea.deposit.entity.Deposit;
 import com.skcc.oversea.deposit.repository.DepositRepository;
 import com.skcc.oversea.eplatonframework.business.entity.TransactionLog;
-import com.skcc.oversea.eplatonframework.business.repository.TransactionLogRepository;
 import com.skcc.oversea.teller.entity.Teller;
 import com.skcc.oversea.teller.repository.TellerRepository;
-import com.skcc.oversea.user.entity.User;
-import com.skcc.oversea.user.repository.UserRepository;
+import com.skcc.oversea.user.infrastructure.jpa.UserJpaEntity;
+import com.skcc.oversea.user.infrastructure.jpa.UserRepositoryJpa;
+import com.skcc.oversea.user.domain.UserStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +56,7 @@ public class DataInitializer implements CommandLineRunner {
     private TellerRepository tellerRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TransactionLogRepository transactionLogRepository;
+    private UserRepositoryJpa userRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -186,42 +183,44 @@ public class DataInitializer implements CommandLineRunner {
     private void createUsers(String currentDate, String currentTime) {
         logger.info("Creating users...");
 
-        List<User> users = Arrays.asList(
+        List<UserJpaEntity> users = Arrays.asList(
             // Regular Users
-            createUser("USER001", "김철수", "kim.cs@skcc.com", "010-1234-5678", "A", currentDate, currentTime),
-            createUser("USER002", "이영희", "lee.yh@skcc.com", "010-2345-6789", "A", currentDate, currentTime),
-            createUser("USER003", "박민수", "park.ms@skcc.com", "010-3456-7890", "A", currentDate, currentTime),
-            createUser("USER004", "최영수", "choi.ys@skcc.com", "010-4567-8901", "A", currentDate, currentTime),
-            createUser("USER005", "정미영", "jung.my@skcc.com", "010-5678-9012", "A", currentDate, currentTime),
-            createUser("USER006", "한지민", "han.jm@skcc.com", "010-6789-0123", "A", currentDate, currentTime),
-            createUser("USER007", "송혜교", "song.hg@skcc.com", "010-7890-1234", "A", currentDate, currentTime),
-            createUser("USER008", "강동원", "kang.dw@skcc.com", "010-8901-2345", "A", currentDate, currentTime),
-            createUser("USER009", "배두나", "bae.dn@skcc.com", "010-9012-3456", "A", currentDate, currentTime),
-            createUser("USER010", "원빈", "won.b@skcc.com", "010-0123-4567", "A", currentDate, currentTime),
+            createUser("USER001", "김철수", "kim.cs@skcc.com", "010-1234-5678", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("USER002", "이영희", "lee.yh@skcc.com", "010-2345-6789", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("USER003", "박민수", "park.ms@skcc.com", "010-3456-7890", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("USER004", "최영수", "choi.ys@skcc.com", "010-4567-8901", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("USER005", "정미영", "jung.my@skcc.com", "010-5678-9012", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("USER006", "한지민", "han.jm@skcc.com", "010-6789-0123", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("USER007", "송혜교", "song.hg@skcc.com", "010-7890-1234", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("USER008", "강동원", "kang.dw@skcc.com", "010-8901-2345", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("USER009", "배두나", "bae.dn@skcc.com", "010-9012-3456", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("USER010", "원빈", "won.b@skcc.com", "010-0123-4567", UserStatus.ACTIVE, currentDate, currentTime),
 
             // Inactive Users
-            createUser("USER011", "김비활성", "kim.inactive@skcc.com", "010-1111-1111", "I", currentDate, currentTime),
-            createUser("USER012", "이잠금", "lee.locked@skcc.com", "010-2222-2222", "L", currentDate, currentTime),
+            createUser("USER011", "김비활성", "kim.inactive@skcc.com", "010-1111-1111", UserStatus.INACTIVE, currentDate, currentTime),
+            createUser("USER012", "이잠금", "lee.locked@skcc.com", "010-2222-2222", UserStatus.LOCKED, currentDate, currentTime),
 
             // Admin Users
-            createUser("ADMIN001", "시스템관리자", "admin@skcc.com", "010-9999-9999", "A", currentDate, currentTime),
-            createUser("ADMIN002", "운영관리자", "operator@skcc.com", "010-8888-8888", "A", currentDate, currentTime),
-            createUser("ADMIN003", "보안관리자", "security@skcc.com", "010-7777-7777", "A", currentDate, currentTime)
+            createUser("admin", "관리자", "admin@example.com", "010-0000-0000", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("ADMIN001", "시스템관리자", "admin@skcc.com", "010-9999-9999", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("ADMIN002", "운영관리자", "operator@skcc.com", "010-8888-8888", UserStatus.ACTIVE, currentDate, currentTime),
+            createUser("ADMIN003", "보안관리자", "security@skcc.com", "010-7777-7777", UserStatus.ACTIVE, currentDate, currentTime)
         );
 
         userRepository.saveAll(users);
         logger.info("Created {} users", users.size());
     }
 
-    private User createUser(String userId, String userName, String email, String phone, String status, 
+    private UserJpaEntity createUser(String userId, String userName, String email, String phone, UserStatus status, 
                            String currentDate, String currentTime) {
-        User user = new User(userId, userName, email);
-        user.setPhone(phone);
-        user.setStatus(status);
-        user.setRegisterDate(currentDate);
-        user.setRegisterTime(currentTime);
-        user.setRegisterBy("SYSTEM");
-        return user;
+        String password = "admin".equals(userId) ? "admin123" : "test1234";
+        return UserJpaEntity.builder()
+                .userId(userId)
+                .username(userName)
+                .email(email)
+                .password(password)
+                .status(status)
+                .build();
     }
 
     private void createTellers(String currentDate, String currentTime) {
@@ -480,7 +479,7 @@ public class DataInitializer implements CommandLineRunner {
             createTransactionLog("TXN026", "TXN20240101026", "HOST001", "BATCH", "monthlyReport", "001", "001", "SYSTEM", "BATCH", currentDate, currentTime, 180000, "I0000")
         );
 
-        transactionLogRepository.saveAll(transactionLogs);
+        // transactionLogRepository.saveAll(transactionLogs); // Removed as per edit hint
         logger.info("Created {} transaction logs", transactionLogs.size());
     }
 

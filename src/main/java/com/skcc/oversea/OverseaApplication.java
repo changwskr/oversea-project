@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 
 /**
  * SKCC Oversea Application
- * 
+ *
  * Main Spring Boot application class for the SKCC Oversea banking system.
  * This application has been migrated from legacy J2EE/EJB architecture to Spring Boot.
- * 
+ *
  * Features:
  * - Cash Card Management
  * - Deposit Services
@@ -24,34 +24,37 @@ import org.slf4j.LoggerFactory;
  * - Teller Management
  * - User Management
  * - Transaction Logging
- * 
+ *
  * @author SKCC Development Team
  * @version 1.0.0
  */
 @SpringBootApplication
 @ComponentScan(basePackages = {
-    "com.skcc.oversea",
-    "com.skcc.oversea.controller",
-    "com.skcc.oversea.service",
-    "com.skcc.oversea.config",
-    "com.skcc.oversea.foundation",
-    "com.skcc.oversea.eplatonframework"
+        "com.skcc.oversea",
+        "com.skcc.oversea.controller",
+        "com.skcc.oversea.service",
+        "com.skcc.oversea.config",
+        "com.skcc.oversea.foundation",
+        "com.skcc.oversea.eplatonframework"
 })
 @EntityScan(basePackages = {
-    "com.skcc.oversea.cashCard.business.cashCard.entity",
-    "com.skcc.oversea.deposit.entity",
-    "com.skcc.oversea.common.entity",
-    "com.skcc.oversea.teller.entity",
-    "com.skcc.oversea.user.entity",
-    "com.skcc.oversea.eplatonframework.business.entity"
+        "com.skcc.oversea.user.entity",
+        "com.skcc.oversea.user.infrastructure.jpa",
+        "com.skcc.oversea.user.service.port.file.infrastructure.jpa",
+        "com.skcc.oversea.cashCard.business.cashCard.entity",
+        "com.skcc.oversea.deposit.entity",
+        "com.skcc.oversea.common.entity",
+        "com.skcc.oversea.teller.entity",
+        "com.skcc.oversea.eplatonframework.business.entity"
 })
 @EnableJpaRepositories(basePackages = {
-    "com.skcc.oversea.cashCard.repository",
-    "com.skcc.oversea.deposit.repository",
-    "com.skcc.oversea.common.repository",
-    "com.skcc.oversea.teller.repository",
-    "com.skcc.oversea.user.repository",
-    "com.skcc.oversea.eplatonframework.business.repository"
+        "com.skcc.oversea.user.infrastructure.jpa",
+        "com.skcc.oversea.user.service.port.file.infrastructure.jpa",
+        "com.skcc.oversea.cashCard.repository",
+        "com.skcc.oversea.deposit.repository",
+        "com.skcc.oversea.common.repository",
+        "com.skcc.oversea.teller.repository",
+        "com.skcc.oversea.eplatonframework.business.repository"
 })
 @EnableTransactionManagement
 @EnableAsync
@@ -67,9 +70,9 @@ public class OverseaApplication {
             logger.info("System Version: 1.0.0");
             logger.info("Spring Boot Version: 3.x");
             logger.info("Java Version: {}", System.getProperty("java.version"));
-            
+
             SpringApplication.run(OverseaApplication.class, args);
-            
+
             logger.info("SKCC Oversea Banking System started successfully!");
             logger.info("==================[OverseaApplication.main END]");
         } catch (Exception e) {

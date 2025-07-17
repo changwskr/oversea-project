@@ -1,0 +1,101 @@
+package com.skcc.oversea.user.infrastructure;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+import com.skcc.oversea.user.domain.User;
+import com.skcc.oversea.user.infrastructure.mybatis.UserDto;
+import com.skcc.oversea.user.infrastructure.mybatis.UserRepositoryMybatis;
+import com.skcc.oversea.user.service.port.UserRepositoryPort;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+@RequiredArgsConstructor
+public class UserRepositoryPortMybatisImpl implements UserRepositoryPort {
+
+    private final UserRepositoryMybatis userRepositoryMybatis;
+
+    @Override
+    public Optional<User> findById(Long id) {
+        return userRepositoryMybatis.findById(id).map(UserDto::toModel);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepositoryMybatis.findByEmail(email).map(UserDto::toModel);
+    }
+
+    @Override
+    public User save(User user) {
+        UserDto userDto = UserDto.from(user);
+        Long savedCount = userRepositoryMybatis.save(userDto);
+        if(savedCount == 0) {
+            return null;
+        }
+        return userRepositoryMybatis.findById(userDto.getId()).map(UserDto::toModel)
+                .orElse(null);
+
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepositoryMybatis.findAll()
+                .stream()
+                .map(UserDto::toModel)
+                .toList();
+    }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+
+        // MyBatis 쿼리를 호출
+        List<UserDto> userDtos = userRepositoryMybatis.findAllWithPageable(
+                pageable.getOffset(),
+                pageable.getPageSize()
+        );
+
+        // 총 데이터 개수를 가져오는 로직
+        long totalCount = userRepositoryMybatis.countAll();
+
+        // Page<User>로 변환
+        List<User> users = userDtos.stream()
+                .map(UserDto::toModel)
+                .toList();
+
+        // 반환: Page 구현체 생성
+        return new PageImpl<>(users, pageable, totalCount);
+    }
+
+    @Override
+    public Page<User> findAdminUsers(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public User updateStatus(User user) {
+        return null;
+    }
+
+    @Override
+    public Page<User> findAdminUsers(Pageable pageable, List<Long> userIds) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        // MyBatis를 사용한 사용자 삭제 로직
+        // 현재는 기본 구현만 제공
+        throw new UnsupportedOperationException("MyBatis 구현에서는 삭제 기능이 아직 구현되지 않았습니다.");
+    }
+
+    @Override
+    public Optional<User> findByUserId(String userId) {
+        // MyBatis를 사용한 사용자 ID 검색 로직
+        // 현재는 기본 구현만 제공
+        throw new UnsupportedOperationException("MyBatis 구현에서는 findByUserId 기능이 아직 구현되지 않았습니다.");
+    }
+}

@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +28,19 @@ public class MainController {
         try {
             model.addAttribute("title", "SKCC Oversea Banking System");
             model.addAttribute("services", new String[]{"cashcard", "deposit", "teller", "user"});
-            logger.info("==================[MainController.mainPage END]");
+            
+            // 인증 상태 확인
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            boolean isAuthenticated = authentication != null && 
+                                    authentication.isAuthenticated() && 
+                                    !"anonymousUser".equals(authentication.getName());
+            
+            model.addAttribute("isAuthenticated", isAuthenticated);
+            if (isAuthenticated) {
+                model.addAttribute("username", authentication.getName());
+            }
+            
+            logger.info("==================[MainController.mainPage END] - isAuthenticated: {}", isAuthenticated);
             return "main";
         } catch (Exception e) {
             logger.error("==================[MainController.mainPage ERROR] - {}", e.getMessage(), e);
@@ -102,6 +116,22 @@ public class MainController {
             return "service/user";
         } catch (Exception e) {
             logger.error("==================[MainController.userPage ERROR] - {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    /**
+     * 로그인 페이지
+     */
+    @GetMapping("/login")
+    public String loginPage(Model model) {
+        logger.info("==================[MainController.loginPage START]");
+        try {
+            model.addAttribute("title", "Login - SKCC Oversea");
+            logger.info("==================[MainController.loginPage END]");
+            return "login";
+        } catch (Exception e) {
+            logger.error("==================[MainController.loginPage ERROR] - {}", e.getMessage(), e);
             throw e;
         }
     }
