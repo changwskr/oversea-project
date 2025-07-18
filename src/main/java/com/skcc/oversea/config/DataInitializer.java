@@ -286,10 +286,6 @@ public class DataInitializer implements CommandLineRunner {
                                                 currentDate,
                                                 currentTime),
 
-                                // Admin Users
-                                createUser("admin", "관리자", "admin@example.com", "010-0000-0000", UserStatus.ACTIVE,
-                                                currentDate,
-                                                currentTime),
                                 createUser("ADMIN001", "시스템관리자", "admin@skcc.com", "010-9999-9999", UserStatus.ACTIVE,
                                                 currentDate,
                                                 currentTime),
