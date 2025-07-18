@@ -1,286 +1,294 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>기술 스펙 검색 - SKCC Oversea</title>
+    <title>기술 스펙 검색</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .search-container {
+        body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 2rem 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 80px; /* 고정 네비게이션 바 높이만큼 패딩 추가 */
         }
-        .search-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
             backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000; /* z-index 추가 */
         }
-        .search-header {
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: #667eea !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background: #667eea;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link.active {
+            background: #667eea;
+            color: white !important;
+        }
+        
+        .main-content {
+            min-height: calc(100vh - 80px); /* 전체 높이에서 네비게이션 바 높이 제외 */
+            padding: 20px 0;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-radius: 15px 15px 0 0;
-            padding: 2rem;
+            border-radius: 15px 15px 0 0 !important;
+            border: none;
         }
-        .search-form {
-            padding: 2rem;
-        }
+        
         .form-control, .form-select {
             border-radius: 10px;
             border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
             transition: all 0.3s ease;
         }
+        
         .form-control:focus, .form-select:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
         }
-        .btn-search {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
+        
+        .btn {
             border-radius: 10px;
-            padding: 0.75rem 2rem;
+            padding: 0.75rem 1.5rem;
             font-weight: 600;
             transition: all 0.3s ease;
         }
-        .btn-search:hover {
+        
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        .result-card {
-            background: white;
+        
+        .table {
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
+            overflow: hidden;
         }
-        .result-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-        .tech-badge {
+        
+        .table thead th {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        .category-badge {
-            background: #28a745;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        .version-badge {
-            background: #ffc107;
-            color: #212529;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        .back-btn {
-            background: #6c757d;
             border: none;
-            border-radius: 10px;
-            padding: 0.5rem 1.5rem;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            font-weight: 600;
         }
-        .back-btn:hover {
-            background: #5a6268;
-            color: white;
-            text-decoration: none;
+        
+        .table tbody tr:hover {
+            background: rgba(102, 126, 234, 0.1);
         }
-        .no-results {
-            text-align: center;
-            padding: 3rem;
-            color: #6c757d;
-        }
-        .no-results i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
+        
+        .badge {
+            font-size: 0.8em;
+            padding: 0.4rem 0.6rem;
         }
     </style>
 </head>
 <body>
-    <div class="search-container">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
-            <!-- 헤더 -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="text-white mb-0">
-                            <i class="fas fa-search me-2"></i>기술 스펙 검색
-                        </h2>
-                        <a href="/techspec" class="back-btn">
-                            <i class="fas fa-arrow-left me-2"></i>목록으로
+            <a class="navbar-brand" href="/home">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">
+                            <i class="fas fa-home"></i> 홈
                         </a>
-                    </div>
-                </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cashcard">
+                            <i class="fas fa-credit-card"></i> Cash Card
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit">
+                            <i class="fas fa-piggy-bank"></i> Deposit
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller">
+                            <i class="fas fa-user-tie"></i> Teller
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user">
+                            <i class="fas fa-users"></i> User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eplaton/manage">
+                            <i class="fas fa-cogs"></i> EPlaton
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/techspec">
+                            <i class="fas fa-microchip"></i> Tech Spec
+                        </a>
+                    </li>
+                </ul>
             </div>
+        </div>
+    </nav>
 
-            <!-- 검색 카드 -->
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="search-card">
-                        <!-- 검색 헤더 -->
-                        <div class="search-header text-center">
-                            <h3 class="mb-2">
-                                <i class="fas fa-microchip me-2"></i>기술 스펙 검색
-                            </h3>
-                            <p class="mb-0 opacity-75">원하는 기술 스펙을 검색해보세요</p>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">
+                                    <i class="fas fa-search"></i> 기술 스펙 검색
+                                </h3>
+                                <a href="/techspec" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> 목록으로
+                                </a>
+                            </div>
                         </div>
-
-                        <!-- 검색 폼 -->
-                        <div class="search-form">
-                            <form th:action="@{/techspec/search}" method="get" id="searchForm">
-                                <div class="row g-3">
-                                    <!-- 카테고리 검색 -->
-                                    <div class="col-md-6">
-                                        <label for="category" class="form-label">
-                                            <i class="fas fa-tags me-1"></i>카테고리
-                                        </label>
-                                        <select class="form-select" id="category" name="category">
-                                            <option value="">전체 카테고리</option>
-                                            <option value="아키텍처">아키텍처</option>
-                                            <option value="개발언어">개발언어</option>
-                                            <option value="데이터계층">데이터계층</option>
-                                            <option value="빌드패키징">빌드패키징</option>
-                                            <option value="보안">보안</option>
-                                            <option value="API 문서화">API 문서화</option>
-                                            <option value="프론트 연계">프론트 연계</option>
-                                            <option value="공통개발">공통개발</option>
-                                            <option value="테스트">테스트</option>
-                                            <option value="운영지원">운영지원</option>
-                                            <option value="devops">DevOps</option>
-                                            <option value="보조도구">보조도구</option>
-                                            <option value="클라우드/인프라">클라우드/인프라</option>
-                                            <option value="메시징/비동기">메시징/비동기</option>
-                                            <option value="캐싱">캐싱</option>
-                                            <option value="모니터링/관리">모니터링/관리</option>
-                                            <option value="데이터베이스">데이터베이스</option>
-                                            <option value="프론트엔드">프론트엔드</option>
-                                            <option value="보안 강화">보안 강화</option>
-                                            <option value="성능 최적화">성능 최적화</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- 기술명 검색 -->
-                                    <div class="col-md-6">
-                                        <label for="technologyName" class="form-label">
-                                            <i class="fas fa-cogs me-1"></i>기술명
-                                        </label>
-                                        <input type="text" class="form-control" id="technologyName" 
-                                               name="technologyName" th:value="${param.technologyName}"
-                                               placeholder="기술명을 입력하세요">
-                                    </div>
-
-                                    <!-- 서브 아이템 검색 -->
-                                    <div class="col-md-6">
-                                        <label for="subItem" class="form-label">
-                                            <i class="fas fa-list me-1"></i>서브 아이템
-                                        </label>
-                                        <input type="text" class="form-control" id="subItem" 
-                                               name="subItem" th:value="${param.subItem}"
-                                               placeholder="서브 아이템을 입력하세요">
-                                    </div>
-
-                                    <!-- 버전 검색 -->
-                                    <div class="col-md-6">
-                                        <label for="version" class="form-label">
-                                            <i class="fas fa-code-branch me-1"></i>버전
-                                        </label>
-                                        <input type="text" class="form-control" id="version" 
-                                               name="version" th:value="${param.version}"
-                                               placeholder="버전을 입력하세요">
-                                    </div>
-
-                                    <!-- 키워드 검색 -->
-                                    <div class="col-12">
-                                        <label for="keyword" class="form-label">
-                                            <i class="fas fa-search me-1"></i>키워드 검색
-                                        </label>
-                                        <input type="text" class="form-control" id="keyword" 
-                                               name="keyword" th:value="${param.keyword}"
-                                               placeholder="설명에서 키워드를 검색하세요">
-                                    </div>
-
-                                    <!-- 검색 버튼 -->
-                                    <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-search btn-lg">
-                                            <i class="fas fa-search me-2"></i>검색
-                                        </button>
-                                        <button type="button" class="btn btn-secondary btn-lg ms-2" onclick="clearForm()">
-                                            <i class="fas fa-eraser me-2"></i>초기화
+                        <div class="card-body">
+                            <form th:action="@{/techspec/search}" method="get" class="row g-3">
+                                <div class="col-md-3">
+                                    <label for="category" class="form-label">
+                                        <i class="fas fa-tags"></i> 분류 영역
+                                    </label>
+                                    <select id="category" name="category" class="form-select">
+                                        <option value="">전체</option>
+                                        <option th:each="cat : ${categories}" 
+                                                th:value="${cat}" 
+                                                th:text="${cat}"
+                                                th:selected="${cat == selectedCategory}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="technologyName" class="form-label">
+                                        <i class="fas fa-cog"></i> 기술 명칭
+                                    </label>
+                                    <input type="text" id="technologyName" name="technologyName" 
+                                           class="form-control" placeholder="기술명을 입력하세요"
+                                           th:value="${technologyName}">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="keyword" class="form-label">
+                                        <i class="fas fa-key"></i> 키워드
+                                    </label>
+                                    <input type="text" id="keyword" name="keyword" 
+                                           class="form-control" placeholder="키워드를 입력하세요"
+                                           th:value="${keyword}">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="isActive" class="form-label">
+                                        <i class="fas fa-toggle-on"></i> 상태
+                                    </label>
+                                    <select id="isActive" name="isActive" class="form-select">
+                                        <option value="">전체</option>
+                                        <option value="true" th:selected="${isActive == 'true'}">활성</option>
+                                        <option value="false" th:selected="${isActive == 'false'}">비활성</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search"></i> 검색
                                         </button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- 검색 결과 -->
-            <div class="row justify-content-center mt-4" th:if="${techSpecs != null}">
-                <div class="col-lg-10">
-                    <div class="search-card">
-                        <div class="search-header">
+                    <!-- 검색 결과 -->
+                    <div th:if="${techSpecs != null}" class="card">
+                        <div class="card-header">
                             <h4 class="mb-0">
-                                <i class="fas fa-list me-2"></i>검색 결과
-                                <span class="badge bg-light text-dark ms-2" th:text="${techSpecs.size()} + '건'"></span>
+                                <i class="fas fa-list"></i> 검색 결과
+                                <span class="badge bg-primary ms-2" th:text="${#lists.size(techSpecs)}"></span>
                             </h4>
                         </div>
-                        
-                        <div class="p-4">
-                            <!-- 검색 결과가 있는 경우 -->
-                            <div th:if="${!techSpecs.empty}">
-                                <div class="result-card p-4" th:each="techSpec : ${techSpecs}">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-8">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <span class="tech-badge me-2" th:text="${techSpec.technologyName}"></span>
-                                                <span class="version-badge me-2" th:text="${techSpec.version}"></span>
-                                                <span class="category-badge" th:text="${techSpec.category}"></span>
-                                            </div>
-                                            <h5 class="mb-2" th:text="${techSpec.subItem}"></h5>
-                                            <p class="text-muted mb-2" th:text="${techSpec.description}"></p>
-                                            <small class="text-muted">
-                                                <i class="fas fa-calendar me-1"></i>
-                                                생성일: <span th:text="${#temporals.format(techSpec.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
-                                                <span th:if="${techSpec.updatedDate != null}">
-                                                    | 수정일: <span th:text="${#temporals.format(techSpec.updatedDate, 'yyyy-MM-dd HH:mm')}"></span>
-                                                </span>
-                                            </small>
-                                        </div>
-                                        <div class="col-md-4 text-end">
-                                            <div class="btn-group" role="group">
-                                                <a th:href="@{/techspec/{id}(id=${techSpec.id})}" 
-                                                   class="btn btn-outline-primary btn-sm">
-                                                    <i class="fas fa-eye me-1"></i>상세
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>분류 영역</th>
+                                            <th>세부 항목</th>
+                                            <th>기술 명칭</th>
+                                            <th>버전</th>
+                                            <th>상태</th>
+                                            <th>작업</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="techSpec : ${techSpecs}">
+                                            <td th:text="${techSpec.id}"></td>
+                                            <td>
+                                                <span class="badge bg-info" th:text="${techSpec.category}"></span>
+                                            </td>
+                                            <td th:text="${techSpec.subItem}"></td>
+                                            <td>
+                                                <strong th:text="${techSpec.technologyName}"></strong>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary" th:text="${techSpec.version}"></span>
+                                            </td>
+                                            <td>
+                                                <span th:if="${techSpec.isActive}" class="badge bg-success">활성</span>
+                                                <span th:unless="${techSpec.isActive}" class="badge bg-danger">비활성</span>
+                                            </td>
+                                            <td>
+                                                <a th:href="@{/techspec/{id}(id=${techSpec.id})}" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a th:href="@{/techspec/{id}/edit(id=${techSpec.id})}" 
-                                                   class="btn btn-outline-warning btn-sm">
-                                                    <i class="fas fa-edit me-1"></i>수정
+                                                <a th:href="@{/techspec/{id}/edit(id=${techSpec.id})}" class="btn btn-sm btn-outline-warning">
+                                                    <i class="fas fa-edit"></i>
                                                 </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 검색 결과가 없는 경우 -->
-                            <div th:if="${techSpecs.empty}" class="no-results">
-                                <i class="fas fa-search"></i>
-                                <h4>검색 결과가 없습니다</h4>
-                                <p>다른 검색 조건을 시도해보세요.</p>
+                                            </td>
+                                        </tr>
+                                        <tr th:if="${#lists.isEmpty(techSpecs)}">
+                                            <td colspan="7" class="text-center text-muted">
+                                                <i class="fas fa-search fa-2x mb-2"></i>
+                                                <br>검색 결과가 없습니다.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -290,36 +298,5 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function clearForm() {
-            document.getElementById('searchForm').reset();
-        }
-
-        // 페이지 로드 시 검색 조건 하이라이트
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get('category');
-            const technologyName = urlParams.get('technologyName');
-            const subItem = urlParams.get('subItem');
-            const version = urlParams.get('version');
-            const keyword = urlParams.get('keyword');
-
-            if (category) {
-                document.getElementById('category').value = category;
-            }
-            if (technologyName) {
-                document.getElementById('technologyName').value = technologyName;
-            }
-            if (subItem) {
-                document.getElementById('subItem').value = subItem;
-            }
-            if (version) {
-                document.getElementById('version').value = version;
-            }
-            if (keyword) {
-                document.getElementById('keyword').value = keyword;
-            }
-        });
-    </script>
 </body>
 </html> 

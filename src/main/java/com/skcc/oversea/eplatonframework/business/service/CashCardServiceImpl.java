@@ -92,12 +92,6 @@ public class CashCardServiceImpl implements CashCardService {
     }
 
     @Override
-    public CashCard createCashCard(CashCard cashCard) {
-        logger.info("Creating cash card: {}", cashCard.getCardNo());
-        return cashCardRepository.save(cashCard);
-    }
-
-    @Override
     public CashCard updateCashCard(CashCard cashCard) {
         logger.info("Updating cash card: {}", cashCard.getCardNo());
         if (cashCard.getPrimaryKey() != null && cashCardRepository.existsById(cashCard.getPrimaryKey())) {

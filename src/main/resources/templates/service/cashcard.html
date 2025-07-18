@@ -117,7 +117,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/home">
                 <i class="fas fa-university"></i> SKCC Oversea
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -126,7 +126,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 메인</a>
+                        <a class="nav-link" href="/home"><i class="fas fa-home"></i> 메인</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
@@ -212,38 +212,38 @@
                         <span class="status-value">정상</span>
                     </div>
                     <div class="status-item">
-                        <span class="status-label">등록된 카드</span>
-                        <span class="status-value">1,234</span>
+                        <span class="status-label">발급된 카드</span>
+                        <span class="status-value">12,345</span>
                     </div>
                     <div class="status-item">
                         <span class="status-label">활성 카드</span>
-                        <span class="status-value">1,180</span>
+                        <span class="status-value">11,890</span>
                     </div>
                     <div class="status-item">
                         <span class="status-label">핫카드</span>
-                        <span class="status-value">54</span>
+                        <span class="status-value">23</span>
                     </div>
                     <div class="status-item">
-                        <span class="status-label">오늘 발급</span>
-                        <span class="status-value">12</span>
+                        <span class="status-label">오늘 거래</span>
+                        <span class="status-value">2,456</span>
                     </div>
                 </div>
                 
                 <div class="status-card">
                     <h5 class="mb-3"><i class="fas fa-cog"></i> 빠른 메뉴</h5>
                     <div class="d-grid gap-2">
-                        <a href="/cashcard/issue" class="btn btn-outline-success">
-                            <i class="fas fa-plus"></i> 새 카드 발급
-                        </a>
-                        <a href="/cashcard/search" class="btn btn-outline-primary">
+                        <button class="btn btn-outline-success">
+                            <i class="fas fa-plus"></i> 카드 발급
+                        </button>
+                        <button class="btn btn-outline-primary">
                             <i class="fas fa-search"></i> 카드 조회
-                        </a>
-                        <a href="/cashcard/manage" class="btn btn-outline-info">
+                        </button>
+                        <button class="btn btn-outline-warning">
                             <i class="fas fa-edit"></i> 카드 관리
-                        </a>
-                        <a href="/cashcard/hotcard" class="btn btn-outline-warning">
-                            <i class="fas fa-exclamation-triangle"></i> 핫카드 관리
-                        </a>
+                        </button>
+                        <button class="btn btn-outline-danger">
+                            <i class="fas fa-exclamation-triangle"></i> 핫카드 등록
+                        </button>
                     </div>
                 </div>
             </div>

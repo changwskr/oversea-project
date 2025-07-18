@@ -20,14 +20,32 @@ public class MainController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
     /**
-     * 메인 페이지 - 로그인 페이지로 리다이렉트
+     * 메인 페이지 - 인증 상태에 따라 홈 페이지 또는 로그인 페이지로 리다이렉트
      */
     @GetMapping
     public String mainPage() {
-        logger.info("==================[MainController.mainPage START] - Redirecting to login");
-        return "redirect:/login";
+        logger.info("==================[MainController.mainPage START]");
+        try {
+            // 인증 상태 확인
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            boolean isAuthenticated = authentication != null &&
+                    authentication.isAuthenticated() &&
+                    !"anonymousUser".equals(authentication.getName());
+
+            if (isAuthenticated) {
+                logger.info("==================[MainController.mainPage END] - Redirecting to home (authenticated)");
+                return "redirect:/home";
+            } else {
+                logger.info(
+                        "==================[MainController.mainPage END] - Redirecting to login (not authenticated)");
+                return "redirect:/login";
+            }
+        } catch (Exception e) {
+            logger.error("==================[MainController.mainPage ERROR] - {}", e.getMessage(), e);
+            return "redirect:/login";
+        }
     }
-    
+
     /**
      * 홈 페이지 - 서비스 선택 화면 (로그인 후 접근)
      */
@@ -36,19 +54,19 @@ public class MainController {
         logger.info("==================[MainController.homePage START]");
         try {
             model.addAttribute("title", "SKCC Oversea Banking System");
-            model.addAttribute("services", new String[]{"cashcard", "deposit", "teller", "user"});
-            
+            model.addAttribute("services", new String[] { "cashcard", "deposit", "teller", "user" });
+
             // 인증 상태 확인
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            boolean isAuthenticated = authentication != null && 
-                                    authentication.isAuthenticated() && 
-                                    !"anonymousUser".equals(authentication.getName());
-            
+            boolean isAuthenticated = authentication != null &&
+                    authentication.isAuthenticated() &&
+                    !"anonymousUser".equals(authentication.getName());
+
             model.addAttribute("isAuthenticated", isAuthenticated);
             if (isAuthenticated) {
                 model.addAttribute("username", authentication.getName());
             }
-            
+
             logger.info("==================[MainController.homePage END] - isAuthenticated: {}", isAuthenticated);
             return "main";
         } catch (Exception e) {
@@ -144,4 +162,4 @@ public class MainController {
             throw e;
         }
     }
-} 
+}

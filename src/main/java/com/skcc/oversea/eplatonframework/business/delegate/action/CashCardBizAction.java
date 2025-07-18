@@ -66,7 +66,7 @@ public class CashCardBizAction extends EPlatonBizAction {
           if (requestData instanceof com.skcc.oversea.eplatonframework.business.entity.CashCard) {
             com.skcc.oversea.eplatonframework.business.entity.CashCard card = (com.skcc.oversea.eplatonframework.business.entity.CashCard) requestData;
             com.skcc.oversea.eplatonframework.business.entity.CashCard createdCard = cashCardService
-                .createCashCard(card);
+                .save(card);
             EPlatonCommonDTO responseDTO = new EPlatonCommonDTO();
             responseDTO.setMessage("Card created successfully");
             event.setResponse(responseDTO);

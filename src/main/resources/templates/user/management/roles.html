@@ -207,10 +207,10 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션 바 -->
+    <!-- 네비게이션-->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/home">
                 <i class="fas fa-university"></i> SKCC Oversea
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -256,7 +256,7 @@
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
             <h1><i class="fas fa-user-shield"></i> 권한 관리</h1>
-            <p>사용자 권한과 역할을 관리합니다</p>
+            <p>사용자 권한을 체계적으로 관리합니다</p>
         </div>
         
         <div class="text-center">
@@ -265,12 +265,12 @@
             </a>
         </div>
         
-        <!-- 통계 카드 -->
+        <!-- 계정 카드 -->
         <div class="row mb-4">
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">5</div>
-                    <div class="stats-label">전체 역할</div>
+                    <div class="stats-label">전체 권한</div>
                 </div>
             </div>
             <div class="col-md-3">
@@ -282,31 +282,31 @@
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">150</div>
-                    <div class="stats-label">역할 할당된 사용자</div>
+                    <div class="stats-label">일일 사용자 수</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">3</div>
-                    <div class="stats-label">활성 역할</div>
+                    <div class="stats-label">전체 권한</div>
                 </div>
             </div>
         </div>
         
         <div class="content-container">
-            <!-- 역할 관리 섹션 -->
+            <!-- 권한 관리 -->
             <div class="row mb-4">
                 <div class="col-md-8">
-                    <h3><i class="fas fa-list"></i> 역할 목록</h3>
+                    <h3><i class="fas fa-list"></i> 권한 목록</h3>
                 </div>
                 <div class="col-md-4 text-end">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">
-                        <i class="fas fa-plus"></i> 새 역할 추가
+                        <i class="fas fa-plus"></i> 권한 추가
                     </button>
                 </div>
             </div>
             
-            <!-- 역할 카드들 -->
+            <!-- 권한 카드-->
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <div class="role-card">
@@ -314,17 +314,17 @@
                             <i class="fas fa-crown"></i> 관리자 (ADMIN)
                         </div>
                         <div class="role-description">
-                            시스템 전체 관리 권한을 가진 최고 권한 역할입니다.
+                            시스템 전체 관리 권한을 가진 최고 권한입니다.
                         </div>
                         <div class="role-permissions">
                             <span class="permission-badge">사용자 관리</span>
-                            <span class="permission-badge">시스템 설정</span>
-                            <span class="permission-badge">보안 정책</span>
+                            <span class="permission-badge">시스템 정보</span>
+                            <span class="permission-badge">보안 책</span>
                             <span class="permission-badge">로그 조회</span>
                         </div>
                         <div class="mt-3">
                             <span class="status-badge status-active">활성</span>
-                            <span class="ms-2 text-muted">사용자: 3명</span>
+                            <span class="ms-2 text-muted">사용자 3명</span>
                         </div>
                     </div>
                 </div>
@@ -338,13 +338,12 @@
                             일반 업무 수행을 위한 기본 권한을 가진 역할입니다.
                         </div>
                         <div class="role-permissions">
-                            <span class="permission-badge">업무 처리</span>
-                            <span class="permission-badge">데이터 조회</span>
-                            <span class="permission-badge">보고서 생성</span>
+                            <span class="permission-badge">조회</span>
+                            <span class="permission-badge">보고서 작성</span>
                         </div>
                         <div class="mt-3">
                             <span class="status-badge status-active">활성</span>
-                            <span class="ms-2 text-muted">사용자: 120명</span>
+                            <span class="ms-2 text-muted">사용자 120명</span>
                         </div>
                     </div>
                 </div>
@@ -355,15 +354,15 @@
                             <i class="fas fa-user"></i> 고객 (CUSTOMER)
                         </div>
                         <div class="role-description">
-                            고객 서비스 이용을 위한 제한된 권한을 가진 역할입니다.
+                            고객 서비스를 위한 사용자에게 부여하는 권한입니다.
                         </div>
                         <div class="role-permissions">
-                            <span class="permission-badge">서비스 이용</span>
-                            <span class="permission-badge">정보 조회</span>
+                            <span class="permission-badge">사용자 조회</span>
+                            <span class="permission-badge">사용자 비밀번호 변경</span>
                         </div>
                         <div class="mt-3">
                             <span class="status-badge status-active">활성</span>
-                            <span class="ms-2 text-muted">사용자: 27명</span>
+                            <span class="ms-2 text-muted">사용자 27명</span>
                         </div>
                     </div>
                 </div>
@@ -374,7 +373,7 @@
                             <i class="fas fa-eye"></i> 감사자 (AUDITOR)
                         </div>
                         <div class="role-description">
-                            시스템 감사 및 모니터링을 위한 읽기 전용 권한입니다.
+                            시스템 감사 및 모니터링을 위한 관리자 권한입니다.
                         </div>
                         <div class="role-permissions">
                             <span class="permission-badge">로그 조회</span>
@@ -382,13 +381,13 @@
                         </div>
                         <div class="mt-3">
                             <span class="status-badge status-inactive">비활성</span>
-                            <span class="ms-2 text-muted">사용자: 0명</span>
+                            <span class="ms-2 text-muted">사용자 0명</span>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- 권한 관리 섹션 -->
+            <!-- 권한 관리 -->
             <div class="row mt-5">
                 <div class="col-12">
                     <h3><i class="fas fa-key"></i> 권한 관리</h3>
@@ -446,7 +445,7 @@
                                 </tr>
                                 <tr>
                                     <td><strong>SYSTEM_CONFIG</strong></td>
-                                    <td>시스템 설정 권한</td>
+                                    <td>시스템 전체 권한</td>
                                     <td>관리자</td>
                                     <td><span class="status-badge status-active">활성</span></td>
                                     <td>
@@ -462,23 +461,23 @@
         </div>
     </div>
     
-    <!-- 새 역할 추가 모달 -->
+    <!-- 권한 추가 모달 -->
     <div class="modal fade" id="addRoleModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">새 역할 추가</h5>
+                    <h5 class="modal-title">권한 추가</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label for="roleName" class="form-label">역할명</label>
-                            <input type="text" class="form-control" id="roleName" placeholder="역할명을 입력하세요">
+                            <label for="roleName" class="form-label">권한명</label>
+                            <input type="text" class="form-control" id="roleName" placeholder="권한명을 입력하세요">
                         </div>
                         <div class="mb-3">
                             <label for="roleDescription" class="form-label">설명</label>
-                            <textarea class="form-control" id="roleDescription" rows="3" placeholder="역할에 대한 설명을 입력하세요"></textarea>
+                            <textarea class="form-control" id="roleDescription" rows="3" placeholder="권한 설명을 입력하세요"></textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">권한 선택</label>
@@ -488,11 +487,11 @@
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="perm2">
-                                <label class="form-check-label" for="perm2">시스템 설정</label>
+                                <label class="form-check-label" for="perm2">시스템 정보</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="perm3">
-                                <label class="form-check-label" for="perm3">보안 정책</label>
+                                <label class="form-check-label" for="perm3">보안 책</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="perm4">
@@ -503,7 +502,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                    <button type="button" class="btn btn-primary">역할 추가</button>
+                    <button type="button" class="btn btn-primary">권한 추가</button>
                 </div>
             </div>
         </div>

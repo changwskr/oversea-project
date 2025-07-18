@@ -253,10 +253,10 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션 바 -->
+    <!-- 네비게이션바-->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/home">
                 <i class="fas fa-university"></i> SKCC Oversea
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -302,39 +302,39 @@
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
             <h1><i class="fas fa-cogs"></i> 보안 정책 관리</h1>
-            <p>세부적인 보안 정책을 설정하고 관리합니다</p>
+            <p>사용자의 보안 정책을 정의하고 관리합니다.</p>
         </div>
         
-        <!-- 성공/에러 메시지 -->
+        <!-- 공/러 메시지 -->
         <div th:if="${successMessage}" class="alert alert-success" role="alert">
             <i class="fas fa-check-circle"></i>
-            <span th:text="${successMessage}">보안 정책이 성공적으로 업데이트되었습니다.</span>
+            <span th:text="${successMessage}">보안 정책이 성공적으로 저장되었습니다.</span>
         </div>
         
         <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
             <i class="fas fa-exclamation-triangle"></i>
-            <span th:text="${errorMessage}">보안 정책 업데이트 중 오류가 발생했습니다.</span>
+            <span th:text="${errorMessage}">보안 정책 데이터에 오류가 발생했습니다.</span>
         </div>
         
         <div class="content-container">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3><i class="fas fa-list"></i> 보안 정책 목록</h3>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPolicyModal">
-                    <i class="fas fa-plus"></i> 새 정책 추가
+                    <i class="fas fa-plus"></i> 새 보안 정책 추가
                 </button>
             </div>
             
-            <!-- 정책 카드들 -->
+            <!-- 정책 카드-->
             <div class="row">
                 <div class="col-md-6">
                     <div class="policy-card">
                         <div class="policy-header">
-                            <h5 class="policy-title">비밀번호 복잡도 정책</h5>
+                            <h5 class="policy-title">비밀번호 복잡성 정책</h5>
                             <span class="policy-status status-active">활성</span>
                         </div>
                         <p class="policy-description">
-                            사용자 비밀번호의 복잡도 요구사항을 정의합니다.
-                            최소 길이, 문자 조합, 특수문자 요구사항을 설정합니다.
+                            사용자 비밀번호의 복잡성 요구사항을 정의합니다.
+                            최소 길이, 문자 조합, 숫자 문자 구성 요구사항을 정의합니다.
                         </p>
                         <div class="policy-config">
                             minLength: 8, maxLength: 20, requireUppercase: true,
@@ -357,12 +357,12 @@
                 <div class="col-md-6">
                     <div class="policy-card">
                         <div class="policy-header">
-                            <h5 class="policy-title">세션 타임아웃 정책</h5>
+                            <h5 class="policy-title">세션 정책</h5>
                             <span class="policy-status status-active">활성</span>
                         </div>
                         <p class="policy-description">
-                            사용자 세션의 자동 종료 시간을 설정합니다.
-                            보안을 위해 일정 시간 후 자동 로그아웃을 수행합니다.
+                            사용자 세션의 종료 시간을 정의합니다.
+                            보안 침해 시 자동 로그아웃 기능을 정의합니다.
                         </p>
                         <div class="policy-config">
                             sessionTimeout: 30, idleTimeout: 15, 
@@ -389,7 +389,7 @@
                             <span class="policy-status status-inactive">비활성</span>
                         </div>
                         <p class="policy-description">
-                            로그인 실패 시 계정을 잠그는 정책을 설정합니다.
+                            로그인 실패 시 계정 잠금 정책을 설정합니다.
                             무차별 대입 공격을 방지하기 위한 보안 정책입니다.
                         </p>
                         <div class="policy-config">
@@ -413,12 +413,12 @@
                 <div class="col-md-6">
                     <div class="policy-card">
                         <div class="policy-header">
-                            <h5 class="policy-title">IP 화이트리스트 정책</h5>
+                            <h5 class="policy-title">IP 접근 제어 정책</h5>
                             <span class="policy-status status-active">활성</span>
                         </div>
                         <p class="policy-description">
-                            허용된 IP 주소에서만 접근을 허용하는 정책입니다.
-                            네트워크 보안을 강화하기 위한 접근 제어 정책입니다.
+                            사용자의 IP 주소에 따른 접근을 제어합니다.
+                            트래픽 크 보안 강화를 위한 접근 제어 정책입니다.
                         </p>
                         <div class="policy-config">
                             allowedIPs: ["192.168.1.0/24", "10.0.0.0/8"], 
@@ -439,7 +439,7 @@
                 </div>
             </div>
             
-            <!-- 정책 설정 -->
+            <!-- 정책 수정 -->
             <div class="row mt-4">
                 <div class="col-md-12">
                     <div class="policy-card">
@@ -450,7 +450,7 @@
                                     <input class="form-check-input" type="checkbox" id="enablePasswordPolicy" checked>
                                     <label class="form-check-label" for="enablePasswordPolicy">
                                         <strong>비밀번호 정책 활성화</strong>
-                                        <br><small class="text-muted">비밀번호 복잡도 요구사항 적용</small>
+                                        <br><small class="text-muted">비밀번호 복잡성 요구사항 적용</small>
                                     </label>
                                 </div>
                                 
@@ -458,7 +458,7 @@
                                     <input class="form-check-input" type="checkbox" id="enableSessionPolicy" checked>
                                     <label class="form-check-label" for="enableSessionPolicy">
                                         <strong>세션 정책 활성화</strong>
-                                        <br><small class="text-muted">자동 세션 타임아웃 적용</small>
+                                        <br><small class="text-muted">사용자 세션 종료 시간 제한</small>
                                     </label>
                                 </div>
                                 
@@ -476,7 +476,7 @@
                                     <input class="form-check-input" type="checkbox" id="enableIPPolicy" checked>
                                     <label class="form-check-label" for="enableIPPolicy">
                                         <strong>IP 제한 정책 활성화</strong>
-                                        <br><small class="text-muted">허용된 IP에서만 접근</small>
+                                        <br><small class="text-muted">사용자 IP 주소 접근 제어</small>
                                     </label>
                                 </div>
                                 
@@ -484,7 +484,7 @@
                                     <input class="form-check-input" type="checkbox" id="enableAuditLogging" checked>
                                     <label class="form-check-label" for="enableAuditLogging">
                                         <strong>감사 로깅 활성화</strong>
-                                        <br><small class="text-muted">모든 보안 활동 기록</small>
+                                        <br><small class="text-muted">모든 보안 동작 기록</small>
                                     </label>
                                 </div>
                                 
@@ -492,7 +492,7 @@
                                     <input class="form-check-input" type="checkbox" id="enableNotification" checked>
                                     <label class="form-check-label" for="enableNotification">
                                         <strong>보안 알림 활성화</strong>
-                                        <br><small class="text-muted">보안 이벤트 시 알림 발송</small>
+                                        <br><small class="text-muted">보안 벤트 발송</small>
                                     </label>
                                 </div>
                             </div>
@@ -500,7 +500,7 @@
                         
                         <div class="text-center mt-3">
                             <button class="btn btn-primary">
-                                <i class="fas fa-save"></i> 설정 저장
+                                <i class="fas fa-save"></i> 저장
                             </button>
                         </div>
                     </div>
@@ -530,15 +530,15 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="policyName" class="form-label">정책명 *</label>
+                                    <label for="policyName" class="form-label">정책 이름*</label>
                                     <input type="text" class="form-control" id="policyName" placeholder="정책명을 입력하세요" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="policyType" class="form-label">정책 타입 *</label>
+                                    <label for="policyType" class="form-label">정책 유형*</label>
                                     <select class="form-select" id="policyType" required>
-                                        <option value="">정책 타입 선택</option>
+                                        <option value="">정책 유형 선택</option>
                                         <option value="PASSWORD">비밀번호 정책</option>
                                         <option value="SESSION">세션 정책</option>
                                         <option value="LOCKOUT">계정 잠금 정책</option>

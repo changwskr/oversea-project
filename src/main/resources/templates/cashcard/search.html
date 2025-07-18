@@ -131,7 +131,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/home">
                 <i class="fas fa-university"></i> SKCC Oversea
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -140,7 +140,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 홈</a>
+                        <a class="nav-link" href="/home"><i class="fas fa-home"></i> 메인</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
@@ -162,7 +162,7 @@
     <div class="container main-content">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> 홈</a></li>
+                <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i> 메인</a></li>
                 <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
                 <li class="breadcrumb-item active" aria-current="page">카드 조회</li>
             </ol>
@@ -181,19 +181,19 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="cardNumber" class="form-label">카드번호</label>
-                                <input type="text" class="form-control" id="cardNumber" placeholder="카드번호를 입력하세요">
+                                <input type="text" class="form-control" id="cardNumber" placeholder="카드번호 입력">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="accountNumber" class="form-label">계좌번호</label>
-                                <input type="text" class="form-control" id="accountNumber" placeholder="계좌번호를 입력하세요">
+                                <input type="text" class="form-control" id="accountNumber" placeholder="계좌번호 입력">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="customerName" class="form-label">고객명</label>
-                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="고객명을 입력하세요" required>
+                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="고객명을 입력 (필수)" required>
                             </div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
                             <div class="mb-3">
                                 <label for="cardStatus" class="form-label">카드 상태</label>
                                 <select class="form-select" id="cardStatus">
-                                    <option value="">전체</option>
+                                    <option value="">선택</option>
                                     <option value="active">활성</option>
                                     <option value="inactive">비활성</option>
                                     <option value="hot">핫카드</option>
@@ -249,20 +249,20 @@
                         <div class="info-value">123-456789-01-234</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">발급일</div>
+                        <div class="info-label">발급일자</div>
                         <div class="info-value">2024-01-15</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">만료일</div>
+                        <div class="info-label">만료일자</div>
                         <div class="info-value">2029-01-15</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">일일한도</div>
-                        <div class="info-value">₩2,000,000</div>
+                        <div class="info-label">예금액</div>
+                        <div class="info-value">1,000,000</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">잔액</div>
-                        <div class="info-value">₩1,250,000</div>
+                        <div class="info-value">1,250,000</div>
                     </div>
                 </div>
                 <div class="d-flex gap-2">
@@ -293,19 +293,19 @@
                         <div class="info-value">456-789012-34-567</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">발급일</div>
+                        <div class="info-label">발급일자</div>
                         <div class="info-value">2023-12-20</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">만료일</div>
+                        <div class="info-label">만료일자</div>
                         <div class="info-value">2028-12-20</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">일일한도</div>
-                        <div class="info-value">₩1,500,000</div>
+                        <div class="info-label">예금액</div>
+                        <div class="info-value">500,000</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">등록일</div>
+                        <div class="info-label">등록일자</div>
                         <div class="info-value">2024-01-20</div>
                     </div>
                 </div>

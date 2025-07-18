@@ -5,105 +5,243 @@
     <title>기술 스펙 수정</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 80px; /* 고정 네비게이션 바 높이만큼 패딩 추가 */
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000; /* z-index 추가 */
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: #667eea !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background: #667eea;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link.active {
+            background: #667eea;
+            color: white !important;
+        }
+        
+        .main-content {
+            min-height: calc(100vh - 80px); /* 전체 높이에서 네비게이션 바 높이 제외 */
+            padding: 20px 0;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            border: none;
+        }
+        
+        .form-control, .form-select, .form-textarea {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn {
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="mb-0">
-                            <i class="fas fa-edit"></i> 기술 스펙 수정
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <form th:action="@{/tech-specs/{id}/edit(id=${id})}" th:object="${techSpec}" method="post">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="category" class="form-label">
-                                        <i class="fas fa-tags"></i> 분류 영역 <span class="text-danger">*</span>
-                                    </label>
-                                    <select id="category" th:field="*{category}" class="form-select" required>
-                                        <option value="">분류 영역을 선택하세요</option>
-                                        <option th:each="cat : ${categories}" 
-                                                th:value="${cat}" 
-                                                th:text="${cat}"></option>
-                                    </select>
-                                    <div th:if="${#fields.hasErrors('category')}" class="text-danger">
-                                        <small th:errors="*{category}"></small>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6 mb-3">
-                                    <label for="subItem" class="form-label">
-                                        <i class="fas fa-list"></i> 세부 항목 <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" id="subItem" th:field="*{subItem}" 
-                                           class="form-control" placeholder="세부 항목을 입력하세요" required>
-                                    <div th:if="${#fields.hasErrors('subItem')}" class="text-danger">
-                                        <small th:errors="*{subItem}"></small>
-                                    </div>
-                                </div>
-                            </div>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <i class="fas fa-university"></i> SKCC Oversea
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">
+                            <i class="fas fa-home"></i> 홈
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cashcard">
+                            <i class="fas fa-credit-card"></i> Cash Card
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit">
+                            <i class="fas fa-piggy-bank"></i> Deposit
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller">
+                            <i class="fas fa-user-tie"></i> Teller
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user">
+                            <i class="fas fa-users"></i> User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eplaton/manage">
+                            <i class="fas fa-cogs"></i> EPlaton
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/techspec">
+                            <i class="fas fa-microchip"></i> Tech Spec
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-                            <div class="row">
-                                <div class="col-md-8 mb-3">
-                                    <label for="technologyName" class="form-label">
-                                        <i class="fas fa-cog"></i> 기술 명칭 <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" id="technologyName" th:field="*{technologyName}" 
-                                           class="form-control" placeholder="기술 명칭을 입력하세요" required>
-                                    <div th:if="${#fields.hasErrors('technologyName')}" class="text-danger">
-                                        <small th:errors="*{technologyName}"></small>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-4 mb-3">
-                                    <label for="version" class="form-label">
-                                        <i class="fas fa-code-branch"></i> 버전
-                                    </label>
-                                    <input type="text" id="version" th:field="*{version}" 
-                                           class="form-control" placeholder="버전을 입력하세요">
-                                    <div th:if="${#fields.hasErrors('version')}" class="text-danger">
-                                        <small th:errors="*{version}"></small>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="description" class="form-label">
-                                    <i class="fas fa-info-circle"></i> 설명
-                                </label>
-                                <textarea id="description" th:field="*{description}" 
-                                          class="form-control" rows="4" 
-                                          placeholder="기술에 대한 설명을 입력하세요"></textarea>
-                                <div th:if="${#fields.hasErrors('description')}" class="text-danger">
-                                    <small th:errors="*{description}"></small>
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="updatedBy" class="form-label">
-                                    <i class="fas fa-user"></i> 수정자
-                                </label>
-                                <input type="text" id="updatedBy" th:field="*{updatedBy}" 
-                                       class="form-control" placeholder="수정자를 입력하세요">
-                            </div>
-
-                            <div class="d-flex justify-content-between">
-                                <a th:href="@{/tech-specs/{id}(id=${id})}" class="btn btn-secondary">
-                                    <i class="fas fa-arrow-left"></i> 상세보기로
-                                </a>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">
+                                    <i class="fas fa-edit"></i> 기술 스펙 수정
+                                </h3>
                                 <div>
-                                    <button type="reset" class="btn btn-warning me-2">
-                                        <i class="fas fa-undo"></i> 초기화
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-save"></i> 수정
-                                    </button>
+                                    <a th:href="@{/techspec/{id}(id=${techSpec.id})}" class="btn btn-info me-2">
+                                        <i class="fas fa-eye"></i> 상세보기
+                                    </a>
+                                    <a href="/techspec" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left"></i> 목록으로
+                                    </a>
                                 </div>
                             </div>
-                        </form>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/techspec/{id}/edit(id=${techSpec.id})}" method="post" th:object="${techSpec}">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="category" class="form-label">
+                                            <i class="fas fa-tags"></i> 분류 영역 *
+                                        </label>
+                                        <select id="category" name="category" class="form-select" required>
+                                            <option value="">분류를 선택하세요</option>
+                                            <option value="프론트엔드" th:selected="${techSpec.category == '프론트엔드'}">프론트엔드</option>
+                                            <option value="백엔드" th:selected="${techSpec.category == '백엔드'}">백엔드</option>
+                                            <option value="데이터베이스" th:selected="${techSpec.category == '데이터베이스'}">데이터베이스</option>
+                                            <option value="인프라" th:selected="${techSpec.category == '인프라'}">인프라</option>
+                                            <option value="보안" th:selected="${techSpec.category == '보안'}">보안</option>
+                                            <option value="기타" th:selected="${techSpec.category == '기타'}">기타</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="subItem" class="form-label">
+                                            <i class="fas fa-list"></i> 세부 항목 *
+                                        </label>
+                                        <input type="text" id="subItem" name="subItem" 
+                                               class="form-control" placeholder="세부 항목을 입력하세요" 
+                                               th:value="${techSpec.subItem}" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="technologyName" class="form-label">
+                                            <i class="fas fa-cog"></i> 기술 명칭 *
+                                        </label>
+                                        <input type="text" id="technologyName" name="technologyName" 
+                                               class="form-control" placeholder="기술 명칭을 입력하세요" 
+                                               th:value="${techSpec.technologyName}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="version" class="form-label">
+                                            <i class="fas fa-code-branch"></i> 버전 *
+                                        </label>
+                                        <input type="text" id="version" name="version" 
+                                               class="form-control" placeholder="예: 1.0.0" 
+                                               th:value="${techSpec.version}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="isActive" class="form-label">
+                                            <i class="fas fa-toggle-on"></i> 상태
+                                        </label>
+                                        <select id="isActive" name="isActive" class="form-select">
+                                            <option value="true" th:selected="${techSpec.isActive}">활성</option>
+                                            <option value="false" th:selected="${!techSpec.isActive}">비활성</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="description" class="form-label">
+                                            <i class="fas fa-align-left"></i> 설명
+                                        </label>
+                                        <textarea id="description" name="description" 
+                                                  class="form-control" rows="4" 
+                                                  placeholder="기술 스펙에 대한 상세 설명을 입력하세요"
+                                                  th:text="${techSpec.description}"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <button type="reset" class="btn btn-warning">
+                                                <i class="fas fa-undo"></i> 초기화
+                                            </button>
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="fas fa-save"></i> 저장
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

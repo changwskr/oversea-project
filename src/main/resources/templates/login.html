@@ -130,6 +130,15 @@
             padding: 1rem;
             margin-bottom: 1rem;
         }
+        
+        .warning-message {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -149,6 +158,12 @@
         <div th:if="${param.logout}" class="success-message">
             <i class="fas fa-check-circle"></i>
             <strong>로그아웃 완료:</strong> 성공적으로 로그아웃되었습니다.
+        </div>
+        
+        <!-- 세션 만료 메시지 표시 -->
+        <div th:if="${param.expired}" class="warning-message">
+            <i class="fas fa-clock"></i>
+            <strong>세션 만료:</strong> 세션이 만료되었습니다. 다시 로그인해주세요.
         </div>
         
         <form th:action="@{/login}" method="post">

@@ -91,7 +91,7 @@ public class CashCardController extends BaseController {
     @PostMapping
     public ResponseEntity<ServiceResponse<CashCard>> createCashCard(@RequestBody CashCard cashCard) {
         try {
-            CashCard createdCashCard = cashCardService.createCashCard(cashCard);
+            CashCard createdCashCard = cashCardService.save(cashCard);
             return success(createdCashCard, "Cash card created successfully");
         } catch (Exception e) {
             logger.error("Error creating cash card", e);

@@ -25,8 +25,6 @@ public interface CashCardService {
 
     List<CashCard> getCashCardsByCustomerId(String customerId);
 
-    CashCard createCashCard(CashCard cashCard);
-
     CashCard updateCashCard(CashCard cashCard);
 
     boolean deleteCashCard(Long id);

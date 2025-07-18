@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}">핫카드 관리</title>
+    <title th:text="${title}">?카??관리/title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -179,7 +179,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/home">
                 <i class="fas fa-university"></i> SKCC Oversea
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -188,7 +188,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 홈</a>
+                        <a class="nav-link" href="/home"><i class="fas fa-home"></i> ??/a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
@@ -210,24 +210,24 @@
     <div class="container main-content">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> 홈</a></li>
+                <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i> ??/a></li>
                 <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
-                <li class="breadcrumb-item active" aria-current="page">핫카드 관리</li>
+                <li class="breadcrumb-item active" aria-current="page">?카??관리</li>
             </ol>
         </nav>
 
         <div class="page-header">
-            <h1><i class="fas fa-exclamation-triangle"></i> <span th:text="${pageTitle}">핫카드 관리</span></h1>
-            <p th:text="${description}">분실/도난 카드를 관리합니다</p>
+            <h1><i class="fas fa-exclamation-triangle"></i> <span th:text="${pageTitle}">?카??관리</span></h1>
+            <p th:text="${description}">분실/?난 카드를 관리합니다</p>
         </div>
         
         <div class="content-card">
             <div class="hotcard-grid">
                 <div class="hotcard-item">
                     <i class="fas fa-plus-circle hotcard-icon"></i>
-                    <div class="hotcard-title">핫카드 등록</div>
+                    <div class="hotcard-title">?카드 등록</div>
                     <div class="hotcard-description">
-                        분실/도난 카드를 핫카드로 등록합니다
+                        분실/?난 카드를 핫카드로 등록합니다
                     </div>
                     <a href="/cashcard/hotcard/register" class="btn btn-danger btn-hotcard">
                         <i class="fas fa-plus"></i> 등록하기
@@ -236,18 +236,18 @@
                 
                 <div class="hotcard-item">
                     <i class="fas fa-check-circle hotcard-icon"></i>
-                    <div class="hotcard-title">핫카드 해제</div>
+                    <div class="hotcard-title">?카드 제거</div>
                     <div class="hotcard-description">
-                        핫카드 상태를 해제하고 정상 사용을 재개합니다
+                        ?카드를 제거하고 상태를 변경합니다
                     </div>
                     <a href="/cashcard/hotcard/release" class="btn btn-success btn-hotcard">
-                        <i class="fas fa-check"></i> 해제하기
+                        <i class="fas fa-check"></i> 제거하기
                     </a>
                 </div>
                 
                 <div class="hotcard-item">
                     <i class="fas fa-search hotcard-icon"></i>
-                    <div class="hotcard-title">핫카드 조회</div>
+                    <div class="hotcard-title">?카드 조회</div>
                     <div class="hotcard-description">
                         등록된 핫카드 목록을 조회합니다
                     </div>
@@ -258,9 +258,9 @@
                 
                 <div class="hotcard-item">
                     <i class="fas fa-chart-bar hotcard-icon"></i>
-                    <div class="hotcard-title">통계 현황</div>
+                    <div class="hotcard-title">?계 현황</div>
                     <div class="hotcard-description">
-                        핫카드 등록 현황 및 통계를 확인합니다
+                        ?카드 등록 현황을 통계로 보여드립니다
                     </div>
                     <a href="#" class="btn btn-warning btn-hotcard">
                         <i class="fas fa-chart-line"></i> 통계보기
@@ -281,7 +281,7 @@
                     <div class="hotcard-details">
                         <div class="detail-item">
                             <div class="detail-label">고객명</div>
-                            <div class="detail-value">이영희</div>
+                            <div class="detail-value">이영수</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">계좌번호</div>
@@ -293,7 +293,7 @@
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">등록자</div>
-                            <div class="detail-value">김관리</div>
+                            <div class="detail-value">김관우</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">사유</div>
@@ -304,7 +304,7 @@
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">상태</div>
-                            <div class="detail-value">처리중</div>
+                            <div class="detail-value">처리완료</div>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
@@ -312,7 +312,7 @@
                             <i class="fas fa-eye"></i> 상세보기
                         </a>
                         <a href="/cashcard/hotcard/release" class="btn btn-outline-success btn-sm">
-                            <i class="fas fa-check"></i> 해제하기
+                            <i class="fas fa-check"></i> 제거하기
                         </a>
                         <a href="#" class="btn btn-outline-info btn-sm">
                             <i class="fas fa-edit"></i> 수정
@@ -328,7 +328,7 @@
                     <div class="hotcard-details">
                         <div class="detail-item">
                             <div class="detail-label">고객명</div>
-                            <div class="detail-value">박민수</div>
+                            <div class="detail-value">박지민</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">계좌번호</div>
@@ -340,7 +340,7 @@
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">등록자</div>
-                            <div class="detail-value">이관리</div>
+                            <div class="detail-value">최수연</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">사유</div>
@@ -351,7 +351,7 @@
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">상태</div>
-                            <div class="detail-value">처리중</div>
+                            <div class="detail-value">처리완료</div>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
@@ -359,7 +359,7 @@
                             <i class="fas fa-eye"></i> 상세보기
                         </a>
                         <a href="/cashcard/hotcard/release" class="btn btn-outline-success btn-sm">
-                            <i class="fas fa-check"></i> 해제하기
+                            <i class="fas fa-check"></i> 제거하기
                         </a>
                         <a href="#" class="btn btn-outline-info btn-sm">
                             <i class="fas fa-edit"></i> 수정
@@ -370,26 +370,26 @@
         </div>
         
         <div class="content-card">
-            <h4><i class="fas fa-info-circle"></i> 핫카드 관리 안내</h4>
+            <h4><i class="fas fa-info-circle"></i> ?카드 관리 내용</h4>
             <div class="row">
                 <div class="col-md-6">
-                    <h5>핫카드 등록 사유</h5>
+                    <h5>?카드 등록 사유</h5>
                     <ul>
                         <li>고객 분실 신고</li>
                         <li>고객 도난 신고</li>
-                        <li>경찰 신고 접수</li>
-                        <li>의심스러운 거래 감지</li>
-                        <li>관리자 판단에 의한 등록</li>
+                        <li>경찰 신고 수수</li>
+                        <li>?심?러??거래 감소</li>
+                        <li>관리자 단계적 처리</li>
                     </ul>
                 </div>
                 <div class="col-md-6">
-                    <h5>핫카드 해제 조건</h5>
+                    <h5>?카드 제거 조건</h5>
                     <ul>
-                        <li>고객 본인 확인 완료</li>
-                        <li>카드 재발급 완료</li>
-                        <li>보안 검증 통과</li>
+                        <li>고객 본인 신청 수수</li>
+                        <li>카드 발급 취소 수수</li>
+                        <li>보안 검증 과정</li>
                         <li>관리자 승인</li>
-                        <li>필요시 추가 서류 제출</li>
+                        <li>?요?추가 예외 처리</li>
                     </ul>
                 </div>
             </div>

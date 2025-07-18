@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}">IP 화이트리스트 정책</title>
+    <title th:text="${title}">IP 관리</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -298,10 +298,10 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션 바 -->
+    <!-- 비게이트 -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/home">
                 <i class="fas fa-university"></i> SKCC Oversea
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -346,49 +346,49 @@
 
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
-            <h1><i class="fas fa-network-wired"></i> IP 화이트리스트 정책</h1>
-            <p>허용된 IP 주소 목록을 관리합니다</p>
+            <h1><i class="fas fa-network-wired"></i> IP 관리</h1>
+            <p>사용자 IP 주소 목록을 관리합니다</p>
         </div>
         
-        <!-- 성공/에러 메시지 -->
+        <!-- 공/러 메시지 -->
         <div th:if="${successMessage}" class="alert alert-success" role="alert">
             <i class="fas fa-check-circle"></i>
-            <span th:text="${successMessage}">IP 화이트리스트가 성공적으로 업데이트되었습니다.</span>
+            <span th:text="${successMessage}">IP 관리가 성공적으로 완료되었습니다.</span>
         </div>
         
         <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
             <i class="fas fa-exclamation-triangle"></i>
-            <span th:text="${errorMessage}">IP 화이트리스트 업데이트 중 오류가 발생했습니다.</span>
+            <span th:text="${errorMessage}">IP 관리 데이터에 오류가 발생했습니다.</span>
         </div>
         
         <div class="content-container">
-            <!-- IP 통계 -->
+            <!-- IP 계 -->
             <div class="ip-stats">
-                <h6><i class="fas fa-chart-bar"></i> IP 화이트리스트 통계</h6>
+                <h6><i class="fas fa-chart-bar"></i> IP 관리 계</h6>
                 <div class="row">
                     <div class="col-md-3">
-                        <p><strong>전체 IP:</strong> <span class="stats-number">12개</span></p>
+                        <p><strong>전체 IP:</strong> <span class="stats-number">12개/span></p>
                     </div>
                     <div class="col-md-3">
-                        <p><strong>활성 IP:</strong> <span class="stats-number">10개</span></p>
+                        <p><strong>성공 IP:</strong> <span class="stats-number">10개/span></p>
                     </div>
                     <div class="col-md-3">
-                        <p><strong>차단된 접근:</strong> <span class="stats-number">45회</span></p>
+                        <p><strong>차단 근처:</strong> <span class="stats-number">45개/span></p>
                     </div>
                     <div class="col-md-3">
-                        <p><strong>마지막 업데이트:</strong> <span class="stats-number">2025-07-17 13:30</span></p>
+                        <p><strong>마지막 데이터:</strong> <span class="stats-number">2025-07-17 13:30</span></p>
                     </div>
                 </div>
             </div>
             
-            <!-- IP 화이트리스트 정책 -->
+            <!-- IP 관리 정책 -->
             <div class="policy-card">
                 <div class="policy-header">
-                    <h5 class="policy-title">IP 화이트리스트 정책</h5>
-                    <span class="policy-status status-active">활성</span>
+                    <h5 class="policy-title">IP 관리 정책</h5>
+                    <span class="policy-status status-active">성공</span>
                 </div>
                 <p class="policy-description">
-                    허용된 IP 주소에서만 접근을 허용하는 정책입니다.
+                    네트워크 보안을 강화하기 위한 접근 제어 정책입니다.
                     네트워크 보안을 강화하기 위한 접근 제어 정책입니다.
                 </p>
                 
@@ -399,7 +399,7 @@
                                 <input class="form-check-input" type="checkbox" id="enableIPWhitelist" 
                                        name="enableIPWhitelist" checked>
                                 <label class="form-check-label" for="enableIPWhitelist">
-                                    <strong>IP 화이트리스트 활성화</strong>
+                                    <strong>IP 관리 성공/strong>
                                 </label>
                             </div>
                         </div>
@@ -408,7 +408,7 @@
                                 <input class="form-check-input" type="checkbox" id="logBlockedAccess" 
                                        name="logBlockedAccess" checked>
                                 <label class="form-check-label" for="logBlockedAccess">
-                                    <strong>차단된 접근 로깅</strong>
+                                    <strong>차단 근처 로깅</strong>
                                 </label>
                             </div>
                         </div>
@@ -425,21 +425,21 @@
             <!-- IP 주소 목록 -->
             <div class="policy-card">
                 <div class="policy-header">
-                    <h5 class="policy-title">허용된 IP 주소 목록</h5>
+                    <h5 class="policy-title">사용자 IP 주소 목록</h5>
                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addIPModal">
                         <i class="fas fa-plus"></i> IP 추가
                     </button>
                 </div>
                 <p class="policy-description">
-                    시스템 접근이 허용된 IP 주소 목록입니다.
-                    개별 IP 또는 CIDR 표기법을 사용할 수 있습니다.
+                    스파이 근처 사용자 IP 주소 목록을 관리합니다.
+                    개별 IP는 CIDR 기법을 사용합니다.
                 </p>
                 
                 <div class="ip-list">
                     <div class="ip-item">
                         <div>
                             <div class="ip-address">192.168.1.0/24</div>
-                            <div class="ip-description">내부 네트워크 (사무실)</div>
+                            <div class="ip-description">예시 테스트 (무관)</div>
                         </div>
                         <div class="ip-actions">
                             <button class="btn btn-warning btn-sm">
@@ -454,7 +454,7 @@
                     <div class="ip-item">
                         <div>
                             <div class="ip-address">10.0.0.0/8</div>
-                            <div class="ip-description">사설 네트워크</div>
+                            <div class="ip-description">설정 테스트</div>
                         </div>
                         <div class="ip-actions">
                             <button class="btn btn-warning btn-sm">
@@ -469,7 +469,7 @@
                     <div class="ip-item">
                         <div>
                             <div class="ip-address">172.16.0.0/12</div>
-                            <div class="ip-description">사설 네트워크</div>
+                            <div class="ip-description">설정 테스트</div>
                         </div>
                         <div class="ip-actions">
                             <button class="btn btn-warning btn-sm">
@@ -484,7 +484,7 @@
                     <div class="ip-item">
                         <div>
                             <div class="ip-address">203.241.xxx.xxx</div>
-                            <div class="ip-description">외부 접속 허용 IP</div>
+                            <div class="ip-description">예시 속 사용 IP</div>
                         </div>
                         <div class="ip-actions">
                             <button class="btn btn-warning btn-sm">
@@ -499,7 +499,7 @@
                     <div class="ip-item">
                         <div>
                             <div class="ip-address">127.0.0.1</div>
-                            <div class="ip-description">로컬호스트</div>
+                            <div class="ip-description">로컬 스파이</div>
                         </div>
                         <div class="ip-actions">
                             <button class="btn btn-warning btn-sm">
@@ -514,25 +514,25 @@
                 
                 <div class="text-center mt-3">
                     <button class="btn btn-success me-2">
-                        <i class="fas fa-download"></i> 목록 내보내기
+                        <i class="fas fa-download"></i> 목록 다운로드
                     </button>
                     <button class="btn btn-warning">
-                        <i class="fas fa-upload"></i> 목록 가져오기
+                        <i class="fas fa-upload"></i> 목록 업로드
                     </button>
                 </div>
             </div>
             
-            <!-- IP 접근 로그 -->
+            <!-- IP 근 로그 -->
             <div class="policy-card">
                 <div class="policy-header">
-                    <h5 class="policy-title">IP 접근 로그</h5>
+                    <h5 class="policy-title">IP 근 로그</h5>
                     <button class="btn btn-info btn-sm">
                         <i class="fas fa-eye"></i> 전체 로그 보기
                     </button>
                 </div>
                 <p class="policy-description">
-                    최근 IP 접근 시도 로그입니다.
-                    허용된 IP와 차단된 IP의 접근 기록을 확인할 수 있습니다.
+                    최근 IP 근 접근 로그를 확인합니다.
+                    사용자 IP가 차단된 IP와 접근 기록을 확인합니다.
                 </p>
                 
                 <div class="table-responsive">
@@ -543,7 +543,7 @@
                                 <th>IP 주소</th>
                                 <th>사용자</th>
                                 <th>상태</th>
-                                <th>액션</th>
+                                <th>세션</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -551,29 +551,29 @@
                                 <td>2025-07-17 13:30:00</td>
                                 <td>192.168.1.100</td>
                                 <td>admin</td>
-                                <td><span class="badge bg-success">허용</span></td>
-                                <td>로그인</td>
+                                <td><span class="badge bg-success">성공</span></td>
+                                <td>로그 기록</td>
                             </tr>
                             <tr>
                                 <td>2025-07-17 13:25:00</td>
                                 <td>203.241.xxx.xxx</td>
                                 <td>user1</td>
-                                <td><span class="badge bg-success">허용</span></td>
-                                <td>로그인</td>
+                                <td><span class="badge bg-success">성공</span></td>
+                                <td>로그 기록</td>
                             </tr>
                             <tr>
                                 <td>2025-07-17 13:20:00</td>
                                 <td>192.168.2.50</td>
                                 <td>-</td>
                                 <td><span class="badge bg-danger">차단</span></td>
-                                <td>접근 시도</td>
+                                <td>근 접근</td>
                             </tr>
                             <tr>
                                 <td>2025-07-17 13:15:00</td>
                                 <td>10.0.0.100</td>
                                 <td>user2</td>
-                                <td><span class="badge bg-success">허용</span></td>
-                                <td>API 호출</td>
+                                <td><span class="badge bg-success">성공</span></td>
+                                <td>API 출력</td>
                             </tr>
                         </tbody>
                     </table>
@@ -605,20 +605,20 @@
                             <input type="text" class="form-control" id="ipAddress" 
                                    placeholder="예: 192.168.1.0/24 또는 203.241.xxx.xxx" required>
                             <div class="form-text">
-                                개별 IP 주소 또는 CIDR 표기법을 사용하세요.
+                                개별 IP 주소는 CIDR 기법을 사용합니다.
                             </div>
                         </div>
                         
                         <div class="mb-3">
                             <label for="ipDescription" class="form-label">설명</label>
                             <input type="text" class="form-control" id="ipDescription" 
-                                   placeholder="예: 사무실 내부 네트워크">
+                                   placeholder="예: 무관 테스트 또는 설정 테스트">
                         </div>
                         
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="ipEnabled" checked>
                             <label class="form-check-label" for="ipEnabled">
-                                즉시 활성화
+                                즉시 성공
                             </label>
                         </div>
                     </form>

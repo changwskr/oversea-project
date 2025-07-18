@@ -107,7 +107,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/home">
                 <i class="fas fa-university"></i> SKCC Oversea
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -116,7 +116,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 홈</a>
+                        <a class="nav-link" href="/home"><i class="fas fa-home"></i> 홈</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
@@ -138,17 +138,17 @@
     <div class="container main-content">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> 홈</a></li>
+                <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i> 홈</a></li>
                 <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
                 <li class="breadcrumb-item"><a href="/cashcard/issue">카드 발급</a></li>
                 <li class="breadcrumb-item"><a href="/cashcard/issue/apply">카드 발급 신청</a></li>
-                <li class="breadcrumb-item active" aria-current="page">신청 완료</li>
+                <li class="breadcrumb-item active" aria-current="page">카드 발급 신청 완료</li>
             </ol>
         </nav>
 
         <div class="page-header">
             <h1><i class="fas fa-check-circle"></i> <span th:text="${pageTitle}">카드 발급 신청 완료</span></h1>
-            <p th:text="${description}">카드 발급 신청이 완료되었습니다</p>
+            <p th:text="${description}">카드 발급 신청이 성공적으로 접수되었습니다</p>
         </div>
         
         <div class="content-card">
@@ -156,14 +156,14 @@
                 <div class="success-icon">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <h3 class="text-success mb-3">신청서 제출이 완료되었습니다!</h3>
-                <p class="lead">카드 발급 신청이 성공적으로 접수되었습니다.</p>
+                <h3 class="text-success mb-3">신청이 성공적으로 완료되었습니다!</h3>
+                <p class="lead">카드 발급 신청이 성공적으로 접수되었습니다</p>
             </div>
             
             <!-- 성공 메시지 표시 -->
             <div th:if="${successMessage}" class="alert alert-success" role="alert">
                 <i class="fas fa-info-circle"></i>
-                <span th:text="${successMessage}">카드 발급 신청이 성공적으로 제출되었습니다.</span>
+                <span th:text="${successMessage}">카드 발급 신청이 성공적으로 접수되었습니다</span>
             </div>
             
             <!-- 신청 정보 표시 -->
@@ -187,10 +187,10 @@
             <div class="application-info">
                 <h5><i class="fas fa-hashtag"></i> 신청 번호</h5>
                 <p class="h4 text-primary" th:text="${#dates.format(#dates.createNow(), 'yyyyMMdd')} + '-' + ${#strings.substring(#strings.replace(#dates.format(#dates.createNow(), 'HHmmss'), ':', ''), 0, 6)}">20241201-143022</p>
-                <small class="text-muted">신청 현황 조회 시 필요합니다.</small>
+                <small class="text-muted">카드 신청 현황 조회 시 필요합니다</small>
             </div>
             
-            <!-- 액션 버튼들 -->
+            <!-- 션 버튼??-->
             <div class="text-center mt-4">
                 <a href="/cashcard/search" class="btn btn-success btn-action">
                     <i class="fas fa-search"></i> 신청 현황 조회
@@ -201,7 +201,7 @@
                 <a href="/cashcard" class="btn btn-info btn-action">
                     <i class="fas fa-credit-card"></i> Cash Card 메인
                 </a>
-                <a href="/" class="btn btn-secondary btn-action">
+                <a href="/home" class="btn btn-secondary btn-action">
                     <i class="fas fa-home"></i> 홈으로
                 </a>
             </div>

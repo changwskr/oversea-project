@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
+            background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -47,32 +47,16 @@
             margin-bottom: 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
-            cursor: pointer;
-            display: block;
-            text-decoration: none;
-            color: inherit;
         }
         
         .feature-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        /* 링크 내부 요소들이 클릭을 방해하지 않도록 */
-        .feature-card * {
-            pointer-events: none;
-        }
-        
-        /* 링크 자체는 클릭 가능하도록 */
-        a .feature-card {
-            pointer-events: auto;
         }
         
         .feature-icon {
             font-size: 2.5rem;
-            color: #dc3545;
+            color: #6f42c1;
             margin-bottom: 1rem;
         }
         
@@ -114,7 +98,7 @@
         }
         
         .status-value {
-            color: #dc3545;
+            color: #6f42c1;
             font-weight: 600;
         }
     </style>
@@ -153,58 +137,50 @@
     <div class="container main-content">
         <div class="service-header">
             <h1><i class="fas fa-users"></i> <span th:text="${serviceName}">User</span></h1>
-            <p th:text="${description}">사용자 관리 및 인증 서비스</p>
+            <p th:text="${description}">사용자 관리 및 권한 관리</p>
         </div>
         
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="/user-management-web/register" class="text-decoration-none">
-                            <div class="feature-card">
-                                <i class="fas fa-user-plus feature-icon"></i>
-                                <div class="feature-title">사용자 등록</div>
-                                <div class="feature-description">
-                                    새로운 사용자 계정 생성 및 정보 등록
-                                </div>
+                        <div class="feature-card">
+                            <i class="fas fa-user-plus feature-icon"></i>
+                            <div class="feature-title">사용자 등록</div>
+                            <div class="feature-description">
+                                새로운 사용자 등록 및 계정 생성
                             </div>
-                        </a>
+                        </div>
                     </div>
                     
                     <div class="col-md-6">
-                        <a href="/user-management-web/roles" class="text-decoration-none">
-                            <div class="feature-card">
-                                <i class="fas fa-key feature-icon"></i>
-                                <div class="feature-title">권한 관리</div>
-                                <div class="feature-description">
-                                    사용자 권한 설정 및 역할 관리
-                                </div>
+                        <div class="feature-card">
+                            <i class="fas fa-user-edit feature-icon"></i>
+                            <div class="feature-title">사용자 관리</div>
+                            <div class="feature-description">
+                                사용자 정보 수정 및 계정 관리
                             </div>
-                        </a>
+                        </div>
                     </div>
                     
                     <div class="col-md-6">
-                        <a href="/user-management-web/security" class="text-decoration-none">
-                            <div class="feature-card">
-                                <i class="fas fa-shield-alt feature-icon"></i>
-                                <div class="feature-title">보안 관리</div>
-                                <div class="feature-description">
-                                    로그인 인증 및 보안 정책 관리
-                                </div>
+                        <div class="feature-card">
+                            <i class="fas fa-shield-alt feature-icon"></i>
+                            <div class="feature-title">권한 관리</div>
+                            <div class="feature-description">
+                                사용자 권한 설정 및 역할 관리
                             </div>
-                        </a>
+                        </div>
                     </div>
                     
                     <div class="col-md-6">
-                        <a href="/user-management-web/activity-logs" class="text-decoration-none">
-                            <div class="feature-card">
-                                <i class="fas fa-history feature-icon"></i>
-                                <div class="feature-title">활동 로그</div>
-                                <div class="feature-description">
-                                    사용자 활동 내역 및 접근 로그 관리
-                                </div>
+                        <div class="feature-card">
+                            <i class="fas fa-history feature-icon"></i>
+                            <div class="feature-title">활동 로그</div>
+                            <div class="feature-description">
+                                사용자 활동 내역 및 접근 로그
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -218,37 +194,37 @@
                     </div>
                     <div class="status-item">
                         <span class="status-label">총 사용자</span>
-                        <span class="status-value">234</span>
+                        <span class="status-value">1,234</span>
                     </div>
                     <div class="status-item">
                         <span class="status-label">활성 사용자</span>
-                        <span class="status-value">198</span>
+                        <span class="status-value">1,156</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">관리자</span>
+                        <span class="status-value">15</span>
                     </div>
                     <div class="status-item">
                         <span class="status-label">오늘 로그인</span>
-                        <span class="status-value">45</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">권한 그룹</span>
-                        <span class="status-value">8</span>
+                        <span class="status-value">89</span>
                     </div>
                 </div>
                 
                 <div class="status-card">
                     <h5 class="mb-3"><i class="fas fa-cog"></i> 빠른 메뉴</h5>
                     <div class="d-grid gap-2">
-                        <a href="/user-management-web/register" class="btn btn-outline-danger">
+                        <button class="btn btn-outline-primary">
                             <i class="fas fa-user-plus"></i> 사용자 등록
-                        </a>
-                        <a href="/user-management-web" class="btn btn-outline-primary">
-                            <i class="fas fa-search"></i> 사용자 조회
-                        </a>
-                        <a href="/user-management-web/roles" class="btn btn-outline-warning">
-                            <i class="fas fa-key"></i> 권한 관리
-                        </a>
-                        <a href="/user-management-web/activity-logs" class="btn btn-outline-info">
-                            <i class="fas fa-chart-line"></i> 활동 통계
-                        </a>
+                        </button>
+                        <button class="btn btn-outline-success">
+                            <i class="fas fa-user-edit"></i> 사용자 관리
+                        </button>
+                        <button class="btn btn-outline-warning">
+                            <i class="fas fa-shield-alt"></i> 권한 관리
+                        </button>
+                        <button class="btn btn-outline-info">
+                            <i class="fas fa-history"></i> 활동 로그
+                        </button>
                     </div>
                 </div>
             </div>
@@ -256,55 +232,5 @@
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // 페이지 로드 시 실행
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('=== User 서비스 페이지 로드됨 ===');
-            
-            // 모든 링크 찾기
-            const allLinks = document.querySelectorAll('a');
-            console.log('전체 링크 개수:', allLinks.length);
-            
-            // 기능 카드 링크 찾기
-            const featureLinks = document.querySelectorAll('a[href*="/user-management-web"]');
-            console.log('기능 카드 링크 개수:', featureLinks.length);
-            
-            // 각 기능 카드에 이벤트 추가
-            featureLinks.forEach((link, index) => {
-                console.log(`기능 카드 ${index + 1} 설정:`, link.href);
-                
-                // 클릭 이벤트
-                link.addEventListener('click', function(e) {
-                    console.log('기능 카드 클릭됨:', this.href);
-                });
-                
-                // 시각적 피드백
-                link.style.cursor = 'pointer';
-                link.style.position = 'relative';
-                link.style.zIndex = '100';
-            });
-            
-            // 전체 페이지 클릭 이벤트 (디버깅용)
-            document.addEventListener('click', function(e) {
-                console.log('페이지 클릭:', e.target.tagName, e.target.className);
-                
-                // 클릭된 요소가 링크인지 확인
-                if (e.target.tagName === 'A') {
-                    console.log('링크 클릭됨:', e.target.href);
-                }
-                
-                // 클릭된 요소가 기능 카드 내부인지 확인
-                const card = e.target.closest('.feature-card');
-                if (card) {
-                    console.log('기능 카드 클릭됨');
-                }
-            });
-        });
-        
-        // 페이지 로드 완료 확인
-        window.addEventListener('load', function() {
-            console.log('=== User 서비스 페이지 완전히 로드됨 ===');
-        });
-    </script>
 </body>
 </html> 

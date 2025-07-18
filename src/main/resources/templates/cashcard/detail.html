@@ -172,7 +172,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/home">
                 <i class="fas fa-university"></i> SKCC Oversea
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -181,7 +181,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 홈</a>
+                        <a class="nav-link" href="/home"><i class="fas fa-home"></i> 홈</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
@@ -203,7 +203,7 @@
     <div class="container main-content">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> 홈</a></li>
+                <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i> 홈</a></li>
                 <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
                 <li class="breadcrumb-item"><a href="/cashcard/search">카드 조회</a></li>
                 <li class="breadcrumb-item active" aria-current="page">카드 상세 정보</li>
@@ -215,13 +215,13 @@
             <p th:text="${description}">카드 상세 정보를 확인합니다</p>
         </div>
         
-        <!-- 성공/에러 메시지 -->
+        <!-- 성공/실패 메시지 -->
         <div th:if="${successMessage}" class="alert alert-success" role="alert">
             <i class="fas fa-check-circle"></i> <span th:text="${successMessage}">성공 메시지</span>
         </div>
         
         <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-            <i class="fas fa-exclamation-triangle"></i> <span th:text="${errorMessage}">에러 메시지</span>
+            <i class="fas fa-exclamation-triangle"></i> <span th:text="${errorMessage}">오류 메시지</span>
         </div>
         
         <div class="content-card">
@@ -246,7 +246,7 @@
                 <!-- 상태 표시 -->
                 <div class="text-center mb-4">
                     <span th:class="${'status-badge ' + (cardInfo.status == 'A' ? 'status-active' : (cardInfo.status == 'H' ? 'status-hot' : (cardInfo.status == 'P' ? 'status-pending' : 'status-inactive')))}" 
-                          th:text="${cardInfo.status == 'A' ? '활성' : (cardInfo.status == 'H' ? '핫카드' : (cardInfo.status == 'P' ? '승인대기' : '비활성'))}">상태</span>
+                          th:text="${cardInfo.status == 'A' ? '정상' : (cardInfo.status == 'H' ? '핫카드' : (cardInfo.status == 'P' ? '휴면상태' : '비활성'))}">상태</span>
                 </div>
                 
                 <!-- 고객 정보 섹션 -->
@@ -293,19 +293,19 @@
                     <div class="detail-grid">
                         <div class="detail-item">
                             <div class="detail-label">일일한도</div>
-                            <div class="detail-value" th:text="${cardInfo.dailyLimitAmount != null ? cardInfo.dailyLimitAmount + ' ' + (cardInfo.dailyLimitCcy != null ? cardInfo.dailyLimitCcy : 'KRW') : '설정안됨'}">일일한도</div>
+                            <div class="detail-value" th:text="${cardInfo.dailyLimitAmount != null ? cardInfo.dailyLimitAmount + ' ' + (cardInfo.dailyLimitCcy != null ? cardInfo.dailyLimitCcy : 'KRW') : '설정됨'}">일일한도</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">일일누적</div>
                             <div class="detail-value" th:text="${cardInfo.dailyAccumAmount != null ? cardInfo.dailyAccumAmount + ' ' + (cardInfo.dailyLimitCcy != null ? cardInfo.dailyLimitCcy : 'KRW') : '0 KRW'}">일일누적</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">이체한도</div>
-                            <div class="detail-value" th:text="${cardInfo.dailyTrfLimitAmount != null ? cardInfo.dailyTrfLimitAmount + ' ' + (cardInfo.dailyTrfLimitCcy != null ? cardInfo.dailyTrfLimitCcy : 'KRW') : '설정안됨'}">이체한도</div>
+                            <div class="detail-label">체크한도</div>
+                            <div class="detail-value" th:text="${cardInfo.dailyTrfLimitAmount != null ? cardInfo.dailyTrfLimitAmount + ' ' + (cardInfo.dailyTrfLimitCcy != null ? cardInfo.dailyTrfLimitCcy : 'KRW') : '설정됨'}">체크한도</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">이체누적</div>
-                            <div class="detail-value" th:text="${cardInfo.dailyTrfAccumAmount != null ? cardInfo.dailyTrfAccumAmount + ' ' + (cardInfo.dailyTrfLimitCcy != null ? cardInfo.dailyTrfLimitCcy : 'KRW') : '0 KRW'}">이체누적</div>
+                            <div class="detail-label">체크누적</div>
+                            <div class="detail-value" th:text="${cardInfo.dailyTrfAccumAmount != null ? cardInfo.dailyTrfAccumAmount + ' ' + (cardInfo.dailyTrfLimitCcy != null ? cardInfo.dailyTrfLimitCcy : 'KRW') : '0 KRW'}">체크누적</div>
                         </div>
                     </div>
                 </div>
@@ -338,12 +338,12 @@
                     <h4><i class="fas fa-cog"></i> 관리 정보</h4>
                     <div class="detail-grid">
                         <div class="detail-item">
-                            <div class="detail-label">시퀀스번호</div>
-                            <div class="detail-value" th:text="${cardInfo.sequenceNo}">시퀀스번호</div>
+                            <div class="detail-label">일련번호</div>
+                            <div class="detail-value" th:text="${cardInfo.sequenceNo}">일련번호</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">비밀번호오류횟수</div>
-                            <div class="detail-value" th:text="${cardInfo.invalidAttemptCnt}">비밀번호오류횟수</div>
+                            <div class="detail-label">비밀번호 오류 횟수</div>
+                            <div class="detail-value" th:text="${cardInfo.invalidAttemptCnt}">비밀번호 오류 횟수</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">최종수정일자</div>

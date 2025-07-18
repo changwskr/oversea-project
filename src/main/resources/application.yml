@@ -30,9 +30,21 @@ spring:
   h2:
     console:
       enabled: true
+  session:
+    timeout: 240m
+    store-type: none
 
 server:
   port: 8080
+  servlet:
+    session:
+      timeout: 240m # 4시간으로 증가
+      cookie:
+        http-only: true
+        secure: false
+        max-age: 14400 # 4시간 (초 단위)
+        path: /
+        domain: localhost
 
 # Swagger/OpenAPI Configuration
 springdoc:

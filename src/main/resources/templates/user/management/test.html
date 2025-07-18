@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>클릭 이벤트 테스트</title>
+    <title>사용자 관리 테스트</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .test-card {
@@ -29,13 +29,13 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1>클릭 이벤트 테스트</h1>
+        <h1>사용자 관리 테스트</h1>
         
         <div class="row">
             <div class="col-md-4">
                 <a href="/user-management-web/register" class="test-card d-block text-decoration-none">
-                    <h3>사용자 등록</h3>
-                    <p>클릭하여 사용자 등록 페이지로 이동</p>
+                    <h3>회원 가입</h3>
+                    <p>클릭하여 회원 가입 페이지로 이동</p>
                 </a>
             </div>
             
@@ -72,7 +72,7 @@
             <div class="col-md-4">
                 <button class="test-card w-100 border-0" onclick="alert('버튼 클릭됨!')">
                     <h3>JavaScript 테스트</h3>
-                    <p>클릭하여 JavaScript 이벤트 테스트</p>
+                    <p>클릭하여 JavaScript 이벤트를 테스트합니다</p>
                 </button>
             </div>
         </div>
@@ -91,7 +91,7 @@
             const links = document.querySelectorAll('a');
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    console.log('링크 클릭됨:', this.href);
+                    console.log('링크 클릭됨', this.href);
                 });
             });
         });

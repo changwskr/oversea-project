@@ -34,13 +34,13 @@
 <body>
     <div class="container mt-5">
         <h1>디버그 테스트 페이지</h1>
-        <p>이 페이지는 클릭 이벤트 테스트를 위한 것입니다.</p>
+        <p>이 페이지는 클릭 이벤트를 테스트하기 위한 것입니다.</p>
         
         <div class="debug-info">
-            <h4>디버그 정보:</h4>
+            <h4>서버 정보:</h4>
             <p>페이지 로드 시간: <span id="loadTime"></span></p>
-            <p>JavaScript 활성화: <span id="jsStatus">확인 중...</span></p>
-            <p>링크 개수: <span id="linkCount">확인 중...</span></p>
+            <p>JavaScript 상태: <span id="jsStatus">확인 중..</span></p>
+            <p>링크 개수: <span id="linkCount">확인 중..</span></p>
         </div>
         
         <div class="row">
@@ -70,14 +70,14 @@
             <div class="col-md-4">
                 <button class="test-card w-100 border-0" onclick="testButtonClick()">
                     <h3>JavaScript 버튼</h3>
-                    <p>클릭하여 JavaScript 이벤트 테스트</p>
+                    <p>클릭하여 JavaScript 벤트스트를 테스트합니다.</p>
                 </button>
             </div>
             
             <div class="col-md-4">
                 <button class="btn btn-success w-100" onclick="testAlert()">
                     <h3>Alert 테스트</h3>
-                    <p>클릭하여 Alert 창 테스트</p>
+                    <p>클릭하여 Alert 테스트를 테스트합니다.</p>
                 </button>
             </div>
             
@@ -101,9 +101,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('디버그 페이지 로드됨');
             
-            // 디버그 정보 업데이트
+            // 서버 정보 업데이트
             document.getElementById('loadTime').textContent = new Date().toLocaleString();
-            document.getElementById('jsStatus').textContent = '활성화됨';
+            document.getElementById('jsStatus').textContent = '정상됨';
             
             // 링크 개수 확인
             const links = document.querySelectorAll('a');
@@ -112,7 +112,7 @@
             // 모든 링크에 클릭 이벤트 리스너 추가
             links.forEach((link, index) => {
                 link.addEventListener('click', function(e) {
-                    console.log(`링크 ${index + 1} 클릭됨:`, this.href);
+                    console.log(`링크 ${index + 1} 클릭됨`, this.href);
                 });
             });
             
@@ -120,19 +120,19 @@
             const buttons = document.querySelectorAll('button');
             buttons.forEach((button, index) => {
                 button.addEventListener('click', function(e) {
-                    console.log(`버튼 ${index + 1} 클릭됨:`, this.textContent);
+                    console.log(`버튼 ${index + 1} 클릭됨`, this.textContent);
                 });
             });
         });
         
         // 테스트 함수들
         function testButtonClick() {
-            alert('JavaScript 버튼이 작동합니다!');
+            alert('JavaScript 버튼이 동작합니다!');
             console.log('JavaScript 버튼 클릭 성공');
         }
         
         function testAlert() {
-            alert('Alert 테스트가 작동합니다!');
+            alert('Alert 테스트가 동작합니다!');
             console.log('Alert 테스트 성공');
         }
         
@@ -142,7 +142,7 @@
         
         // 페이지 로드 완료 확인
         window.addEventListener('load', function() {
-            console.log('페이지 완전히 로드됨');
+            console.log('페이지 전체가 로드됨');
         });
     </script>
 </body>

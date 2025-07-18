@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>사용자 관리 시스템</title>
+    <title>사용자 관리</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -84,7 +84,6 @@
             position: relative;
             z-index: 10;
             border: 2px solid transparent;
-            /* 클릭 이벤트를 방해하는 모든 속성 제거 */
         }
         
         .management-card:hover {
@@ -110,12 +109,10 @@
             color: inherit !important;
         }
         
-        /* 모든 하위 요소가 클릭을 방해하지 않도록 설정 */
         .management-card * {
             pointer-events: auto !important;
         }
         
-        /* 링크 자체는 항상 클릭 가능하도록 */
         .management-card {
             pointer-events: auto !important;
         }
@@ -180,7 +177,7 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션 바 -->
+    <!-- 네비게이션바-->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/home">
@@ -229,24 +226,24 @@
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
             <h1><i class="fas fa-users"></i> 사용자 관리</h1>
-            <p>사용자 등록, 권한 관리, 보안 관리, 활동 로그를 통합 관리합니다</p>
+            <p>사용자 등록, 권한 관리, 보안 관리, 활동 로그 등 모든 관리를 합니다</p>
         </div>
         
         <div class="text-center">
             <a href="/home" class="btn-back">
-                <i class="fas fa-arrow-left"></i> 홈으로 돌아가기
+                <i class="fas fa-arrow-left"></i> 뒤로가기
             </a>
             <a href="/user-management-web/test" class="btn btn-warning ms-3">
                 <i class="fas fa-bug"></i> 클릭 이벤트 테스트
             </a>
             <a href="/user-management-web/debug" class="btn btn-danger ms-3">
-                <i class="fas fa-exclamation-triangle"></i> 디버그 페이지
+                <i class="fas fa-exclamation-triangle"></i> 디버그
             </a>
             <a href="/user-management-web/simple-test" class="btn btn-success ms-3">
-                <i class="fas fa-check-circle"></i> 간단한 테스트
+                <i class="fas fa-check-circle"></i> 간단 테스트
             </a>
             <button class="btn btn-info ms-3" onclick="testClick()">
-                <i class="fas fa-mouse-pointer"></i> 클릭 테스트
+                <i class="fas fa-mouse-pointer"></i> 클릭 이벤트
             </button>
         </div>
         
@@ -255,13 +252,13 @@
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">150</div>
-                    <div class="stats-label">전체 사용자</div>
+                    <div class="stats-label">총 사용자</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">5</div>
-                    <div class="stats-label">활성 정책</div>
+                    <div class="stats-label">권한 종류</div>
                 </div>
             </div>
             <div class="col-md-3">
@@ -273,12 +270,12 @@
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">3</div>
-                    <div class="stats-label">시스템 역할</div>
+                    <div class="stats-label">스택 수</div>
                 </div>
             </div>
         </div>
         
-        <!-- 관리 카드들 -->
+        <!-- 관리 카드-->
         <div class="row">
             <div class="col-md-6 col-lg-3">
                 <a href="/user-management-web/register" class="management-card" 
@@ -290,8 +287,8 @@
                     </div>
                     <div class="card-title">사용자 등록</div>
                     <div class="card-description">
-                        새로운 사용자를 등록하고 기본 정보를 설정합니다.
-                        이메일, 비밀번호, 개인정보를 관리할 수 있습니다.
+                        사용자 정보를 입력하고 기본 설정을 완료합니다.
+                        비밀번호, 개인정보 관리를 위한 설정을 합니다.
                     </div>
                 </a>
             </div>
@@ -306,8 +303,8 @@
                     </div>
                     <div class="card-title">권한 관리</div>
                     <div class="card-description">
-                        사용자 권한과 역할을 관리합니다.
-                        역할 생성, 수정, 삭제 및 사용자별 권한 할당을 처리합니다.
+                        사용자별 권한을 관리합니다.
+                        성격, 정보, 사용자 유형별 권한을 설정합니다.
                     </div>
                 </a>
             </div>
@@ -323,7 +320,7 @@
                     <div class="card-title">보안 관리</div>
                     <div class="card-description">
                         시스템 보안 정책을 관리합니다.
-                        비밀번호 정책, 세션 관리, IP 화이트리스트를 설정합니다.
+                        비밀번호 정책, 세션 관리, IP 관리를 합니다.
                     </div>
                 </a>
             </div>
@@ -339,13 +336,13 @@
                     <div class="card-title">활동 로그</div>
                     <div class="card-description">
                         사용자 활동 로그를 조회하고 분석합니다.
-                        로그인 기록, 시스템 사용 내역을 추적합니다.
+                        로그 기록, 시스템 사용 역추적을 합니다.
                     </div>
                 </a>
             </div>
         </div>
         
-        <!-- 추가 관리 카드들 -->
+        <!-- 추가 관리 카드-->
         <div class="row mt-4">
             <div class="col-md-6 col-lg-4">
                 <a href="/user-management-web/security/policies" class="management-card" 
@@ -357,8 +354,8 @@
                     </div>
                     <div class="card-title">보안 정책 관리</div>
                     <div class="card-description">
-                        세부적인 보안 정책을 설정하고 관리합니다.
-                        정책 활성화/비활성화 및 세부 설정을 처리합니다.
+                        인증된 보안 정책을 정의하고 관리합니다.
+                        정책 성능, 비활성화 처리를 합니다.
                     </div>
                 </a>
             </div>
@@ -373,7 +370,7 @@
                     </div>
                     <div class="card-title">비밀번호 정책</div>
                     <div class="card-description">
-                        비밀번호 복잡도 및 보안 요구사항을 설정합니다.
+                        비밀번호 복잡성을 강화하고 보안을 구성합니다.
                         최소 길이, 문자 조합, 만료 정책을 관리합니다.
                     </div>
                 </a>
@@ -389,8 +386,8 @@
                     </div>
                     <div class="card-title">세션 정책</div>
                     <div class="card-description">
-                        사용자 세션 관리 정책을 설정합니다.
-                        세션 타임아웃, 동시 로그인 제한을 관리합니다.
+                        사용자 세션 관리 정책을 정의합니다.
+                        세션 타임아웃, 로그인 한 것으로 관리합니다.
                     </div>
                 </a>
             </div>
@@ -399,10 +396,10 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // 즉시 실행되는 디버깅 코드
+        // 즉시 실행되는 서버 코드
         console.log('=== 사용자 관리 페이지 스크립트 시작 ===');
         
-        // DOM 로드 전에도 실행되는 코드
+        // DOM 로드 전에 실행되는 코드
         function immediateTest() {
             console.log('즉시 실행 테스트');
             return true;
@@ -418,26 +415,26 @@
             const allLinks = document.querySelectorAll('a');
             console.log('전체 링크 개수:', allLinks.length);
             
-            // management-card 클래스를 가진 링크 찾기
+            // management-card 클래스에 가진 링크 찾기
             const managementCards = document.querySelectorAll('a.management-card');
             console.log('관리 카드 링크 개수:', managementCards.length);
             
             // 각 관리 카드에 이벤트 추가
             managementCards.forEach((card, index) => {
-                console.log(`카드 ${index + 1} 설정:`, card.href);
+                console.log(`카드 ${index + 1} 정보:`, card.href);
                 
-                // 클릭 이벤트 (여러 방식으로 추가)
+                // 클릭 이벤트 (브라우저 기본 동작 방지)
                 card.onclick = function(e) {
-                    console.log('onclick 이벤트 발생:', this.href);
-                    return true; // 기본 동작 허용
+                    console.log('onclick 클릭 발생:', this.href);
+                    return true; // 기본 동작 사용
                 };
                 
                 card.addEventListener('click', function(e) {
                     console.log('addEventListener 클릭:', this.href);
-                    // 기본 동작 허용
+                    // 기본 동작 사용
                 });
                 
-                // 마우스 이벤트도 추가
+                // 마우스 다운 이벤트 추가
                 card.addEventListener('mousedown', function(e) {
                     console.log('마우스 다운:', this.href);
                 });
@@ -446,32 +443,32 @@
                     console.log('마우스 업:', this.href);
                 });
                 
-                // 시각적 피드백
+                // 각 요소 스타일 설정
                 card.style.cursor = 'pointer';
                 card.style.position = 'relative';
                 card.style.zIndex = '100';
                 
-                // 접근성 속성 추가
+                // 각 요소 속성 추가
                 card.setAttribute('tabindex', '0');
                 card.setAttribute('role', 'button');
                 
-                // 클릭 가능함을 명시적으로 표시
+                // 클릭 가능 속성 명시
                 card.style.pointerEvents = 'auto';
             });
             
-            // 전체 페이지 클릭 이벤트 (디버깅용)
+            // 페이지 클릭 이벤트 (디버깅용)
             document.addEventListener('click', function(e) {
                 console.log('페이지 클릭:', e.target.tagName, e.target.className, e.target.href);
                 
-                // 클릭된 요소가 링크인지 확인
+                // 클릭한 요소가 링크인지 확인
                 if (e.target.tagName === 'A') {
-                    console.log('링크 클릭됨:', e.target.href);
+                    console.log('링크 클릭됨', e.target.href);
                 }
                 
-                // 클릭된 요소가 management-card 내부인지 확인
+                // 클릭한 요소가 management-card 내부인지 확인
                 const card = e.target.closest('.management-card');
                 if (card) {
-                    console.log('관리 카드 클릭됨:', card.href);
+                    console.log('관리 카드 클릭됨', card.href);
                 }
             });
             
@@ -485,7 +482,7 @@
         
         // 테스트 함수들
         function testClick() {
-            alert('클릭 테스트 버튼이 작동합니다!');
+            alert('클릭 테스트 버튼이 동작합니다!');
             console.log('테스트 클릭 성공');
         }
         
@@ -496,7 +493,7 @@
         
         // 페이지 로드 완료 확인
         window.addEventListener('load', function() {
-            console.log('=== 페이지 완전히 로드됨 ===');
+            console.log('=== 페이지 전체가 로드됨 ===');
             
             // 최종 확인
             const finalCards = document.querySelectorAll('.management-card');
@@ -509,7 +506,7 @@
         
         // 전역 클릭 이벤트 (최후의 수단)
         window.addEventListener('click', function(e) {
-            console.log('윈도우 클릭:', e.target.tagName, e.target.className);
+            console.log('도메인 클릭:', e.target.tagName, e.target.className);
         });
     </script>
 </body>

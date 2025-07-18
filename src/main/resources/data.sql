@@ -411,3 +411,88 @@ INSERT INTO tech_spec (category, sub_item, technology_name, version, description
 ('성능 최적화', 'CDN', 'CloudFront', '최신', '콘텐츠 전송 네트워크', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
 ('성능 최적화', '로드 밸런서', 'AWS ALB', '최신', '애플리케이션 로드 밸런서', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
 ('성능 최적화', '데이터베이스 연결 풀', 'HikariCP', '5.x', '고성능 JDBC 연결 풀', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true); 
+
+-- ========================================
+-- 8. TECH SPEC TABLE DATA (기술 스펙 데이터)
+-- ========================================
+INSERT INTO tech_spec (category, sub_item, technology_name, version, description, created_by, is_active) VALUES
+-- 프론트엔드 기술 스펙
+('프론트엔드', 'UI 프레임워크', 'React', '18.2.0', 'Facebook에서 개발한 JavaScript 라이브러리로 사용자 인터페이스를 구축하기 위한 컴포넌트 기반 라이브러리입니다.', 'ADMIN001', true),
+('프론트엔드', 'UI 프레임워크', 'Vue.js', '3.3.4', '점진적으로 적용할 수 있는 JavaScript 프레임워크로 사용자 인터페이스를 구축하기 위한 도구입니다.', 'ADMIN001', true),
+('프론트엔드', 'UI 프레임워크', 'Angular', '16.2.0', 'Google에서 개발한 TypeScript 기반의 프론트엔드 프레임워크입니다.', 'ADMIN001', true),
+('프론트엔드', 'CSS 프레임워크', 'Bootstrap', '5.3.0', 'Twitter에서 개발한 반응형 웹 디자인을 위한 CSS 프레임워크입니다.', 'ADMIN001', true),
+('프론트엔드', 'CSS 프레임워크', 'Tailwind CSS', '3.3.0', 'Utility-first CSS 프레임워크로 빠른 UI 개발을 지원합니다.', 'ADMIN001', true),
+('프론트엔드', '상태 관리', 'Redux', '4.2.1', 'JavaScript 애플리케이션의 상태를 관리하기 위한 예측 가능한 상태 컨테이너입니다.', 'ADMIN001', true),
+('프론트엔드', '상태 관리', 'Vuex', '4.1.0', 'Vue.js 애플리케이션을 위한 상태 관리 패턴 + 라이브러리입니다.', 'ADMIN001', true),
+('프론트엔드', '상태 관리', 'Zustand', '4.4.0', '간단하고 빠른 상태 관리 라이브러리입니다.', 'ADMIN001', true),
+('프론트엔드', '빌드 도구', 'Webpack', '5.88.0', 'JavaScript 모듈 번들러로 애플리케이션의 모든 자산을 번들링합니다.', 'ADMIN001', true),
+('프론트엔드', '빌드 도구', 'Vite', '4.4.0', '빠른 개발 서버와 빌드 도구를 제공하는 모던 프론트엔드 도구입니다.', 'ADMIN001', true),
+
+-- 백엔드 기술 스펙
+('백엔드', '프레임워크', 'Spring Boot', '3.1.0', 'Java 기반의 마이크로서비스 구축을 위한 프레임워크입니다.', 'ADMIN001', true),
+('백엔드', '프레임워크', 'Spring Framework', '6.0.0', 'Java 플랫폼을 위한 포괄적인 프로그래밍 및 구성 모델입니다.', 'ADMIN001', true),
+('백엔드', '프레임워크', 'Node.js', '20.5.0', 'Chrome V8 JavaScript 엔진으로 빌드된 JavaScript 런타임입니다.', 'ADMIN001', true),
+('백엔드', '프레임워크', 'Express.js', '4.18.0', 'Node.js를 위한 빠르고 개방적인 웹 애플리케이션 프레임워크입니다.', 'ADMIN001', true),
+('백엔드', '프레임워크', 'Django', '4.2.0', 'Python으로 작성된 고수준 웹 프레임워크입니다.', 'ADMIN001', true),
+('백엔드', 'ORM', 'JPA/Hibernate', '6.2.0', 'Java Persistence API와 Hibernate ORM 프레임워크입니다.', 'ADMIN001', true),
+('백엔드', 'ORM', 'Sequelize', '6.32.0', 'Node.js를 위한 Promise 기반 ORM입니다.', 'ADMIN001', true),
+('백엔드', 'ORM', 'SQLAlchemy', '2.0.0', 'Python을 위한 SQL 툴킷 및 ORM 라이브러리입니다.', 'ADMIN001', true),
+('백엔드', 'API 문서화', 'Swagger/OpenAPI', '3.0.0', 'RESTful API를 설계, 빌드, 문서화하기 위한 도구입니다.', 'ADMIN001', true),
+('백엔드', 'API 문서화', 'Postman', '10.0.0', 'API 개발 및 테스트를 위한 플랫폼입니다.', 'ADMIN001', true),
+
+-- 데이터베이스 기술 스펙
+('데이터베이스', '관계형 데이터베이스', 'MySQL', '8.0.0', '오픈소스 관계형 데이터베이스 관리 시스템입니다.', 'ADMIN001', true),
+('데이터베이스', '관계형 데이터베이스', 'PostgreSQL', '15.0.0', '고급 오픈소스 관계형 데이터베이스입니다.', 'ADMIN001', true),
+('데이터베이스', '관계형 데이터베이스', 'Oracle Database', '19c', '엔터프라이즈급 관계형 데이터베이스 관리 시스템입니다.', 'ADMIN001', true),
+('데이터베이스', '관계형 데이터베이스', 'SQL Server', '2022', 'Microsoft의 관계형 데이터베이스 관리 시스템입니다.', 'ADMIN001', true),
+('데이터베이스', 'NoSQL 데이터베이스', 'MongoDB', '7.0.0', '문서 지향 NoSQL 데이터베이스입니다.', 'ADMIN001', true),
+('데이터베이스', 'NoSQL 데이터베이스', 'Redis', '7.0.0', '인메모리 데이터 구조 저장소로 캐싱 및 세션 관리에 사용됩니다.', 'ADMIN001', true),
+('데이터베이스', 'NoSQL 데이터베이스', 'Cassandra', '4.1.0', '고성능 분산 NoSQL 데이터베이스입니다.', 'ADMIN001', true),
+('데이터베이스', '데이터베이스 도구', 'DBeaver', '23.0.0', '범용 데이터베이스 관리 도구입니다.', 'ADMIN001', true),
+('데이터베이스', '데이터베이스 도구', 'pgAdmin', '7.0.0', 'PostgreSQL을 위한 관리 및 개발 플랫폼입니다.', 'ADMIN001', true),
+('데이터베이스', '데이터베이스 도구', 'MySQL Workbench', '8.0.0', 'MySQL 데이터베이스 설계 및 관리 도구입니다.', 'ADMIN001', true),
+
+-- 인프라 기술 스펙
+('인프라', '클라우드 플랫폼', 'AWS', 'Latest', 'Amazon Web Services 클라우드 컴퓨팅 플랫폼입니다.', 'ADMIN001', true),
+('인프라', '클라우드 플랫폼', 'Azure', 'Latest', 'Microsoft Azure 클라우드 컴퓨팅 플랫폼입니다.', 'ADMIN001', true),
+('인프라', '클라우드 플랫폼', 'Google Cloud Platform', 'Latest', 'Google의 클라우드 컴퓨팅 플랫폼입니다.', 'ADMIN001', true),
+('인프라', '컨테이너화', 'Docker', '24.0.0', '애플리케이션을 컨테이너로 패키징하고 배포하기 위한 플랫폼입니다.', 'ADMIN001', true),
+('인프라', '컨테이너화', 'Kubernetes', '1.28.0', '컨테이너 오케스트레이션 플랫폼입니다.', 'ADMIN001', true),
+('인프라', '서버', 'Apache HTTP Server', '2.4.0', '오픈소스 웹 서버 소프트웨어입니다.', 'ADMIN001', true),
+('인프라', '서버', 'Nginx', '1.24.0', '고성능 웹 서버 및 리버스 프록시입니다.', 'ADMIN001', true),
+('인프라', '서버', 'Tomcat', '10.1.0', 'Java Servlet, JSP, WebSocket을 지원하는 웹 서버입니다.', 'ADMIN001', true),
+('인프라', '모니터링', 'Prometheus', '2.45.0', '시스템 및 서비스 모니터링을 위한 오픈소스 도구입니다.', 'ADMIN001', true),
+('인프라', '모니터링', 'Grafana', '10.0.0', '시계열 데이터 시각화 및 모니터링 플랫폼입니다.', 'ADMIN001', true),
+
+-- 보안 기술 스펙
+('보안', '인증/인가', 'OAuth 2.0', '2.0', '표준화된 인증 프로토콜입니다.', 'ADMIN001', true),
+('보안', '인증/인가', 'JWT', 'RFC 7519', 'JSON Web Token으로 당사자 간에 정보를 안전하게 전송하기 위한 컴팩트하고 독립적인 방법입니다.', 'ADMIN001', true),
+('보안', '인증/인가', 'SAML', '2.0', 'Security Assertion Markup Language로 SSO를 위한 XML 기반 표준입니다.', 'ADMIN001', true),
+('보안', '암호화', 'AES', '256-bit', 'Advanced Encryption Standard로 대칭키 암호화 알고리즘입니다.', 'ADMIN001', true),
+('보안', '암호화', 'RSA', '2048-bit', '공개키 암호화 알고리즘입니다.', 'ADMIN001', true),
+('보안', '암호화', 'SHA-256', '256-bit', 'Secure Hash Algorithm 256으로 해시 함수입니다.', 'ADMIN001', true),
+('보안', '네트워크 보안', 'SSL/TLS', '1.3', 'Secure Sockets Layer/Transport Layer Security로 네트워크 통신 보안을 제공합니다.', 'ADMIN001', true),
+('보안', '네트워크 보안', 'VPN', 'Latest', 'Virtual Private Network으로 안전한 네트워크 연결을 제공합니다.', 'ADMIN001', true),
+('보안', '보안 도구', 'SonarQube', '10.0.0', '코드 품질 및 보안 분석 도구입니다.', 'ADMIN001', true),
+('보안', '보안 도구', 'OWASP ZAP', '2.14.0', '웹 애플리케이션 보안 테스트 도구입니다.', 'ADMIN001', true),
+
+-- 기타 기술 스펙
+('기타', '버전 관리', 'Git', '2.40.0', '분산 버전 관리 시스템입니다.', 'ADMIN001', true),
+('기타', '버전 관리', 'GitHub', 'Latest', 'Git 기반의 웹 호스팅 서비스입니다.', 'ADMIN001', true),
+('기타', '버전 관리', 'GitLab', '16.0.0', 'Git 기반의 DevOps 플랫폼입니다.', 'ADMIN001', true),
+('기타', 'CI/CD', 'Jenkins', '2.400.0', '오픈소스 자동화 서버로 CI/CD 파이프라인을 구축합니다.', 'ADMIN001', true),
+('기타', 'CI/CD', 'GitHub Actions', 'Latest', 'GitHub에서 제공하는 CI/CD 플랫폼입니다.', 'ADMIN001', true),
+('기타', 'CI/CD', 'GitLab CI/CD', '16.0.0', 'GitLab에서 제공하는 CI/CD 플랫폼입니다.', 'ADMIN001', true),
+('기타', '테스트', 'JUnit', '5.9.0', 'Java 단위 테스트 프레임워크입니다.', 'ADMIN001', true),
+('기타', '테스트', 'Jest', '29.5.0', 'JavaScript 테스트 프레임워크입니다.', 'ADMIN001', true),
+('기타', '테스트', 'Selenium', '4.10.0', '웹 애플리케이션 자동화 테스트 도구입니다.', 'ADMIN001', true),
+('기타', 'IDE', 'IntelliJ IDEA', '2023.1', 'JetBrains에서 개발한 Java IDE입니다.', 'ADMIN001', true),
+('기타', 'IDE', 'Visual Studio Code', '1.80.0', 'Microsoft에서 개발한 코드 에디터입니다.', 'ADMIN001', true),
+('기타', 'IDE', 'Eclipse', '2023-06', '오픈소스 통합 개발 환경입니다.', 'ADMIN001', true),
+
+-- 비활성 기술 스펙 (레거시 기술)
+('프론트엔드', 'UI 프레임워크', 'jQuery', '3.7.0', 'JavaScript 라이브러리로 DOM 조작을 단순화합니다. (레거시)', 'ADMIN001', false),
+('백엔드', '프레임워크', 'Struts', '2.5.0', 'Java 웹 애플리케이션 프레임워크입니다. (레거시)', 'ADMIN001', false),
+('데이터베이스', '관계형 데이터베이스', 'MySQL', '5.7.0', 'MySQL 5.7 버전입니다. (레거시)', 'ADMIN001', false),
+('인프라', '서버', 'JBoss', '7.4.0', 'Java 애플리케이션 서버입니다. (레거시)', 'ADMIN001', false),
+('보안', '암호화', 'MD5', '128-bit', 'Message Digest Algorithm 5입니다. (보안상 취약)', 'ADMIN001', false); 

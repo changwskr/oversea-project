@@ -240,10 +240,10 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션 바 -->
+    <!-- 네비게이션바-->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/home">
                 <i class="fas fa-university"></i> SKCC Oversea
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -315,7 +315,7 @@
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">45</div>
-                    <div class="stats-label">실패한 로그인</div>
+                    <div class="stats-label">실패한 로그</div>
                 </div>
             </div>
             <div class="col-md-3">
@@ -381,7 +381,7 @@
                             <th>설명</th>
                             <th>IP 주소</th>
                             <th>상태</th>
-                            <th>세부 정보</th>
+                            <th>상세 정보</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -418,7 +418,7 @@
                             </td>
                         </tr>
                         
-                        <!-- 샘플 데이터 (실제 데이터가 없을 때 표시) -->
+                        <!-- 샘플 데이터(실제 데이터가 없을 때 표시) -->
                         <tr th:if="${activities == null or activities.empty}">
                             <td>2024-01-15 14:30:25</td>
                             <td><strong>admin</strong></td>
@@ -572,7 +572,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-12">
-                        <p><strong>설명:</strong> 사용자가 성공적으로 로그인했습니다.</p>
+                        <p><strong>설명:</strong> 사용자가 성공적으로 로그인했습니다</p>
                         <p><strong>추가 정보:</strong> 로그인 시도 횟수: 1, 마지막 로그인: 2024-01-15 10:30:00</p>
                     </div>
                 </div>
@@ -583,12 +583,12 @@
         }
         
         function exportLogs() {
-            alert('로그 내보내기 기능이 구현되었습니다.');
+            alert('로그 내보내기 기능이 구현되었습니다');
         }
         
         function clearOldLogs() {
             if (confirm('30일 이상 된 로그를 삭제하시겠습니까?')) {
-                alert('오래된 로그가 삭제되었습니다.');
+                alert('오래된 로그가 삭제되었습니다');
             }
         }
     </script>

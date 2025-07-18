@@ -130,7 +130,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/home">
                 <i class="fas fa-university"></i> SKCC Oversea
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -139,19 +139,19 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/"><i class="fas fa-home"></i> 홈</a>
+                        <a class="nav-link" href="/home"><i class="fas fa-home"></i> 홈</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
+                        <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> 현금카드</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/deposit"><i class="fas fa-piggy-bank"></i> Deposit</a>
+                        <a class="nav-link" href="/deposit"><i class="fas fa-piggy-bank"></i> 예금</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/teller"><i class="fas fa-user-tie"></i> Teller</a>
+                        <a class="nav-link" href="/teller"><i class="fas fa-user-tie"></i> 은행원</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user"><i class="fas fa-users"></i> User</a>
+                        <a class="nav-link" href="/user"><i class="fas fa-users"></i> 사용자</a>
                     </li>
                 </ul>
             </div>
@@ -161,8 +161,8 @@
     <div class="container main-content">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> 홈</a></li>
-                <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
+                <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i> 홈</a></li>
+                <li class="breadcrumb-item"><a href="/cashcard">현금카드</a></li>
                 <li class="breadcrumb-item"><a href="/cashcard/manage">카드 관리</a></li>
                 <li class="breadcrumb-item active" aria-current="page">카드 정보 수정</li>
             </ol>
@@ -170,16 +170,16 @@
 
         <div class="page-header">
             <h1><i class="fas fa-edit"></i> <span th:text="${pageTitle}">카드 정보 수정</span></h1>
-            <p th:text="${description}">카드 정보를 수정합니다</p>
+            <p th:text="${description}">카드 정보를 수정할 수 있습니다.</p>
         </div>
         
-        <!-- 성공/에러 메시지 -->
+        <!-- 성공/실패 메시지 -->
         <div th:if="${successMessage}" class="alert alert-success" role="alert">
             <i class="fas fa-check-circle"></i> <span th:text="${successMessage}">성공 메시지</span>
         </div>
         
         <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-            <i class="fas fa-exclamation-triangle"></i> <span th:text="${errorMessage}">에러 메시지</span>
+            <i class="fas fa-exclamation-triangle"></i> <span th:text="${errorMessage}">실패 메시지</span>
         </div>
         
         <div class="content-card">
@@ -198,13 +198,13 @@
                 <!-- 카드 정보 표시 -->
                 <div class="card-info-display">
                     <div class="card-number-text" th:text="${cardInfo.cardNumber}">카드번호</div>
-                    <div class="card-customer-text" th:text="${cardInfo.CIFName != null ? cardInfo.CIFName + ' 고객님' : '고객정보 없음'}">고객명</div>
+                    <div class="card-customer-text" th:text="${cardInfo.CIFName != null ? cardInfo.CIFName + ' 고객님' : '고객 정보 없음'}">고객명</div>
                 </div>
                 
                 <form th:action="@{/cashcard/manage/update}" method="post" th:object="${cardInfo}">
                     <input type="hidden" name="cardNumber" th:value="${cardInfo.cardNumber}" />
                     
-                    <!-- 한도 정보 섹션 -->
+                    <!-- 한도 정보 -->
                     <div class="form-section">
                         <h4><i class="fas fa-chart-line"></i> 한도 정보</h4>
                         <div class="row">
@@ -213,42 +213,42 @@
                                 <input type="number" class="form-control" id="dailyLimit" name="dailyLimit" 
                                        th:value="${cardInfo.dailyLimitAmount != null ? cardInfo.dailyLimitAmount : 0}" 
                                        min="0" step="10000" required />
-                                <div class="form-text">일일 최대 출금/결제 한도를 설정합니다</div>
+                                <div class="form-text">일일 최대 출금/결제 한도를 설정합니다.</div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="dailyTrfLimit" class="form-label">일일 이체 한도 (KRW)</label>
+                                <label for="dailyTrfLimit" class="form-label">일일 체크 한도 (KRW)</label>
                                 <input type="number" class="form-control" id="dailyTrfLimit" name="dailyTrfLimit" 
                                        th:value="${cardInfo.dailyTrfLimitAmount != null ? cardInfo.dailyTrfLimitAmount : 0}" 
                                        min="0" step="10000" required />
-                                <div class="form-text">일일 최대 이체 한도를 설정합니다</div>
+                                <div class="form-text">일일 최대 체크 한도를 설정합니다.</div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 상태 정보 섹션 -->
+                    <!-- 상태 정보 -->
                     <div class="form-section">
                         <h4><i class="fas fa-toggle-on"></i> 상태 정보</h4>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="status" class="form-label">카드 상태</label>
                                 <select class="form-select" id="status" name="status" required>
-                                    <option value="A" th:selected="${cardInfo.status == 'A'}">활성 (A)</option>
+                                    <option value="A" th:selected="${cardInfo.status == 'A'}">정상 (A)</option>
                                     <option value="I" th:selected="${cardInfo.status == 'I'}">비활성 (I)</option>
                                     <option value="S" th:selected="${cardInfo.status == 'S'}">정지 (S)</option>
-                                    <option value="P" th:selected="${cardInfo.status == 'P'}">승인대기 (P)</option>
+                                    <option value="P" th:selected="${cardInfo.status == 'P'}">휴면 (P)</option>
                                 </select>
-                                <div class="form-text">카드의 사용 상태를 변경합니다</div>
+                                <div class="form-text">카드 사용 상태를 변경합니다.</div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="amendReason" class="form-label">변경 사유</label>
                                 <textarea class="form-control" id="amendReason" name="amendReason" rows="3" 
-                                          placeholder="상태 변경 사유를 입력하세요"></textarea>
-                                <div class="form-text">상태 변경 시 사유를 기록합니다</div>
+                                          placeholder="상태 변경 사유를 입력해주세요."></textarea>
+                                <div class="form-text">상태 변경 사유를 기록합니다.</div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 읽기 전용 정보 섹션 -->
+                    <!-- 기본 정보 (읽기 전용) -->
                     <div class="form-section">
                         <h4><i class="fas fa-info-circle"></i> 기본 정보 (읽기 전용)</h4>
                         <div class="row">
