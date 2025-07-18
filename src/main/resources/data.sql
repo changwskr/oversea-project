@@ -305,3 +305,109 @@ INSERT INTO user_roles_jpa (user_id, role_id, register_date, register_by) VALUES
 ('ADMIN001', 'ROLE_ADMIN', '202411', 'SYSTEM'),
 ('ADMIN002', 'ROLE_OPERATOR', '202411', 'SYSTEM'),
 ('ADMIN003', 'ROLE_SECURITY', '20240101'); 
+
+-- 기술 스펙 초기 데이터 삽입
+INSERT INTO tech_spec (category, sub_item, technology_name, version, description, created_date, updated_date, created_by, updated_by, is_active) VALUES
+-- 아키텍처
+('아키텍처', '아키텍처 패턴', 'Spring Boot MSA', '3.1.4', '모듈화된 마이크로서비스 아키텍처 적용', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('아키텍처', '계층 아키텍처', 'Spring MVC', '6.x', '프레젠테이션 - 서비스 - DAO 계층 구조 적용', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('아키텍처', '트랜잭션 처리', 'Spring Transaction', '3.1.4', '선언적 / 프로그래밍 방식의 트랜잭션 관리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('아키텍처', '의존성 관리', 'Spring IoC Container', '3.1.4', 'DI / IoC 기반의 컴포넌트 구성', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('아키텍처', 'RESTful 설계', 'Spring Web / MVC', '6.x', 'HTTP 기반 REST API 설계 및 구현', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 개발언어
+('개발언어', '프로그래밍 언어', 'Java', '18', '프로젝트 표준 언어 (LTS 버전 기준)', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('개발언어', '어노테이션 처리', 'Jakarta Annotation', '2.x', 'javax → jakarta 전환 대응', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('개발언어', 'XML 바인딩', 'JAXB Runtime', '4.x', 'XML 직렬화/역직렬화', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 데이터계층
+('데이터계층', '운영 DBMS', 'Oracle', '19c', '운영환경 주요 관계형 DBMS', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('데이터계층', '개발 DBMS', 'H2', '2.x', '인메모리 개발용 DB', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('데이터계층', 'ORM', 'JPA / Hibernate', '6.x', '객체 - 테이블 매핑', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('데이터계층', 'SQL Mapper', 'MyBatis', '3.0.2', 'SQL 기반 매핑 처리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('데이터계층', '데이터 연동 라이브러리', 'Spring Data JPA', '3.1.x', 'Repository 기반 인터페이스 레이어', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 빌드패키징
+('빌드패키징', '빌드 도구', 'Maven', '3.x', '프로젝트 빌드 및 의존성 관리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('빌드패키징', '의존성 BOM', 'spring-boot-dependencies', '3.1.4', 'Spring Boot 버전 BOM 관리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 보안
+('보안', '인증/인가', 'Spring Security', '6.x', '인증(Authentication), 권한(Authorization) 처리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('보안', '토큰 기반 인증', 'JWT / OAuth2', '0.11.x', 'JWT + OAuth2 기반 인증 구조', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('보안', '암호화', 'JCE / BCrypt', '-', '비밀번호 및 민감정보 암호화', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- API 문서화
+('API 문서화', '문서 자동화', 'SpringDoc OpenAPI', '2.2.0', 'Swagger 3.0 기반 API 명세 자동화', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('API 문서화', '테스트 문서 UI', 'Swagger UI', '최신', 'API 인터페이스 확인용 웹 UI', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 프론트 연계
+('프론트 연계', '템플릿 엔진', 'Thymeleaf', '3.x', 'HTML 기반 서버사이드 렌더링', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('프론트 연계', 'REST 클라이언트', 'WebClient / RestTemplate', '3.1.x', '외부 시스템 API 호출용 HTTP 클라이언트', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 공통개발
+('공통개발', '코드 자동화', 'Lombok', '1.18.30', 'getter/setter/생성자 등 반복코드 제거', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('공통개발', '유틸성 라이브러리', 'Apache Commons / Guava', '최신', '문자열/날짜/컬렉션 등 편의 기능', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('공통개발', 'JSON 처리', 'Jackson', '2.x', 'JSON 직렬화 및 역직렬화 처리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 테스트
+('테스트', '단위 테스트', 'JUnit 5', '5.x', '단위 테스트 프레임워크', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('테스트', 'Mock 테스트', 'Mockito', '4.x', '객체 대체(mock) 기반 테스트', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('테스트', 'API 테스트', 'Postman', '최신', 'REST API 요청 테스트 도구', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 운영지원
+('운영지원', '로깅 프레임워크', 'SLF4J + Logback', '1.2.x', '로그 추상화 + 로그 저장 처리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('운영지원', '모니터링 연동', 'Spring Boot Actuator', '3.1.4', '애플리케이션 상태 모니터링', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('운영지원', '감사로그', 'AOP 기반 로깅', '-', 'AOP를 활용한 주요 사용자 행위 감사 로그 기록', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('운영지원', '감사 데이터 저장', 'DB / ELK / Logstash', '조합', '로그 이력 저장소 구축 시 사용', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- devops
+('devops', '컨테이너', 'Docker', '최신', '배포 자동화 및 실행 환경 분리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('devops', 'CI/CD', 'Jenkins / GitHub Actions', '최신', '자동화된 빌드, 테스트, 배포 파이프라인', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('devops', '코드 저장소', 'Git / GitHub / GitLab', '최신', '형상관리 시스템', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 보조도구
+('보조도구', 'API 모니터링 도구', 'Swagger / API Gateway Logs', '-', '호출 이력 및 응답 상태 확인', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('보조도구', '버전 관리 전략', 'Git Flow / Feature Branch', '-', 'Git 브랜치 전략 적용', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 클라우드/인프라
+('클라우드/인프라', '클라우드 플랫폼', 'AWS', '최신', 'Amazon Web Services 클라우드 플랫폼', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('클라우드/인프라', '컨테이너 오케스트레이션', 'Kubernetes', '1.28.x', '컨테이너 오케스트레이션 플랫폼', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('클라우드/인프라', '서비스 메시', 'Istio', '1.19.x', '마이크로서비스 간 통신 관리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('클라우드/인프라', 'API 게이트웨이', 'Spring Cloud Gateway', '4.x', 'API 라우팅 및 필터링', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('클라우드/인프라', '서비스 디스커버리', 'Eureka', '4.x', '서비스 등록 및 발견', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 메시징/비동기
+('메시징/비동기', '메시지 브로커', 'Apache Kafka', '3.x', '고성능 분산 메시징 시스템', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('메시징/비동기', '메시지 큐', 'RabbitMQ', '3.12.x', 'AMQP 기반 메시지 브로커', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('메시징/비동기', '이벤트 스트리밍', 'Spring Cloud Stream', '4.x', '이벤트 기반 아키텍처 지원', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 캐싱
+('캐싱', '인메모리 캐시', 'Redis', '7.x', '고성능 인메모리 데이터 스토어', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('캐싱', '로컬 캐시', 'Caffeine', '3.x', 'Java 기반 고성능 로컬 캐시', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('캐싱', '분산 캐시', 'Hazelcast', '5.x', '분산 인메모리 데이터 그리드', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 모니터링/관리
+('모니터링/관리', '애플리케이션 모니터링', 'Prometheus', '2.x', '메트릭 수집 및 모니터링', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('모니터링/관리', '분산 추적', 'Jaeger', '1.x', '분산 시스템 추적 시스템', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('모니터링/관리', '로그 집계', 'ELK Stack', '8.x', 'Elasticsearch + Logstash + Kibana', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('모니터링/관리', '대시보드', 'Grafana', '10.x', '메트릭 시각화 및 대시보드', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 데이터베이스
+('데이터베이스', 'NoSQL', 'MongoDB', '7.x', '문서 기반 NoSQL 데이터베이스', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('데이터베이스', '검색 엔진', 'Elasticsearch', '8.x', '분산 검색 및 분석 엔진', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('데이터베이스', '시계열 DB', 'InfluxDB', '2.x', '시계열 데이터베이스', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 프론트엔드
+('프론트엔드', 'JavaScript 프레임워크', 'React', '18.x', '사용자 인터페이스 라이브러리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('프론트엔드', 'CSS 프레임워크', 'Bootstrap', '5.x', '반응형 CSS 프레임워크', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('프론트엔드', '상태 관리', 'Redux', '4.x', 'JavaScript 상태 관리 라이브러리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 보안 강화
+('보안 강화', 'WAF', 'ModSecurity', '3.x', '웹 애플리케이션 방화벽', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('보안 강화', '시크릿 관리', 'HashiCorp Vault', '1.x', '시크릿 및 암호화 키 관리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('보안 강화', '인증 서비스', 'Keycloak', '22.x', '오픈소스 ID 및 액세스 관리', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+
+-- 성능 최적화
+('성능 최적화', 'CDN', 'CloudFront', '최신', '콘텐츠 전송 네트워크', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('성능 최적화', '로드 밸런서', 'AWS ALB', '최신', '애플리케이션 로드 밸런서', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true),
+('성능 최적화', '데이터베이스 연결 풀', 'HikariCP', '5.x', '고성능 JDBC 연결 풀', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true); 

@@ -29,6 +29,10 @@ public class ApiResponse<T> {
         return new ApiResponse<>(null, message, false, null);
     }
 
+    public static <T> ApiResponse<T> ok() {
+        return new ApiResponse<>(null, "성공", true, null);
+    }
+
     public static <T> ApiResponse<T> fail(HttpStatus status, ExceptionDto exceptionDto) {
         return new ApiResponse<>(null, exceptionDto.getMessage(), false, null);
     }

@@ -45,8 +45,7 @@ import org.slf4j.LoggerFactory;
         "com.skcc.oversea.deposit.entity",
         "com.skcc.oversea.common.entity",
         "com.skcc.oversea.teller.entity",
-        "com.skcc.oversea.eplatonframework.business.entity",
-        "com.skcc.oversea.techspec.infrastructure.jpa"
+        "com.skcc.oversea.eplatonframework.business.entity"
 })
 @EnableJpaRepositories(basePackages = {
         "com.skcc.oversea.user.infrastructure.jpa",
@@ -55,8 +54,7 @@ import org.slf4j.LoggerFactory;
         "com.skcc.oversea.deposit.repository",
         "com.skcc.oversea.common.repository",
         "com.skcc.oversea.teller.repository",
-        "com.skcc.oversea.eplatonframework.business.repository",
-        "com.skcc.oversea.techspec.infrastructure.jpa"
+        "com.skcc.oversea.eplatonframework.business.repository"
 })
 @EnableTransactionManagement
 @EnableAsync

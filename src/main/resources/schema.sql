@@ -231,4 +231,25 @@ CREATE INDEX IF NOT EXISTS idx_users_jpa_user_id ON users_jpa(user_id);
 CREATE INDEX IF NOT EXISTS idx_users_jpa_email ON users_jpa(email);
 CREATE INDEX IF NOT EXISTS idx_transaction_log_transaction_id ON transaction_log(transaction_id);
 CREATE INDEX IF NOT EXISTS idx_transaction_log_user_id ON transaction_log(user_id);
-CREATE INDEX IF NOT EXISTS idx_transaction_log_system_name ON transaction_log(system_name); 
+CREATE INDEX IF NOT EXISTS idx_transaction_log_system_name ON transaction_log(system_name);
+
+-- Tech Spec Tables (기술 스펙 테이블)
+CREATE TABLE IF NOT EXISTS tech_spec (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    category VARCHAR(100) NOT NULL,
+    sub_item VARCHAR(200) NOT NULL,
+    technology_name VARCHAR(200) NOT NULL,
+    version VARCHAR(50),
+    description TEXT,
+    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    updated_by VARCHAR(50),
+    is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+-- Tech Spec Indexes
+CREATE INDEX IF NOT EXISTS idx_tech_spec_category ON tech_spec(category);
+CREATE INDEX IF NOT EXISTS idx_tech_spec_sub_item ON tech_spec(sub_item);
+CREATE INDEX IF NOT EXISTS idx_tech_spec_technology_name ON tech_spec(technology_name);
+CREATE INDEX IF NOT EXISTS idx_tech_spec_is_active ON tech_spec(is_active); 
