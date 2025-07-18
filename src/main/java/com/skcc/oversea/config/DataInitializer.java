@@ -363,69 +363,65 @@ public class DataInitializer implements CommandLineRunner {
                 logger.info("Creating deposits...");
 
                 List<Deposit> deposits = Arrays.asList(
-                                // Active Savings Accounts
-                                createDeposit("110123456789", "001", "001", "CIF001", "김철수", "KRW", 5000000.00, 2.50,
-                                                "A", currentDate,
-                                                currentTime),
-                                createDeposit("110123456790", "001", "001", "CIF002", "이영희", "KRW", 7500000.00, 3.00,
-                                                "A", currentDate,
-                                                currentTime),
-                                createDeposit("110123456791", "001", "002", "CIF003", "박민수", "KRW", 3000000.00, 2.75,
-                                                "A", currentDate,
-                                                currentTime),
-                                createDeposit("110123456792", "001", "002", "CIF004", "최영수", "KRW", 12000000.00, 3.25,
-                                                "A", currentDate,
-                                                currentTime),
-                                createDeposit("110123456793", "001", "001", "CIF005", "정미영", "USD", 50000.00, 1.50, "A",
-                                                currentDate,
-                                                currentTime),
-                                createDeposit("110123456794", "001", "001", "CIF006", "한지민", "KRW", 12000000.00, 3.25,
-                                                "A", currentDate,
-                                                currentTime),
-                                createDeposit("110123456795", "001", "002", "CIF007", "송혜교", "KRW", 8000000.00, 2.80,
-                                                "A", currentDate,
-                                                currentTime),
-                                createDeposit("110123456796", "001", "003", "CIF008", "강동원", "KRW", 15000000.00, 3.50,
-                                                "A", currentDate,
-                                                currentTime),
-                                createDeposit("110123456797", "001", "003", "CIF009", "배두나", "EUR", 25000.00, 1.75, "A",
-                                                currentDate,
-                                                currentTime),
-                                createDeposit("110123456798", "001", "004", "CIF010", "원빈", "KRW", 25000000.00, 4.00,
-                                                "A", currentDate,
-                                                currentTime),
+                                // 정기예금
+                                createDepositWithType("110123456789", "001", "001", "CIF001", "김철수", "정기예금", "KRW",
+                                                5000000.00, 2.50,
+                                                "A", currentDate, currentTime),
+                                createDepositWithType("110123456790", "001", "001", "CIF002", "이영희", "정기예금", "KRW",
+                                                7500000.00, 3.00,
+                                                "A", currentDate, currentTime),
+                                createDepositWithType("110123456791", "001", "002", "CIF003", "박민수", "정기예금", "KRW",
+                                                3000000.00, 2.75,
+                                                "A", currentDate, currentTime),
 
-                                // Foreign Currency Accounts
-                                createDeposit("110123456799", "001", "001", "CIF011", "김외화", "USD", 100000.00, 2.00,
-                                                "A", currentDate,
-                                                currentTime),
-                                createDeposit("110123456800", "001", "002", "CIF012", "이외화", "EUR", 50000.00, 1.80, "A",
-                                                currentDate,
-                                                currentTime),
-                                createDeposit("110123456801", "001", "003", "CIF013", "박외화", "JPY", 5000000.00, 0.50,
-                                                "A", currentDate,
-                                                currentTime),
-                                createDeposit("110123456802", "001", "004", "CIF014", "최외화", "CNY", 200000.00, 2.20,
-                                                "A", currentDate,
-                                                currentTime),
+                                // 정기적금
+                                createDepositWithType("110123456792", "001", "002", "CIF004", "최영수", "정기적금", "KRW",
+                                                12000000.00, 3.25,
+                                                "A", currentDate, currentTime),
+                                createDepositWithType("110123456793", "001", "001", "CIF005", "정미영", "정기적금", "USD",
+                                                50000.00, 1.50, "A",
+                                                currentDate, currentTime),
+                                createDepositWithType("110123456794", "001", "001", "CIF006", "한지민", "정기적금", "KRW",
+                                                12000000.00, 3.25,
+                                                "A", currentDate, currentTime),
 
-                                // Closed Accounts
-                                createDeposit("110123456803", "001", "001", "CIF015", "김해지", "KRW", 0.00, 0.00, "C",
-                                                currentDate,
-                                                currentTime),
-                                createDeposit("110123456804", "001", "002", "CIF016", "이해지", "KRW", 0.00, 0.00, "C",
-                                                currentDate,
-                                                currentTime),
+                                // 자유적금
+                                createDepositWithType("110123456795", "001", "002", "CIF007", "송혜교", "자유적금", "KRW",
+                                                8000000.00, 2.80,
+                                                "A", currentDate, currentTime),
+                                createDepositWithType("110123456796", "001", "003", "CIF008", "강동원", "자유적금", "KRW",
+                                                15000000.00, 3.50,
+                                                "A", currentDate, currentTime),
+                                createDepositWithType("110123456797", "001", "003", "CIF009", "배두나", "자유적금", "EUR",
+                                                25000.00, 1.75, "A",
+                                                currentDate, currentTime),
 
-                                // Frozen Accounts
-                                createDeposit("110123456805", "001", "003", "CIF017", "김동결", "KRW", 5000000.00, 2.50,
-                                                "F", currentDate,
-                                                currentTime),
+                                // 기타예금
+                                createDepositWithType("110123456798", "001", "004", "CIF010", "원빈", "기타예금", "KRW",
+                                                25000000.00, 4.00,
+                                                "A", currentDate, currentTime),
 
-                                // Dormant Accounts
-                                createDeposit("110123456806", "001", "004", "CIF018", "김휴면", "KRW", 1000000.00, 2.50,
-                                                "D", currentDate,
-                                                currentTime));
+                                // 외화 예금
+                                createDepositWithType("110123456799", "001", "001", "CIF011", "김외화", "정기예금", "USD",
+                                                100000.00, 2.00,
+                                                "A", currentDate, currentTime),
+                                createDepositWithType("110123456800", "001", "002", "CIF012", "이외화", "정기예금", "EUR",
+                                                50000.00, 1.80, "A",
+                                                currentDate, currentTime),
+                                createDepositWithType("110123456801", "001", "003", "CIF013", "박외화", "정기예금", "JPY",
+                                                5000000.00, 0.50, "A",
+                                                currentDate, currentTime),
+                                createDepositWithType("110123456802", "001", "004", "CIF014", "최외화", "정기예금", "CNY",
+                                                200000.00, 2.20, "A",
+                                                currentDate, currentTime),
+
+                                // 비활성 계좌
+                                createDepositWithType("110123456803", "001", "001", "CIF015", "김해지", "정기예금", "KRW",
+                                                0.00, 0.00, "I",
+                                                currentDate, currentTime),
+                                createDepositWithType("110123456804", "001", "002", "CIF016", "이해지", "정기예금", "KRW",
+                                                0.00, 0.00, "I",
+                                                currentDate, currentTime));
 
                 depositRepository.saveAll(deposits);
                 logger.info("Created {} deposits", deposits.size());
@@ -434,14 +430,23 @@ public class DataInitializer implements CommandLineRunner {
         private Deposit createDeposit(String accountNumber, String bankCode, String branchCode, String cifNo,
                         String cifName, String currency, double balance, double interestRate,
                         String status, String currentDate, String currentTime) {
+                return createDepositWithType(accountNumber, bankCode, branchCode, cifNo, cifName, "정기예금", currency,
+                                balance, interestRate, status, currentDate, currentTime);
+        }
+
+        private Deposit createDepositWithType(String accountNumber, String bankCode, String branchCode, String cifNo,
+                        String cifName, String depositType, String currency, double balance, double interestRate,
+                        String status, String currentDate, String currentTime) {
                 Deposit deposit = new Deposit();
                 deposit.setAccountNumber(accountNumber);
                 deposit.setBankCode(bankCode);
                 deposit.setBranchCode(branchCode);
                 deposit.setCifNo(cifNo);
                 deposit.setCifName(cifName);
-                deposit.setCurrency(currency);
+                deposit.setDepositType(depositType);
+                deposit.setAmount(new BigDecimal(balance));
                 deposit.setBalance(new BigDecimal(balance));
+                deposit.setCurrency(currency);
                 deposit.setInterestRate(new BigDecimal(interestRate));
                 deposit.setStatus(status);
                 deposit.setOpenDate(currentDate);
@@ -450,6 +455,10 @@ public class DataInitializer implements CommandLineRunner {
                 deposit.setRegisterTime(currentTime);
                 deposit.setRegisterBy("SYSTEM");
                 deposit.setCreatedDate(LocalDateTime.now());
+                deposit.setModifiedDate(LocalDateTime.now());
+                deposit.setCreatedBy("SYSTEM");
+                deposit.setModifiedBy("SYSTEM");
+                deposit.setIsDeleted(false);
                 return deposit;
         }
 

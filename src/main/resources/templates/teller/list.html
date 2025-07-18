@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">텔러 목록</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: #667eea !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background: #667eea;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link.active {
+            background: #667eea;
+            color: white !important;
+        }
+        
+        .main-container {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .btn-back {
+            background: #6c757d;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-back:hover {
+            background: #5a6268;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .table th {
+            background: #667eea;
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .teller-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .search-form {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.1);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션바 -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <i class="fas fa-robot"></i> SKAX AI TOOL
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cashcard">
+                            <i class="fas fa-credit-card"></i> Cash Card
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deposit">
+                            <i class="fas fa-piggy-bank"></i> Deposit
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/teller">
+                            <i class="fas fa-user-tie"></i> Teller
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user-management-web">
+                            <i class="fas fa-users"></i> User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eplaton/manage">
+                            <i class="fas fa-cogs"></i> EPlaton
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container" style="margin-top: 80px;">
+        <div class="page-header">
+            <h1><i class="fas fa-list"></i> 텔러 목록</h1>
+            <p>등록된 텔러들을 관리합니다</p>
+        </div>
+        
+        <div class="text-center">
+            <a href="/teller" class="btn-back">
+                <i class="fas fa-arrow-left"></i> 텔러 관리로 돌아가기
+            </a>
+        </div>
+        
+        <!-- 오류 메시지 -->
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span th:text="${errorMessage}">오류가 발생했습니다.</span>
+        </div>
+        
+        <div class="content-container">
+            <!-- 검색 폼 -->
+            <div class="search-form">
+                <form method="get" action="/teller/list" class="row g-3">
+                    <div class="col-md-3">
+                        <label for="tellerId" class="form-label">텔러 ID</label>
+                        <input type="text" class="form-control" id="tellerId" name="tellerId" 
+                               th:value="${searchTellerId}" placeholder="텔러 ID 검색">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="tellerName" class="form-label">텔러명</label>
+                        <input type="text" class="form-control" id="tellerName" name="tellerName" 
+                               th:value="${searchTellerName}" placeholder="텔러명 검색">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="branchCode" class="form-label">지점 코드</label>
+                        <input type="text" class="form-control" id="branchCode" name="branchCode" 
+                               th:value="${searchBranchCode}" placeholder="지점 코드 검색">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="status" class="form-label">상태</label>
+                        <select class="form-control" id="status" name="status">
+                            <option value="">전체</option>
+                            <option value="ACTIVE" th:selected="${searchStatus == 'ACTIVE'}">활성</option>
+                            <option value="INACTIVE" th:selected="${searchStatus == 'INACTIVE'}">비활성</option>
+                        </select>
+                    </div>
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary me-2">
+                            <i class="fas fa-search"></i> 검색
+                        </button>
+                        <a href="/teller/list" class="btn btn-secondary">
+                            <i class="fas fa-undo"></i> 초기화
+                        </a>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- 텔러 목록 -->
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>텔러</th>
+                            <th>텔러 ID</th>
+                            <th>지점 코드</th>
+                            <th>은행 코드</th>
+                            <th>상태</th>
+                            <th>등록일</th>
+                            <th>관리</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="teller : ${tellers}" th:if="${tellers != null and !tellers.empty}">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="teller-avatar me-3">
+                                        <span th:text="${teller.tellerName != null ? teller.tellerName.substring(0, 1) : 'T'}">T</span>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold" th:text="${teller.tellerName}">텔러명</div>
+                                        <small class="text-muted" th:text="${teller.tellerId}">tellerId</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td th:text="${teller.tellerId}">tellerId</td>
+                            <td th:text="${teller.branchCode}">branchCode</td>
+                            <td th:text="${teller.bankCode}">bankCode</td>
+                            <td>
+                                <span class="status-badge" 
+                                      th:classappend="${teller.status == 'ACTIVE' ? 'status-active' : 'status-inactive'}"
+                                      th:text="${teller.status == 'ACTIVE' ? '활성' : '비활성'}">상태</span>
+                            </td>
+                            <td th:text="${teller.createdDate != null ? #temporals.format(teller.createdDate, 'yyyy-MM-dd') : '-'}">등록일</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a th:href="@{/teller/detail/{id}(id=${teller.id})}" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a th:href="@{/teller/edit/{id}(id=${teller.id})}" 
+                                       class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                                            th:onclick="'deleteTeller(' + ${teller.id} + ')'">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${tellers == null or tellers.empty}">
+                            <td colspan="7" class="text-center py-4">
+                                <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">등록된 텔러가 없습니다.</p>
+                                <a href="/teller/register" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> 텔러 등록
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 새 텔러 등록 버튼 -->
+            <div class="text-center mt-4">
+                <a href="/teller/register" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus"></i> 새 텔러 등록
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function deleteTeller(tellerId) {
+            if (confirm('정말로 이 텔러를 삭제하시겠습니까?')) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/teller/delete/' + tellerId;
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+        
+        // 페이지 로드 시 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('텔러 목록 페이지 로드됨');
+        });
+    </script>
+</body>
+</html> 

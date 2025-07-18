@@ -94,40 +94,12 @@ public class MainController {
     }
 
     /**
-     * Deposit 서비스 페이지
+     * Deposit 서비스 페이지 - DepositController에서 처리하므로 제거
      */
-    @GetMapping("/deposit")
-    public String depositPage(Model model) {
-        logger.info("==================[MainController.depositPage START]");
-        try {
-            model.addAttribute("title", "Deposit Management");
-            model.addAttribute("serviceName", "Deposit");
-            model.addAttribute("description", "예금 계좌 관리 및 거래 서비스");
-            logger.info("==================[MainController.depositPage END]");
-            return "service/deposit";
-        } catch (Exception e) {
-            logger.error("==================[MainController.depositPage ERROR] - {}", e.getMessage(), e);
-            throw e;
-        }
-    }
 
     /**
-     * Teller 서비스 페이지
+     * Teller 서비스 페이지 - TellerController에서 처리하므로 제거
      */
-    @GetMapping("/teller")
-    public String tellerPage(Model model) {
-        logger.info("==================[MainController.tellerPage START]");
-        try {
-            model.addAttribute("title", "Teller Management");
-            model.addAttribute("serviceName", "Teller");
-            model.addAttribute("description", "창구 업무 및 고객 서비스");
-            logger.info("==================[MainController.tellerPage END]");
-            return "service/teller";
-        } catch (Exception e) {
-            logger.error("==================[MainController.tellerPage ERROR] - {}", e.getMessage(), e);
-            throw e;
-        }
-    }
 
     /**
      * User 서비스 페이지

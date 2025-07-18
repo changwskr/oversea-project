@@ -4,7 +4,34 @@ import com.skcc.oversea.teller.entity.Teller;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository("mainTellerRepository")
 public interface TellerRepository extends JpaRepository<Teller, Long> {
-    // Add custom query methods as needed
+
+    /**
+     * 텔러 ID로 조회
+     */
+    Optional<Teller> findByTellerId(String tellerId);
+
+    /**
+     * 지점 코드로 텔러 조회
+     */
+    List<Teller> findByBranchCode(String branchCode);
+
+    /**
+     * 상태로 텔러 조회
+     */
+    List<Teller> findByStatus(String status);
+
+    /**
+     * 텔러 이름으로 조회
+     */
+    List<Teller> findByTellerNameContainingIgnoreCase(String tellerName);
+
+    /**
+     * 텔러 ID로 조회 (부분 일치)
+     */
+    List<Teller> findByTellerIdContainingIgnoreCase(String tellerId);
 }

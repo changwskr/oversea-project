@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Deposit REST API Controller
  */
-@RestController
+@RestController("eplatonDepositController")
 @RequestMapping("/api/deposit")
 public class DepositController extends BaseController {
 

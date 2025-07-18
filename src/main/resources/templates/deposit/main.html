@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">예금 관리</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: #667eea !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background: #667eea;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link.active {
+            background: #667eea;
+            color: white !important;
+        }
+        
+        .main-container {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .stats-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .stats-card .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-card .stats-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .stats-card .stats-amount {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #28a745;
+            margin-bottom: 0.5rem;
+        }
+        
+        .management-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            text-decoration: none !important;
+            color: inherit !important;
+            display: block;
+            cursor: pointer !important;
+        }
+        
+        .management-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-decoration: none !important;
+            color: inherit !important;
+        }
+        
+        .management-card .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+        
+        .management-card .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .management-card .card-description {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.1);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션바 -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <i class="fas fa-robot"></i> SKAX AI TOOL
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cashcard">
+                            <i class="fas fa-credit-card"></i> Cash Card
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/deposit">
+                            <i class="fas fa-piggy-bank"></i> Deposit
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller">
+                            <i class="fas fa-user-tie"></i> Teller
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user-management-web">
+                            <i class="fas fa-users"></i> User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eplaton/manage">
+                            <i class="fas fa-cogs"></i> EPlaton
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container" style="margin-top: 80px;">
+        <div class="page-header">
+            <h1><i class="fas fa-piggy-bank"></i> 예금 관리</h1>
+            <p>은행 예금 계좌를 관리합니다</p>
+        </div>
+        
+        <!-- 오류 메시지 -->
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span th:text="${errorMessage}">오류가 발생했습니다.</span>
+        </div>
+        
+        <!-- 통계 카드 -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number" th:text="${totalDeposits != null ? totalDeposits : 0}">0</div>
+                    <div class="stats-label">전체 예금</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number" th:text="${totalActiveDeposits != null ? totalActiveDeposits : 0}">0</div>
+                    <div class="stats-label">활성 예금</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-amount" th:text="${totalAmount != null ? #numbers.formatDecimal(totalAmount, 1, 'COMMA', 0, 'POINT') : '0'}">0</div>
+                    <div class="stats-label">총 예금액 (원)</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-amount" th:text="${totalBalance != null ? #numbers.formatDecimal(totalBalance, 1, 'COMMA', 0, 'POINT') : '0'}">0</div>
+                    <div class="stats-label">총 잔액 (원)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-container">
+            <!-- 예금 관리 메뉴 -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <a href="/deposit/list" class="management-card">
+                        <div class="card-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="card-title">예금 목록</div>
+                        <div class="card-description">
+                            등록된 모든 예금 계좌의 목록을 확인하고 관리할 수 있습니다.
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <a href="/deposit/register" class="management-card">
+                        <div class="card-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="card-title">예금 등록</div>
+                        <div class="card-description">
+                            새로운 예금 계좌를 등록하고 기본 정보를 설정할 수 있습니다.
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <a href="/deposit/list?status=A" class="management-card">
+                        <div class="card-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="card-title">활성 예금</div>
+                        <div class="card-description">
+                            현재 활성 상태인 예금 계좌들만 확인할 수 있습니다.
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <a href="/deposit/list?status=I" class="management-card">
+                        <div class="card-icon">
+                            <i class="fas fa-pause-circle"></i>
+                        </div>
+                        <div class="card-title">비활성 예금</div>
+                        <div class="card-description">
+                            비활성 상태인 예금 계좌들을 확인하고 관리할 수 있습니다.
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 최근 등록된 예금 목록 -->
+            <div class="row mt-5" th:if="${deposits != null and !deposits.empty}">
+                <div class="col-12">
+                    <h3><i class="fas fa-clock"></i> 최근 등록된 예금</h3>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>계좌번호</th>
+                                    <th>고객명</th>
+                                    <th>예금종류</th>
+                                    <th>예금액</th>
+                                    <th>잔액</th>
+                                    <th>상태</th>
+                                    <th>등록일</th>
+                                    <th>관리</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="deposit : ${deposits}" th:if="${depositStat.index < 5}">
+                                    <td th:text="${deposit.accountNumber}">계좌번호</td>
+                                    <td th:text="${deposit.cifName}">고객명</td>
+                                    <td th:text="${deposit.depositType}">예금종류</td>
+                                    <td th:text="${#numbers.formatDecimal(deposit.amount, 1, 'COMMA', 0, 'POINT')}">예금액</td>
+                                    <td th:text="${#numbers.formatDecimal(deposit.balance, 1, 'COMMA', 0, 'POINT')}">잔액</td>
+                                    <td>
+                                        <span class="badge" th:classappend="${deposit.status == 'A' ? 'bg-success' : 'bg-secondary'}"
+                                              th:text="${deposit.status == 'A' ? '활성' : '비활성'}">상태</span>
+                                    </td>
+                                    <td th:text="${deposit.createdDate != null ? #temporals.format(deposit.createdDate, 'yyyy-MM-dd') : '-'}">등록일</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a th:href="@{/deposit/detail/{id}(id=${deposit.depositId})}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a th:href="@{/deposit/edit/{id}(id=${deposit.depositId})}" 
+                                               class="btn btn-sm btn-outline-warning">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <a href="/deposit/list" class="btn btn-primary">
+                            <i class="fas fa-list"></i> 전체 목록 보기
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 예금이 없을 때 -->
+            <div class="row mt-5" th:if="${deposits == null or deposits.empty}">
+                <div class="col-12">
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>등록된 예금이 없습니다.</strong> 
+                        새로운 예금을 등록해주세요.
+                    </div>
+                    
+                    <div class="text-center">
+                        <a href="/deposit/register" class="btn btn-primary btn-lg">
+                            <i class="fas fa-plus"></i> 예금 등록하기
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 페이지 로드 시 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('예금 관리 페이지 로드됨');
+            
+            // 통계 카드 애니메이션
+            const statsCards = document.querySelectorAll('.stats-card');
+            statsCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+            
+            // 관리 카드 클릭 이벤트
+            const managementCards = document.querySelectorAll('.management-card');
+            managementCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    console.log('카드 클릭됨:', this.querySelector('.card-title').textContent);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

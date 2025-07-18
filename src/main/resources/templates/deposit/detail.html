@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">예금 상세</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: #667eea !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background: #667eea;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link.active {
+            background: #667eea;
+            color: white !important;
+        }
+        
+        .main-container {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .btn-back {
+            background: #6c757d;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-back:hover {
+            background: #5a6268;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #212529;
+        }
+        
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+            color: #212529;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+        
+        .account-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #28a745;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 2.5rem;
+            margin: 0 auto 1rem;
+        }
+        
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-card h5 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .info-value {
+            color: #666;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.1);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션바 -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <i class="fas fa-robot"></i> SKAX AI TOOL
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cashcard">
+                            <i class="fas fa-credit-card"></i> Cash Card
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/deposit">
+                            <i class="fas fa-piggy-bank"></i> Deposit
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/teller">
+                            <i class="fas fa-user-tie"></i> Teller
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user-management-web">
+                            <i class="fas fa-users"></i> User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/eplaton/manage">
+                            <i class="fas fa-cogs"></i> EPlaton
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container" style="margin-top: 80px;">
+        <div class="page-header">
+            <h1><i class="fas fa-piggy-bank"></i> 예금 상세</h1>
+            <p>예금 계좌 정보를 확인합니다</p>
+        </div>
+        
+        <div class="text-center">
+            <a href="/deposit/list" class="btn-back">
+                <i class="fas fa-arrow-left"></i> 예금 목록으로 돌아가기
+            </a>
+        </div>
+        
+        <!-- 오류 메시지 -->
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span th:text="${errorMessage}">오류가 발생했습니다.</span>
+        </div>
+        
+        <div class="content-container" th:if="${deposit != null}">
+            <!-- 예금 프로필 -->
+            <div class="text-center mb-4">
+                <div class="account-avatar">
+                    <span th:text="${deposit.accountNumber != null ? deposit.accountNumber.substring(deposit.accountNumber.length() - 2) : 'DP'}">DP</span>
+                </div>
+                <h2 th:text="${deposit.accountNumber}">계좌번호</h2>
+                <p class="text-muted" th:text="${deposit.cifName}">고객명</p>
+                <span class="status-badge" 
+                      th:classappend="${deposit.status == 'A' ? 'status-active' : 'status-inactive'}"
+                      th:text="${deposit.status == 'A' ? '활성' : '비활성'}">상태</span>
+            </div>
+            
+            <!-- 기본 정보 -->
+            <div class="info-card">
+                <h5><i class="fas fa-user"></i> 고객 정보</h5>
+                <div class="info-item">
+                    <span class="info-label">CIF 번호</span>
+                    <span class="info-value" th:text="${deposit.cifNo}">CIF번호</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">고객명</span>
+                    <span class="info-value" th:text="${deposit.cifName}">고객명</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">상태</span>
+                    <span class="info-value">
+                        <span class="status-badge" 
+                              th:classappend="${deposit.status == 'A' ? 'status-active' : 'status-inactive'}"
+                              th:text="${deposit.status == 'A' ? '활성' : '비활성'}">상태</span>
+                    </span>
+                </div>
+            </div>
+            
+            <!-- 계좌 정보 -->
+            <div class="info-card">
+                <h5><i class="fas fa-credit-card"></i> 계좌 정보</h5>
+                <div class="info-item">
+                    <span class="info-label">계좌번호</span>
+                    <span class="info-value" th:text="${deposit.accountNumber}">계좌번호</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">예금종류</span>
+                    <span class="info-value" th:text="${deposit.depositType}">예금종류</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">통화</span>
+                    <span class="info-value" th:text="${deposit.currency != null ? deposit.currency : 'KRW'}">통화</span>
+                </div>
+            </div>
+            
+            <!-- 금액 정보 -->
+            <div class="info-card">
+                <h5><i class="fas fa-money-bill-wave"></i> 금액 정보</h5>
+                <div class="info-item">
+                    <span class="info-label">예금액</span>
+                    <span class="info-value" th:text="${#numbers.formatDecimal(deposit.amount, 1, 'COMMA', 0, 'POINT')} + ' 원'">예금액</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">현재 잔액</span>
+                    <span class="info-value" th:text="${#numbers.formatDecimal(deposit.balance, 1, 'COMMA', 0, 'POINT')} + ' 원'">잔액</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">이율</span>
+                    <span class="info-value" th:text="${deposit.interestRate != null ? deposit.interestRate + '%' : '-'}">이율</span>
+                </div>
+            </div>
+            
+            <!-- 은행 정보 -->
+            <div class="info-card">
+                <h5><i class="fas fa-building"></i> 은행 정보</h5>
+                <div class="info-item">
+                    <span class="info-label">은행코드</span>
+                    <span class="info-value" th:text="${deposit.bankCode != null ? deposit.bankCode : '-'}">은행코드</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">지점코드</span>
+                    <span class="info-value" th:text="${deposit.branchCode != null ? deposit.branchCode : '-'}">지점코드</span>
+                </div>
+            </div>
+            
+            <!-- 만기 정보 -->
+            <div class="info-card">
+                <h5><i class="fas fa-calendar-alt"></i> 만기 정보</h5>
+                <div class="info-item">
+                    <span class="info-label">만기일</span>
+                    <span class="info-value" th:text="${deposit.maturityDate != null ? #temporals.format(deposit.maturityDate, 'yyyy-MM-dd HH:mm') : '-'}">만기일</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">개설일</span>
+                    <span class="info-value" th:text="${deposit.openDate != null ? deposit.openDate : '-'}">개설일</span>
+                </div>
+            </div>
+            
+            <!-- 등록 정보 -->
+            <div class="info-card">
+                <h5><i class="fas fa-info-circle"></i> 등록 정보</h5>
+                <div class="info-item">
+                    <span class="info-label">등록자</span>
+                    <span class="info-value" th:text="${deposit.registerBy != null ? deposit.registerBy : '-'}">등록자</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">등록일</span>
+                    <span class="info-value" th:text="${deposit.registerDate != null ? deposit.registerDate : '-'}">등록일</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">등록 시간</span>
+                    <span class="info-value" th:text="${deposit.registerTime != null ? deposit.registerTime : '-'}">등록시간</span>
+                </div>
+            </div>
+            
+            <!-- 시스템 정보 -->
+            <div class="info-card">
+                <h5><i class="fas fa-cogs"></i> 시스템 정보</h5>
+                <div class="info-item">
+                    <span class="info-label">생성일</span>
+                    <span class="info-value" th:text="${deposit.createdDate != null ? #temporals.format(deposit.createdDate, 'yyyy-MM-dd HH:mm') : '-'}">생성일</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">수정일</span>
+                    <span class="info-value" th:text="${deposit.modifiedDate != null ? #temporals.format(deposit.modifiedDate, 'yyyy-MM-dd HH:mm') : '-'}">수정일</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">버전</span>
+                    <span class="info-value" th:text="${deposit.version != null ? deposit.version : '-'}">버전</span>
+                </div>
+            </div>
+            
+            <!-- 설명 -->
+            <div class="info-card" th:if="${deposit.description != null and !deposit.description.isEmpty()}">
+                <h5><i class="fas fa-sticky-note"></i> 설명</h5>
+                <div class="info-item">
+                    <span class="info-value" th:text="${deposit.description}">설명</span>
+                </div>
+            </div>
+            
+            <!-- 액션 버튼 -->
+            <div class="text-center mt-4">
+                <a th:href="@{/deposit/edit/{id}(id=${deposit.depositId})}" class="btn btn-warning btn-lg me-3">
+                    <i class="fas fa-edit"></i> 예금 수정
+                </a>
+                <button type="button" class="btn btn-success btn-lg me-3" onclick="showDepositModal()">
+                    <i class="fas fa-plus"></i> 입금
+                </button>
+                <button type="button" class="btn btn-danger btn-lg me-3" onclick="showWithdrawModal()">
+                    <i class="fas fa-minus"></i> 출금
+                </button>
+                <a href="/deposit/list" class="btn btn-primary btn-lg">
+                    <i class="fas fa-list"></i> 목록으로
+                </a>
+            </div>
+        </div>
+        
+        <!-- 예금이 없을 때 -->
+        <div class="content-container" th:if="${deposit == null}">
+            <div class="text-center">
+                <i class="fas fa-piggy-bank fa-3x text-muted mb-3"></i>
+                <p class="text-muted">예금 정보를 찾을 수 없습니다.</p>
+                <a href="/deposit/list" class="btn btn-primary">
+                    <i class="fas fa-list"></i> 예금 목록으로
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 입금 모달 -->
+    <div class="modal fade" id="depositModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">입금</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="depositAmount" class="form-label">입금액</label>
+                        <input type="number" class="form-control" id="depositAmount" step="0.01" min="0">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-success" onclick="depositMoney()">입금</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 출금 모달 -->
+    <div class="modal fade" id="withdrawModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">출금</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="withdrawAmount" class="form-label">출금액</label>
+                        <input type="number" class="form-control" id="withdrawAmount" step="0.01" min="0">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-danger" onclick="withdrawMoney()">출금</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:inline="javascript">
+        const depositId = [[${deposit?.depositId}]];
+        
+        function showDepositModal() {
+            document.getElementById('depositAmount').value = '';
+            new bootstrap.Modal(document.getElementById('depositModal')).show();
+        }
+        
+        function showWithdrawModal() {
+            document.getElementById('withdrawAmount').value = '';
+            new bootstrap.Modal(document.getElementById('withdrawModal')).show();
+        }
+        
+        function depositMoney() {
+            const amount = document.getElementById('depositAmount').value;
+            if (!amount || parseFloat(amount) <= 0) {
+                alert('유효한 입금액을 입력해주세요.');
+                return;
+            }
+            
+            fetch(`/deposit/deposit-money/${depositId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `amount=${amount}`
+            })
+            .then(response => response.text())
+            .then(result => {
+                if (result === 'success') {
+                    alert('입금이 완료되었습니다.');
+                    location.reload();
+                } else {
+                    alert('입금 중 오류가 발생했습니다: ' + result);
+                }
+            })
+            .catch(error => {
+                alert('입금 중 오류가 발생했습니다: ' + error);
+            });
+            
+            bootstrap.Modal.getInstance(document.getElementById('depositModal')).hide();
+        }
+        
+        function withdrawMoney() {
+            const amount = document.getElementById('withdrawAmount').value;
+            if (!amount || parseFloat(amount) <= 0) {
+                alert('유효한 출금액을 입력해주세요.');
+                return;
+            }
+            
+            fetch(`/deposit/withdraw-money/${depositId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `amount=${amount}`
+            })
+            .then(response => response.text())
+            .then(result => {
+                if (result === 'success') {
+                    alert('출금이 완료되었습니다.');
+                    location.reload();
+                } else {
+                    alert('출금 중 오류가 발생했습니다: ' + result);
+                }
+            })
+            .catch(error => {
+                alert('출금 중 오류가 발생했습니다: ' + error);
+            });
+            
+            bootstrap.Modal.getInstance(document.getElementById('withdrawModal')).hide();
+        }
+        
+        // 페이지 로드 시 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('예금 상세 페이지 로드됨');
+        });
+    </script>
+</body>
+</html> 
