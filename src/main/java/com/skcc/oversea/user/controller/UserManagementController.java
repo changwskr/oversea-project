@@ -32,40 +32,40 @@ public class UserManagementController {
             @RequestParam(required = false) String company,
             @RequestParam(required = false) String job,
             Model model) {
-        
+
         List<User> users = userService.findAllUsers();
-        
+
         // 검색 조건이 있으면 필터링
         if (userId != null && !userId.trim().isEmpty()) {
             users = users.stream()
-                    .filter(user -> user.getUserId() != null && 
-                           user.getUserId().toLowerCase().contains(userId.toLowerCase()))
+                    .filter(user -> user.getUserId() != null &&
+                            user.getUserId().toLowerCase().contains(userId.toLowerCase()))
                     .toList();
         }
-        
+
         if (username != null && !username.trim().isEmpty()) {
             users = users.stream()
-                    .filter(user -> user.getUsername() != null && 
-                           user.getUsername().toLowerCase().contains(username.toLowerCase()))
+                    .filter(user -> user.getUsername() != null &&
+                            user.getUsername().toLowerCase().contains(username.toLowerCase()))
                     .toList();
         }
-        
+
         if (company != null && !company.trim().isEmpty()) {
             users = users.stream()
-                    .filter(user -> user.getCompany() != null && 
-                           user.getCompany().toLowerCase().contains(company.toLowerCase()))
+                    .filter(user -> user.getCompany() != null &&
+                            user.getCompany().toLowerCase().contains(company.toLowerCase()))
                     .toList();
         }
-        
+
         if (job != null && !job.trim().isEmpty()) {
             users = users.stream()
-                    .filter(user -> user.getJob() != null && 
-                           user.getJob().toLowerCase().contains(job.toLowerCase()))
+                    .filter(user -> user.getJob() != null &&
+                            user.getJob().toLowerCase().contains(job.toLowerCase()))
                     .toList();
         }
-        
+
         model.addAttribute("users", users);
-        return "user/list";
+        return "user/management/list";
     }
 
     @GetMapping("/register")
@@ -81,7 +81,7 @@ public class UserManagementController {
                 .company("")
                 .build();
         model.addAttribute("user", userCreate);
-        return "user/register";
+        return "user/management/register";
     }
 
     @PostMapping("/register")
@@ -92,7 +92,7 @@ public class UserManagementController {
         } catch (Exception e) {
             log.error("사용자 등록 중 오류 발생: {}", e.getMessage());
             model.addAttribute("error", "사용자 등록 중 오류가 발생했습니다.");
-            return "user/register";
+            return "user/management/register";
         }
     }
 
@@ -100,7 +100,7 @@ public class UserManagementController {
     public String editForm(@PathVariable Long id, Model model) {
         User user = userService.getById(id);
         model.addAttribute("user", user);
-        return "user/edit";
+        return "user/management/edit";
     }
 
     @PostMapping("/update")
@@ -111,7 +111,7 @@ public class UserManagementController {
         } catch (Exception e) {
             log.error("사용자 수정 중 오류 발생: {}", e.getMessage());
             model.addAttribute("error", "사용자 수정 중 오류가 발생했습니다.");
-            return "user/edit";
+            return "user/management/edit";
         }
     }
 
@@ -125,4 +125,4 @@ public class UserManagementController {
             return "redirect:/user-management/list";
         }
     }
-} 
+}

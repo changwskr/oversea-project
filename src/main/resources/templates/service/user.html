@@ -101,6 +101,21 @@
             color: #6f42c1;
             font-weight: 600;
         }
+        
+        .feature-card {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .feature-card:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        a:hover .feature-card {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
 <body>
@@ -144,43 +159,51 @@
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="feature-card">
-                            <i class="fas fa-user-plus feature-icon"></i>
-                            <div class="feature-title">사용자 등록</div>
-                            <div class="feature-description">
-                                새로운 사용자 등록 및 계정 생성
+                        <a href="/user-management-web/register" class="text-decoration-none">
+                            <div class="feature-card">
+                                <i class="fas fa-user-plus feature-icon"></i>
+                                <div class="feature-title">사용자 등록</div>
+                                <div class="feature-description">
+                                    새로운 사용자 등록 및 계정 생성
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     
                     <div class="col-md-6">
-                        <div class="feature-card">
-                            <i class="fas fa-user-edit feature-icon"></i>
-                            <div class="feature-title">사용자 관리</div>
-                            <div class="feature-description">
-                                사용자 정보 수정 및 계정 관리
+                        <a href="/user-management-web" class="text-decoration-none">
+                            <div class="feature-card">
+                                <i class="fas fa-user-edit feature-icon"></i>
+                                <div class="feature-title">사용자 관리</div>
+                                <div class="feature-description">
+                                    사용자 정보 수정 및 계정 관리
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     
                     <div class="col-md-6">
-                        <div class="feature-card">
-                            <i class="fas fa-shield-alt feature-icon"></i>
-                            <div class="feature-title">권한 관리</div>
-                            <div class="feature-description">
-                                사용자 권한 설정 및 역할 관리
+                        <a href="/user-management-web/roles" class="text-decoration-none">
+                            <div class="feature-card">
+                                <i class="fas fa-shield-alt feature-icon"></i>
+                                <div class="feature-title">권한 관리</div>
+                                <div class="feature-description">
+                                    사용자 권한 설정 및 역할 관리
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     
                     <div class="col-md-6">
-                        <div class="feature-card">
-                            <i class="fas fa-history feature-icon"></i>
-                            <div class="feature-title">활동 로그</div>
-                            <div class="feature-description">
-                                사용자 활동 내역 및 접근 로그
+                        <a href="/user-management-web/activity-logs" class="text-decoration-none">
+                            <div class="feature-card">
+                                <i class="fas fa-history feature-icon"></i>
+                                <div class="feature-title">활동 로그</div>
+                                <div class="feature-description">
+                                    사용자 활동 내역 및 접근 로그
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -213,18 +236,18 @@
                 <div class="status-card">
                     <h5 class="mb-3"><i class="fas fa-cog"></i> 빠른 메뉴</h5>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-outline-primary">
+                        <a href="/user-management-web/register" class="btn btn-outline-primary">
                             <i class="fas fa-user-plus"></i> 사용자 등록
-                        </button>
-                        <button class="btn btn-outline-success">
+                        </a>
+                        <a href="/user-management-web" class="btn btn-outline-success">
                             <i class="fas fa-user-edit"></i> 사용자 관리
-                        </button>
-                        <button class="btn btn-outline-warning">
+                        </a>
+                        <a href="/user-management-web/roles" class="btn btn-outline-warning">
                             <i class="fas fa-shield-alt"></i> 권한 관리
-                        </button>
-                        <button class="btn btn-outline-info">
+                        </a>
+                        <a href="/user-management-web/activity-logs" class="btn btn-outline-info">
                             <i class="fas fa-history"></i> 활동 로그
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -232,5 +255,29 @@
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 페이지 로드 시 애니메이션 효과
+        document.addEventListener('DOMContentLoaded', function() {
+            // 카드들에 페이드인 효과 추가
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+            
+            // 클릭 이벤트 로깅
+            const links = document.querySelectorAll('a[href^="/user-management-web"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    console.log('클릭된 링크:', this.href);
+                });
+            });
+        });
+    </script>
 </body>
 </html> 

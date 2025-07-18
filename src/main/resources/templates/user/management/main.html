@@ -226,51 +226,178 @@
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
             <h1><i class="fas fa-users"></i> 사용자 관리</h1>
-            <p>사용자 등록, 권한 관리, 보안 관리, 활동 로그 등 모든 관리를 합니다</p>
+            <p>사용자 등록, 조회, 수정, 삭제 및 권한 관리, 보안 관리, 활동 로그 등 모든 관리를 합니다</p>
         </div>
         
-        <div class="text-center">
+        <div class="text-center mb-4">
             <a href="/home" class="btn-back">
                 <i class="fas fa-arrow-left"></i> 뒤로가기
             </a>
-            <a href="/user-management-web/test" class="btn btn-warning ms-3">
-                <i class="fas fa-bug"></i> 클릭 이벤트 테스트
+            <a href="/user-management-web/register" class="btn btn-success ms-3">
+                <i class="fas fa-user-plus"></i> 새 사용자 등록
             </a>
-            <a href="/user-management-web/debug" class="btn btn-danger ms-3">
-                <i class="fas fa-exclamation-triangle"></i> 디버그
-            </a>
-            <a href="/user-management-web/simple-test" class="btn btn-success ms-3">
-                <i class="fas fa-check-circle"></i> 간단 테스트
-            </a>
-            <button class="btn btn-info ms-3" onclick="testClick()">
-                <i class="fas fa-mouse-pointer"></i> 클릭 이벤트
-            </button>
+        </div>
+        
+        <!-- 검색 및 필터 -->
+        <div class="row mb-4">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/user-management-web}" method="get" class="row g-3">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="searchKeyword" 
+                                       th:value="${searchKeyword}" placeholder="이름, 이메일, 사용자 ID로 검색...">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search"></i> 검색
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- 통계 카드 -->
         <div class="row mb-4">
             <div class="col-md-3">
                 <div class="stats-card">
-                    <div class="stats-number">150</div>
+                    <div class="stats-number" th:text="${users != null ? users.totalElements : 0}">0</div>
                     <div class="stats-label">총 사용자</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stats-card">
-                    <div class="stats-number">5</div>
+                    <div class="stats-number">3</div>
                     <div class="stats-label">권한 종류</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stats-card">
-                    <div class="stats-number">1,234</div>
-                    <div class="stats-label">오늘 활동</div>
+                    <div class="stats-number">5</div>
+                    <div class="stats-label">활성 사용자</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stats-card">
-                    <div class="stats-number">3</div>
-                    <div class="stats-label">스택 수</div>
+                    <div class="stats-number">1</div>
+                    <div class="stats-label">대기 사용자</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 사용자 목록 -->
+        <div class="row mb-4" th:if="${users != null and users.totalElements > 0}">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list"></i> 사용자 목록
+                            <span class="badge bg-primary ms-2" th:text="${users.totalElements}">0</span>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>사용자 ID</th>
+                                        <th>이름</th>
+                                        <th>이메일</th>
+                                        <th>전화번호</th>
+                                        <th>상태</th>
+                                        <th>생성일</th>
+                                        <th>작업</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="user : ${users.content}">
+                                        <td th:text="${user.id}">-</td>
+                                        <td th:text="${user.userId}">-</td>
+                                        <td th:text="${user.name}">-</td>
+                                        <td th:text="${user.email}">-</td>
+                                        <td th:text="${user.phone}">-</td>
+                                        <td>
+                                            <span th:if="${user.status == T(com.skcc.oversea.user.domain.UserStatus).ACTIVE}" 
+                                                  class="badge bg-success">활성</span>
+                                            <span th:if="${user.status == T(com.skcc.oversea.user.domain.UserStatus).INACTIVE}" 
+                                                  class="badge bg-danger">비활성</span>
+                                            <span th:if="${user.status == T(com.skcc.oversea.user.domain.UserStatus).PENDING}" 
+                                                  class="badge bg-warning">대기</span>
+                                        </td>
+                                        <td th:text="${#temporals.format(user.createdDate, 'yyyy-MM-dd')}">-</td>
+                                        <td>
+                                            <a th:href="@{/user-management-web/detail/{id}(id=${user.id})}" 
+                                               class="btn btn-sm btn-info">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a th:href="@{/user-management-web/edit/{id}(id=${user.id})}" 
+                                               class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-danger" 
+                                                    th:data-user-id="${user.id}" 
+                                                    th:data-user-name="${user.name}"
+                                                    onclick="confirmDelete(this.getAttribute('data-user-id'), this.getAttribute('data-user-name'))">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- 페이지네이션 -->
+                        <nav th:if="${users.totalPages > 1}">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" th:classappend="${users.first ? 'disabled' : ''}">
+                                    <a class="page-link" th:href="@{/user-management-web(page=0, searchKeyword=${searchKeyword})}">
+                                        <i class="fas fa-angle-double-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item" th:classappend="${users.first ? 'disabled' : ''}">
+                                    <a class="page-link" th:href="@{/user-management-web(page=${users.number - 1}, searchKeyword=${searchKeyword})}">
+                                        <i class="fas fa-angle-left"></i>
+                                    </a>
+                                </li>
+                                
+                                <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, users.totalPages - 1)}"
+                                    th:classappend="${pageNum == users.number ? 'active' : ''}">
+                                    <a class="page-link" th:href="@{/user-management-web(page=${pageNum}, searchKeyword=${searchKeyword})}"
+                                       th:text="${pageNum + 1}">1</a>
+                                </li>
+                                
+                                <li class="page-item" th:classappend="${users.last ? 'disabled' : ''}">
+                                    <a class="page-link" th:href="@{/user-management-web(page=${users.number + 1}, searchKeyword=${searchKeyword})}">
+                                        <i class="fas fa-angle-right"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item" th:classappend="${users.last ? 'disabled' : ''}">
+                                    <a class="page-link" th:href="@{/user-management-web(page=${users.totalPages - 1}, searchKeyword=${searchKeyword})}">
+                                        <i class="fas fa-angle-double-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 사용자가 없을 때 -->
+        <div class="row mb-4" th:if="${users != null and users.totalElements == 0}">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                        <h5>등록된 사용자가 없습니다</h5>
+                        <p class="text-muted">새로운 사용자를 등록해보세요.</p>
+                        <a href="/user-management-web/register" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> 사용자 등록
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -394,119 +521,76 @@
         </div>
     </div>
     
+    <!-- 삭제 확인 모달 -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">사용자 삭제 확인</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>정말로 이 사용자를 삭제하시겠습니까?</p>
+                    <p><strong id="deleteUserName"></strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <form id="deleteForm" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">삭제</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // 즉시 실행되는 서버 코드
-        console.log('=== 사용자 관리 페이지 스크립트 시작 ===');
-        
-        // DOM 로드 전에 실행되는 코드
-        function immediateTest() {
-            console.log('즉시 실행 테스트');
-            return true;
+        // 사용자 삭제 확인 함수
+        function confirmDelete(userId, userName) {
+            console.log('삭제 확인 요청:', { userId: userId, userName: userName });
+            
+            // 사용자 이름 표시
+            const userNameElement = document.getElementById('deleteUserName');
+            if (userNameElement) {
+                userNameElement.textContent = userName || '알 수 없는 사용자';
+            }
+            
+            // 삭제 폼 액션 설정
+            const deleteForm = document.getElementById('deleteForm');
+            if (deleteForm) {
+                deleteForm.action = '/user-management-web/delete/' + userId;
+            }
+            
+            // 모달 표시
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            deleteModal.show();
         }
         
-        immediateTest();
-        
-        // 클릭 이벤트 강화
+        // 페이지 로드 시 실행
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('=== DOM 로드됨 ===');
+            console.log('사용자 관리 페이지 로드됨');
             
-            // 모든 링크 찾기
-            const allLinks = document.querySelectorAll('a');
-            console.log('전체 링크 개수:', allLinks.length);
-            
-            // management-card 클래스에 가진 링크 찾기
-            const managementCards = document.querySelectorAll('a.management-card');
-            console.log('관리 카드 링크 개수:', managementCards.length);
-            
-            // 각 관리 카드에 이벤트 추가
-            managementCards.forEach((card, index) => {
-                console.log(`카드 ${index + 1} 정보:`, card.href);
-                
-                // 클릭 이벤트 (브라우저 기본 동작 방지)
-                card.onclick = function(e) {
-                    console.log('onclick 클릭 발생:', this.href);
-                    return true; // 기본 동작 사용
-                };
-                
-                card.addEventListener('click', function(e) {
-                    console.log('addEventListener 클릭:', this.href);
-                    // 기본 동작 사용
+            // 검색 폼 자동 제출 방지
+            const searchForm = document.querySelector('form[method="get"]');
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(e) {
+                    const searchInput = this.querySelector('input[name="searchKeyword"]');
+                    if (searchInput && searchInput.value.trim() === '') {
+                        e.preventDefault();
+                        window.location.href = '/user-management-web';
+                    }
                 });
-                
-                // 마우스 다운 이벤트 추가
-                card.addEventListener('mousedown', function(e) {
-                    console.log('마우스 다운:', this.href);
-                });
-                
-                card.addEventListener('mouseup', function(e) {
-                    console.log('마우스 업:', this.href);
-                });
-                
-                // 각 요소 스타일 설정
-                card.style.cursor = 'pointer';
-                card.style.position = 'relative';
-                card.style.zIndex = '100';
-                
-                // 각 요소 속성 추가
-                card.setAttribute('tabindex', '0');
-                card.setAttribute('role', 'button');
-                
-                // 클릭 가능 속성 명시
-                card.style.pointerEvents = 'auto';
-            });
+            }
             
-            // 페이지 클릭 이벤트 (디버깅용)
-            document.addEventListener('click', function(e) {
-                console.log('페이지 클릭:', e.target.tagName, e.target.className, e.target.href);
-                
-                // 클릭한 요소가 링크인지 확인
-                if (e.target.tagName === 'A') {
-                    console.log('링크 클릭됨', e.target.href);
-                }
-                
-                // 클릭한 요소가 management-card 내부인지 확인
-                const card = e.target.closest('.management-card');
-                if (card) {
-                    console.log('관리 카드 클릭됨', card.href);
-                }
-            });
-            
-            // 모든 링크에 강제 클릭 이벤트 추가
-            allLinks.forEach((link, index) => {
-                link.addEventListener('click', function(e) {
-                    console.log(`링크 ${index + 1} 클릭:`, this.href);
+            // 삭제 버튼 이벤트 리스너 추가 (대안 방법)
+            document.querySelectorAll('.btn-danger[data-user-id]').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const userId = this.getAttribute('data-user-id');
+                    const userName = this.getAttribute('data-user-name');
+                    confirmDelete(userId, userName);
                 });
             });
-        });
-        
-        // 테스트 함수들
-        function testClick() {
-            alert('클릭 테스트 버튼이 동작합니다!');
-            console.log('테스트 클릭 성공');
-        }
-        
-        function forceClick(href) {
-            console.log('강제 클릭:', href);
-            window.location.href = href;
-        }
-        
-        // 페이지 로드 완료 확인
-        window.addEventListener('load', function() {
-            console.log('=== 페이지 전체가 로드됨 ===');
-            
-            // 최종 확인
-            const finalCards = document.querySelectorAll('.management-card');
-            console.log('최종 관리 카드 개수:', finalCards.length);
-            
-            finalCards.forEach((card, index) => {
-                console.log(`최종 카드 ${index + 1}:`, card.href, card.style.pointerEvents);
-            });
-        });
-        
-        // 전역 클릭 이벤트 (최후의 수단)
-        window.addEventListener('click', function(e) {
-            console.log('도메인 클릭:', e.target.tagName, e.target.className);
         });
     </script>
 </body>

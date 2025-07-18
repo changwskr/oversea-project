@@ -273,7 +273,6 @@ INSERT INTO users_jpa (email, password, username, user_id, address, job, age, co
 ('lee.locked@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '이잠금', 'USER012', '서울시 마포구', '디자이너', 28, 'SKCC', 'LOCKED', '이잠금', '010-2222-2222', '디자인', '사원', 'EMPLOYEE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 
 -- Admin Users (관리자)
-('admin@example.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '관리자', 'admin', '서울시 강남구', '시스템관리자', 40, 'SKCC', 'ACTIVE', '관리자', '010-0000-0000', 'IT', '팀장', 'ADMIN', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 ('admin@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '시스템관리자', 'ADMIN001', '서울시 강남구', '시스템관리자', 40, 'SKCC', 'ACTIVE', '시스템관리자', '010-9999-9999', 'IT', '팀장', 'ADMIN', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 ('operator@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '운영관리자', 'ADMIN002', '서울시 서초구', '운영관리자', 38, 'SKCC', 'ACTIVE', '운영관리자', '010-8888-8888', '운영', '팀장', 'ADMIN', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 ('security@skcc.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', '보안관리자', 'ADMIN003', '서울시 마포구', '보안관리자', 42, 'SKCC', 'ACTIVE', '보안관리자', '010-7777-7777', '보안', '팀장', 'ADMIN', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
@@ -413,9 +412,8 @@ INSERT INTO tech_spec (category, sub_item, technology_name, version, description
 ('성능 최적화', '데이터베이스 연결 풀', 'HikariCP', '5.x', '고성능 JDBC 연결 풀', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'system', 'system', true); 
 
 -- ========================================
--- 8. TECH SPEC TABLE DATA (기술 스펙 데이터)
+-- 8. TECH SPEC TABLE DATA (기술 스펙 데이터) - 중복 제거
 -- ========================================
-INSERT INTO tech_spec (category, sub_item, technology_name, version, description, created_by, is_active) VALUES
 -- 프론트엔드 기술 스펙
 ('프론트엔드', 'UI 프레임워크', 'React', '18.2.0', 'Facebook에서 개발한 JavaScript 라이브러리로 사용자 인터페이스를 구축하기 위한 컴포넌트 기반 라이브러리입니다.', 'ADMIN001', true),
 ('프론트엔드', 'UI 프레임워크', 'Vue.js', '3.3.4', '점진적으로 적용할 수 있는 JavaScript 프레임워크로 사용자 인터페이스를 구축하기 위한 도구입니다.', 'ADMIN001', true),

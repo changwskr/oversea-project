@@ -9,13 +9,24 @@ import java.util.Optional;
 
 public interface UserRepositoryPort {
     Optional<User> findById(Long id);
+
     Optional<User> findByEmail(String email);
+
     Optional<User> findByUserId(String userId);
+
     User save(User user);
+
     List<User> findAll();
+
     Page<User> findAll(Pageable pageable);
+
     Page<User> findAdminUsers(Pageable pageable);
+
     User updateStatus(User user);
+
     Page<User> findAdminUsers(Pageable pageable, List<Long> userIds);
+
     void deleteById(Long id);
+
+    Page<User> searchUsers(String keyword, Pageable pageable);
 }

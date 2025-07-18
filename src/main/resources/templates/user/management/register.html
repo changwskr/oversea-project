@@ -229,7 +229,7 @@
             
             <div class="row">
                 <div class="col-md-8 mx-auto">
-                    <form th:action="@{/user-management/register}" th:object="${userRegistrationDTO}" method="post">
+                    <form th:action="@{/user-management-web/register}" th:object="${user}" method="post">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label">
@@ -245,6 +245,26 @@
                                 </label>
                                 <input type="text" class="form-control" id="name" th:field="*{name}" 
                                        placeholder="이름을 입력하세요" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="userId" class="form-label">
+                                    <i class="fas fa-id-card"></i> 사용자 ID (선택사항)
+                                </label>
+                                <input type="text" class="form-control" id="userId" th:field="*{userId}" 
+                                       placeholder="사용자 ID를 입력하세요 (자동 생성됨)">
+                                <small class="form-text text-muted">비워두면 자동으로 생성됩니다.</small>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">
+                                    <i class="fas fa-user"></i> 사용자명 (선택사항)
+                                </label>
+                                <input type="text" class="form-control" id="username" th:field="*{username}" 
+                                       placeholder="사용자명을 입력하세요 (이메일 사용)">
+                                <small class="form-text text-muted">비워두면 이메일이 사용됩니다.</small>
                             </div>
                         </div>
                         

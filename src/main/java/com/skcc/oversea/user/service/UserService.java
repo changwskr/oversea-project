@@ -1,6 +1,5 @@
 package com.skcc.oversea.user.service;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,9 +37,8 @@ public class UserService implements UserServicePort {
 
     // 생성자에 @Qualifier 추가
     public UserService(
-        @Qualifier("userRepositoryPortJpaCustomImpl") UserRepositoryPort userRepositoryPort,
-        PasswordEncoder passwordEncoder
-    ) {
+            @Qualifier("userRepositoryPortJpaCustomImpl") UserRepositoryPort userRepositoryPort,
+            PasswordEncoder passwordEncoder) {
         this.userRepositoryPort = userRepositoryPort;
         this.passwordEncoder = passwordEncoder;
     }
@@ -157,7 +155,7 @@ public class UserService implements UserServicePort {
         }
         log.info("[UserService.checkUserExistByEmail END]");
     }
-    
+
     /**
      * 사용자 생성 (웹 컨트롤러용)
      */
@@ -165,17 +163,17 @@ public class UserService implements UserServicePort {
     @Transactional
     public User createUser(User user) {
         log.info("[UserService.createUser START]");
-        
+
         // 사용자 ID 중복 체크
         Optional<User> existingUser = userRepositoryPort.findByUserId(user.getUserId());
         if (existingUser.isPresent()) {
             log.info("[UserService.createUser END]");
             throw new CustomException(ErrorCode.EXIST_ELEMENT);
         }
-        
+
         // 이메일 중복 체크
         checkUserExistByEmail(user.getEmail());
-        
+
         // 새로운 User 객체 생성 (비밀번호 암호화 및 상태 설정)
         User newUser = User.builder()
                 .email(user.getEmail())
@@ -195,12 +193,12 @@ public class UserService implements UserServicePort {
                 .createdDate(java.time.LocalDateTime.now())
                 .lastModifiedDate(java.time.LocalDateTime.now())
                 .build();
-        
+
         // 사용자 저장
         User savedUser = userRepositoryPort.save(newUser);
         log.info("User created successfully: {}", savedUser.getUserId());
         log.info("[UserService.createUser END]");
-        
+
         return savedUser;
     }
 
@@ -217,5 +215,21 @@ public class UserService implements UserServicePort {
         log.info("[UserService.deleteUser START] - id: {}", id);
         userRepositoryPort.deleteById(id);
         log.info("[UserService.deleteUser END] - id: {}", id);
+    }
+
+    /**
+     * 사용자 검색 (이름, 이메일, 사용자 ID로 검색)
+     */
+    public Page<User> searchUsers(String keyword, Pageable pageable) {
+        log.info("[UserService.searchUsers START] - keyword: {}", keyword);
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return userRepositoryPort.findAll(pageable);
+        }
+
+        Page<User> result = userRepositoryPort.searchUsers(keyword, pageable);
+
+        log.info("[UserService.searchUsers END] - found: {}", result.getTotalElements());
+        return result;
     }
 }
