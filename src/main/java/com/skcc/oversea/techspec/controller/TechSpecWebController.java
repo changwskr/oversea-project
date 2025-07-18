@@ -114,6 +114,7 @@ public class TechSpecWebController {
         return techSpecUseCase.getTechSpecById(id)
                 .map(techSpec -> {
                     TechSpecUpdateRequest updateRequest = TechSpecUpdateRequest.builder()
+                            .id(techSpec.getId())
                             .category(techSpec.getCategory())
                             .subItem(techSpec.getSubItem())
                             .technologyName(techSpec.getTechnologyName())
@@ -125,7 +126,6 @@ public class TechSpecWebController {
 
                     model.addAttribute("techSpec", updateRequest);
                     model.addAttribute("categories", categories);
-                    model.addAttribute("id", id);
 
                     return "techspec/edit";
                 })

@@ -1,4 +1,4 @@
--- SKCC Oversea Banking System Database Schema
+-- SKAX AI TOOL System Database Schema
 -- This file contains table creation scripts for testing purposes
 
 -- Cash Card Tables

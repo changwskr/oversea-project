@@ -1,8 +1,8 @@
-# SKCC Oversea Banking System - 아키텍처 및 기술 스택 가이드
+# SKAX AI TOOL System - 아키텍처 및 기술 스택 가이드
 
 ## 📋 프로젝트 개요
 
-**SKCC Oversea**는 레거시 J2EE/EJB 아키텍처에서 **Spring Boot 3.x**로 마이그레이션된 현대적인 뱅킹 시스템입니다. 현금카드 관리, 예금 서비스, 공통 서비스, 텔러 관리, 사용자 관리 등 다양한 뱅킹 기능을 제공하는 **MSA(Microservice Architecture)** 기반 시스템입니다.
+**SKAX AI TOOL**은 레거시 J2EE/EJB 아키텍처에서 **Spring Boot 3.x**로 마이그레이션된 현대적인 AI 도구 시스템입니다. 현금카드 관리, 예금 서비스, 공통 서비스, 텔러 관리, 사용자 관리 등 다양한 뱅킹 기능을 제공하는 **MSA(Microservice Architecture)** 기반 시스템입니다.
 
 ---
 
@@ -12,7 +12,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    SKCC Oversea Banking System                  │
+│                    SKAX AI TOOL System                  │
 ├─────────────────────────────────────────────────────────────────┤
 │  Presentation Layer (Web UI)                                    │
 │  ├── Thymeleaf Templates                                        │
@@ -49,18 +49,18 @@
 
 ### 🔄 마이그레이션 전후 비교
 
-| 구분 | 마이그레이션 전 (Legacy) | 마이그레이션 후 (Modern) |
-|------|------------------------|------------------------|
-| **아키텍처 패턴** | J2EE/EJB Monolithic | Spring Boot MSA |
-| **Java 버전** | Java 8 | Java 18 |
-| **빌드 도구** | Ant/Maven | Maven 3.x |
-| **의존성 주입** | EJB Container | Spring IoC Container |
-| **데이터베이스** | Oracle | H2 (개발) / Oracle (운영) |
-| **API 문서화** | 없음 | Swagger/OpenAPI 3.0 |
-| **보안** | 기본 인증 | Spring Security + BCrypt |
-| **템플릿 엔진** | JSP | Thymeleaf |
-| **ORM** | EJB Entity Bean | JPA/Hibernate |
-| **트랜잭션** | EJB Transaction | Spring Transaction |
+| 구분              | 마이그레이션 전 (Legacy) | 마이그레이션 후 (Modern)  |
+| ----------------- | ------------------------ | ------------------------- |
+| **아키텍처 패턴** | J2EE/EJB Monolithic      | Spring Boot MSA           |
+| **Java 버전**     | Java 8                   | Java 18                   |
+| **빌드 도구**     | Ant/Maven                | Maven 3.x                 |
+| **의존성 주입**   | EJB Container            | Spring IoC Container      |
+| **데이터베이스**  | Oracle                   | H2 (개발) / Oracle (운영) |
+| **API 문서화**    | 없음                     | Swagger/OpenAPI 3.0       |
+| **보안**          | 기본 인증                | Spring Security + BCrypt  |
+| **템플릿 엔진**   | JSP                      | Thymeleaf                 |
+| **ORM**           | EJB Entity Bean          | JPA/Hibernate             |
+| **트랜잭션**      | EJB Transaction          | Spring Transaction        |
 
 ---
 
@@ -68,32 +68,32 @@
 
 ### 🎯 Core Technologies
 
-| 카테고리 | 기술 | 버전 | 설명 |
-|---------|------|------|------|
-| **Framework** | Spring Boot | 3.1.4 | 메인 애플리케이션 프레임워크 |
-| **Language** | Java | 18 | 프로그래밍 언어 |
-| **Build Tool** | Maven | 3.x | 의존성 관리 및 빌드 도구 |
-| **Database** | H2 | 2.x | 인메모리 데이터베이스 (개발) |
-| **Database** | Oracle | 19c | 운영 데이터베이스 |
-| **ORM** | JPA/Hibernate | 6.x | 객체 관계 매핑 |
-| **Security** | Spring Security | 6.x | 보안 프레임워크 |
+| 카테고리       | 기술            | 버전  | 설명                         |
+| -------------- | --------------- | ----- | ---------------------------- |
+| **Framework**  | Spring Boot     | 3.1.4 | 메인 애플리케이션 프레임워크 |
+| **Language**   | Java            | 18    | 프로그래밍 언어              |
+| **Build Tool** | Maven           | 3.x   | 의존성 관리 및 빌드 도구     |
+| **Database**   | H2              | 2.x   | 인메모리 데이터베이스 (개발) |
+| **Database**   | Oracle          | 19c   | 운영 데이터베이스            |
+| **ORM**        | JPA/Hibernate   | 6.x   | 객체 관계 매핑               |
+| **Security**   | Spring Security | 6.x   | 보안 프레임워크              |
 
 ### 🌐 Web Technologies
 
-| 기술 | 버전 | 용도 |
-|------|------|------|
-| **Thymeleaf** | 3.x | 서버사이드 템플릿 엔진 |
-| **Spring MVC** | 6.x | 웹 MVC 프레임워크 |
-| **SpringDoc OpenAPI** | 2.2.0 | API 문서화 (Swagger) |
-| **MyBatis** | 3.0.2 | SQL 매퍼 |
+| 기술                  | 버전  | 용도                   |
+| --------------------- | ----- | ---------------------- |
+| **Thymeleaf**         | 3.x   | 서버사이드 템플릿 엔진 |
+| **Spring MVC**        | 6.x   | 웹 MVC 프레임워크      |
+| **SpringDoc OpenAPI** | 2.2.0 | API 문서화 (Swagger)   |
+| **MyBatis**           | 3.0.2 | SQL 매퍼               |
 
 ### 🔧 Development Tools
 
-| 도구 | 버전 | 용도 |
-|------|------|------|
-| **Lombok** | 1.18.30 | 코드 생성 라이브러리 |
-| **Jakarta Annotation** | 2.x | 어노테이션 API |
-| **JAXB Runtime** | 4.x | XML 파싱 지원 |
+| 도구                   | 버전    | 용도                 |
+| ---------------------- | ------- | -------------------- |
+| **Lombok**             | 1.18.30 | 코드 생성 라이브러리 |
+| **Jakarta Annotation** | 2.x     | 어노테이션 API       |
+| **JAXB Runtime**       | 4.x     | XML 파싱 지원        |
 
 ---
 
@@ -170,12 +170,14 @@ oversea-project/
 ### 1. 🚀 Spring Boot 3.1.4
 
 #### 주요 특징
+
 - **자동 설정 (Auto-Configuration)**: 클래스패스 기반 자동 설정
 - **내장 서버**: Tomcat 내장으로 독립 실행 가능
 - **Actuator**: 모니터링 및 관리 기능
 - **Starter POM**: 의존성 그룹화
 
 #### 핵심 어노테이션
+
 ```java
 @SpringBootApplication                    // 메인 애플리케이션 클래스
 @ComponentScan(basePackages = {...})      // 컴포넌트 스캔 범위
@@ -189,11 +191,12 @@ oversea-project/
 ### 2. 🔒 Spring Security 6.x
 
 #### 보안 구성
+
 ```java
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -212,10 +215,10 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/login?logout=true")
             )
             .csrf(csrf -> csrf.disable());
-        
+
         return http.build();
     }
-    
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -224,21 +227,22 @@ public class SecurityConfig {
 ```
 
 #### 사용자 인증 서비스
+
 ```java
 @Service
 public class CustomUserDetailService implements UserDetailsService {
-    
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         User user = userRepositoryPort.findByUserId(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ELEMENT));
-        
+
         List<UserRole> userRoles = userRoleRepositoryPort.findByUserId(user.getId());
         String[] roles = userRoles.stream()
                 .map(item -> item.getRole().getRoleId())
                 .toArray(String[]::new);
-        
+
         return User.builder()
                 .username(user.getUserId())
                 .password(user.getPassword())
@@ -251,6 +255,7 @@ public class CustomUserDetailService implements UserDetailsService {
 ### 3. 🗄️ Spring Data JPA
 
 #### 엔티티 정의
+
 ```java
 @Entity
 @Table(name = "users")
@@ -259,31 +264,31 @@ public class CustomUserDetailService implements UserDetailsService {
 @AllArgsConstructor
 @Builder
 public class UserJpaEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(unique = true, nullable = false)
     private String userId;
-    
+
     @Column(nullable = false)
     private String username;
-    
+
     @Column(unique = true, nullable = false)
     private String email;
-    
+
     @Column(nullable = false)
     private String password;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserStatus status;
-    
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-    
+
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
@@ -291,15 +296,16 @@ public class UserJpaEntity {
 ```
 
 #### 리포지토리 인터페이스
+
 ```java
 @Repository
 public interface UserRepositoryJpa extends JpaRepository<UserJpaEntity, Long> {
-    
+
     Optional<UserJpaEntity> findByUserId(String userId);
     Optional<UserJpaEntity> findByEmail(String email);
     boolean existsByEmail(String email);
     boolean existsByUserId(String userId);
-    
+
     @Query("SELECT u FROM UserJpaEntity u WHERE u.status = :status")
     List<UserJpaEntity> findByStatus(@Param("status") UserStatus status);
 }
@@ -308,31 +314,32 @@ public interface UserRepositoryJpa extends JpaRepository<UserJpaEntity, Long> {
 ### 4. 🌐 Spring MVC + Thymeleaf
 
 #### 컨트롤러
+
 ```java
 @Controller
 @RequestMapping("/user-management-web")
 @RequiredArgsConstructor
 @Slf4j
 public class UserManagementWebController {
-    
+
     private final UserService userService;
     private final SecurityPolicyService securityPolicyService;
-    
+
     @GetMapping
     public String userManagementPage(Model model) {
         log.info("[UserManagementWebController.userManagementPage START]");
-        
+
         List<User> users = userService.findAllUsers();
         model.addAttribute("title", "사용자 관리");
         model.addAttribute("users", users);
-        
+
         log.info("[UserManagementWebController.userManagementPage END]");
         return "user/management/index";
     }
-    
+
     @PostMapping("/users")
-    public String createUser(@ModelAttribute UserCreateRequest request, 
-                           Model model, 
+    public String createUser(@ModelAttribute UserCreateRequest request,
+                           Model model,
                            RedirectAttributes redirectAttributes) {
         try {
             UserCreate userCreate = UserCreate.builder()
@@ -345,63 +352,73 @@ public class UserManagementWebController {
                     .age(request.getAge())
                     .company(request.getCompany())
                     .build();
-            
+
             userService.signUp(userCreate);
             redirectAttributes.addFlashAttribute("successMessage", "사용자가 성공적으로 생성되었습니다.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "사용자 생성 중 오류가 발생했습니다: " + e.getMessage());
         }
-        
+
         return "redirect:/user-management-web";
     }
 }
 ```
 
 #### Thymeleaf 템플릿
+
 ```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title th:text="${title}">사용자 관리</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
-<body>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+  </head>
+  <body>
     <div class="container">
-        <h1 th:text="${title}">사용자 관리</h1>
-        
-        <!-- 성공/오류 메시지 -->
-        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
-        
-        <!-- 사용자 목록 -->
-        <div class="user-list">
-            <div th:each="user : ${users}" class="user-card">
-                <h3 th:text="${user.username}">사용자명</h3>
-                <p th:text="${user.email}">이메일</p>
-                <p th:text="${user.status}">상태</p>
-            </div>
+      <h1 th:text="${title}">사용자 관리</h1>
+
+      <!-- 성공/오류 메시지 -->
+      <div
+        th:if="${successMessage}"
+        class="alert alert-success"
+        th:text="${successMessage}"
+      ></div>
+      <div
+        th:if="${errorMessage}"
+        class="alert alert-danger"
+        th:text="${errorMessage}"
+      ></div>
+
+      <!-- 사용자 목록 -->
+      <div class="user-list">
+        <div th:each="user : ${users}" class="user-card">
+          <h3 th:text="${user.username}">사용자명</h3>
+          <p th:text="${user.email}">이메일</p>
+          <p th:text="${user.status}">상태</p>
         </div>
+      </div>
     </div>
-    
+
     <script th:src="@{/js/user-management.js}"></script>
-</body>
+  </body>
 </html>
 ```
 
 ### 5. 📚 SpringDoc OpenAPI (Swagger)
 
 #### API 문서화 설정
+
 ```java
 @Configuration
 public class SwaggerConfig {
-    
+
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("SKCC Oversea API")
-                        .description("SKCC Oversea Banking System API Documentation")
+                        .title("SKAX AI TOOL API")
+.description("SKAX AI TOOL System API Documentation")
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("SKCC Development Team")
@@ -419,22 +436,23 @@ public class SwaggerConfig {
 ```
 
 #### API 컨트롤러 예시
+
 ```java
 @RestController
 @RequestMapping("/api/health")
 @Tag(name = "Health Check", description = "Health check and application information endpoints")
 public class HealthController {
-    
+
     @GetMapping
     @Operation(
         summary = "Health Check",
-        description = "Returns the current health status of the SKCC Oversea application"
+        description = "Returns the current health status of the SKAX AI TOOL application"
     )
     public Map<String, Object> health() {
         Map<String, Object> response = new HashMap<>();
         response.put("status", "UP");
         response.put("timestamp", LocalDateTime.now());
-        response.put("application", "SKCC Oversea");
+        response.put("application", "SKAX AI TOOL");
         response.put("version", "1.0.0");
         return response;
     }
@@ -444,11 +462,12 @@ public class HealthController {
 ### 6. 🔄 Spring Transaction Management
 
 #### 트랜잭션 설정
+
 ```java
 @Configuration
 @EnableTransactionManagement
 public class TransactionConfig {
-    
+
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
@@ -457,26 +476,27 @@ public class TransactionConfig {
 ```
 
 #### 서비스 레이어 트랜잭션
+
 ```java
 @Service
 @Transactional
 public class UserService implements UserServicePort {
-    
+
     @Override
     @Transactional
     public User signUp(UserCreate userCreate) {
         // 중복 이메일 체크
         checkUserExistByEmail(userCreate.getEmail());
-        
+
         // 사용자 생성
         User user = User.from(userCreate, passwordEncoder);
-        
+
         // 저장
         User savedUser = userRepositoryPort.save(user);
-        
+
         return savedUser;
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<User> findAllUsers() {
@@ -517,6 +537,7 @@ public class UserService implements UserServicePort {
 ### 🔧 데이터베이스 설정
 
 #### application.yml
+
 ```yaml
 spring:
   datasource:
@@ -548,27 +569,30 @@ spring:
 
 ### 📋 사전 요구사항
 
-| 항목 | 버전 | 설명 |
-|------|------|------|
-| **Java** | 18+ | JDK 18 이상 |
-| **Maven** | 3.8+ | 빌드 도구 |
-| **IDE** | IntelliJ IDEA / Eclipse | 개발 환경 |
-| **Git** | 2.x+ | 버전 관리 |
+| 항목      | 버전                    | 설명        |
+| --------- | ----------------------- | ----------- |
+| **Java**  | 18+                     | JDK 18 이상 |
+| **Maven** | 3.8+                    | 빌드 도구   |
+| **IDE**   | IntelliJ IDEA / Eclipse | 개발 환경   |
+| **Git**   | 2.x+                    | 버전 관리   |
 
 ### 🔧 로컬 개발 환경 설정
 
 #### 1. 프로젝트 클론
+
 ```bash
 git clone <repository-url>
 cd oversea-project
 ```
 
 #### 2. 의존성 설치 및 빌드
+
 ```bash
 mvn clean compile
 ```
 
 #### 3. 애플리케이션 실행
+
 ```bash
 # Maven으로 실행
 mvn spring-boot:run
@@ -580,17 +604,17 @@ java -jar target/oversea-0.0.1-SNAPSHOT.jar
 
 ### 🌐 접속 URL
 
-| 서비스 | URL | 설명 |
-|--------|-----|------|
-| **메인 애플리케이션** | http://localhost:8080 | 루트 페이지 (로그인으로 리다이렉트) |
-| **로그인 페이지** | http://localhost:8080/login | 사용자 로그인 |
-| **홈 페이지** | http://localhost:8080/home | 서비스 선택 화면 |
-| **사용자 관리** | http://localhost:8080/user-management-web | 사용자 관리 웹 |
-| **현금카드 관리** | http://localhost:8080/cashcard | 현금카드 관리 |
-| **예금 관리** | http://localhost:8080/deposit | 예금 관리 |
-| **텔러 관리** | http://localhost:8080/teller | 텔러 관리 |
-| **Swagger UI** | http://localhost:8080/swagger-ui.html | API 문서 |
-| **H2 콘솔** | http://localhost:8080/h2-console | 데이터베이스 관리 |
+| 서비스                | URL                                       | 설명                                |
+| --------------------- | ----------------------------------------- | ----------------------------------- |
+| **메인 애플리케이션** | http://localhost:8080                     | 루트 페이지 (로그인으로 리다이렉트) |
+| **로그인 페이지**     | http://localhost:8080/login               | 사용자 로그인                       |
+| **홈 페이지**         | http://localhost:8080/home                | 서비스 선택 화면                    |
+| **사용자 관리**       | http://localhost:8080/user-management-web | 사용자 관리 웹                      |
+| **현금카드 관리**     | http://localhost:8080/cashcard            | 현금카드 관리                       |
+| **예금 관리**         | http://localhost:8080/deposit             | 예금 관리                           |
+| **텔러 관리**         | http://localhost:8080/teller              | 텔러 관리                           |
+| **Swagger UI**        | http://localhost:8080/swagger-ui.html     | API 문서                            |
+| **H2 콘솔**           | http://localhost:8080/h2-console          | 데이터베이스 관리                   |
 
 ---
 
@@ -599,12 +623,14 @@ java -jar target/oversea-0.0.1-SNAPSHOT.jar
 ### 👥 사용자 관리 (User Management)
 
 #### 기능
+
 - 사용자 등록/수정/삭제
 - 사용자 인증 및 권한 관리
 - 보안 정책 관리 (비밀번호, 세션, IP 화이트리스트)
 - 사용자 활동 로그
 
 #### API 엔드포인트
+
 ```
 POST   /api/users                    # 사용자 생성
 GET    /api/users                    # 사용자 목록 조회
@@ -618,12 +644,14 @@ POST   /api/auth/logout              # 로그아웃
 ### 💳 현금카드 관리 (Cash Card Management)
 
 #### 기능
+
 - 현금카드 발급/해지
 - 잔액 조회 및 관리
 - 핫카드 관리
 - 거래 내역 조회
 
 #### API 엔드포인트
+
 ```
 GET    /api/cashcards                # 현금카드 목록
 GET    /api/cashcards/{id}           # 현금카드 상세
@@ -636,12 +664,14 @@ GET    /api/hotcards                 # 핫카드 목록
 ### 💰 예금 관리 (Deposit Management)
 
 #### 기능
+
 - 예금 계좌 개설/해지
 - 입출금 처리
 - 이자 계산
 - 예금 상품 관리
 
 #### API 엔드포인트
+
 ```
 GET    /api/deposits                 # 예금 목록
 GET    /api/deposits/{id}            # 예금 상세
@@ -655,12 +685,14 @@ POST   /api/deposits/{id}/withdraw   # 출금
 ### 🏦 텔러 관리 (Teller Management)
 
 #### 기능
+
 - 텔러 등록/수정/삭제
 - 텔러 권한 관리
 - 업무 처리 내역
 - 성과 관리
 
 #### API 엔드포인트
+
 ```
 GET    /api/tellers                  # 텔러 목록
 GET    /api/tellers/{id}             # 텔러 상세
@@ -672,12 +704,14 @@ DELETE /api/tellers/{id}             # 텔러 삭제
 ### 📊 공통 서비스 (Common Services)
 
 #### 기능
+
 - 공통 코드 관리
 - 은행/지점 정보 관리
 - 통화 정보 관리
 - 시스템 설정 관리
 
 #### API 엔드포인트
+
 ```
 GET    /api/common/codes             # 공통 코드 조회
 GET    /api/common/banks             # 은행 정보 조회
@@ -692,6 +726,7 @@ GET    /api/common/currencies        # 통화 정보 조회
 ### 📝 새로운 API 추가
 
 #### 1. 컨트롤러 생성
+
 ```java
 @RestController
 @RequestMapping("/api/example")
@@ -699,9 +734,9 @@ GET    /api/common/currencies        # 통화 정보 조회
 @RequiredArgsConstructor
 @Slf4j
 public class ExampleController {
-    
+
     private final ExampleService exampleService;
-    
+
     @GetMapping
     @Operation(summary = "Get Examples", description = "Get all examples")
     public ResponseEntity<List<Example>> getAllExamples() {
@@ -710,7 +745,7 @@ public class ExampleController {
         log.info("[ExampleController.getAllExamples END]");
         return ResponseEntity.ok(examples);
     }
-    
+
     @PostMapping
     @Operation(summary = "Create Example", description = "Create a new example")
     public ResponseEntity<Example> createExample(@RequestBody ExampleCreateRequest request) {
@@ -723,19 +758,20 @@ public class ExampleController {
 ```
 
 #### 2. 서비스 생성
+
 ```java
 @Service
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class ExampleService {
-    
+
     private final ExampleRepository exampleRepository;
-    
+
     public List<Example> findAll() {
         return exampleRepository.findAll();
     }
-    
+
     public Example create(ExampleCreateRequest request) {
         Example example = Example.builder()
                 .name(request.getName())
@@ -747,6 +783,7 @@ public class ExampleService {
 ```
 
 #### 3. 엔티티 생성
+
 ```java
 @Entity
 @Table(name = "examples")
@@ -755,21 +792,21 @@ public class ExampleService {
 @AllArgsConstructor
 @Builder
 public class Example {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false)
     private String name;
-    
+
     @Column
     private String description;
-    
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-    
+
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
@@ -777,6 +814,7 @@ public class Example {
 ```
 
 #### 4. 리포지토리 생성
+
 ```java
 @Repository
 public interface ExampleRepository extends JpaRepository<Example, Long> {
@@ -788,11 +826,12 @@ public interface ExampleRepository extends JpaRepository<Example, Long> {
 ### 🎨 새로운 웹 페이지 추가
 
 #### 1. 컨트롤러 메서드 추가
+
 ```java
 @Controller
 @RequestMapping("/example")
 public class ExampleWebController {
-    
+
     @GetMapping
     public String examplePage(Model model) {
         model.addAttribute("title", "Example Management");
@@ -802,20 +841,21 @@ public class ExampleWebController {
 ```
 
 #### 2. Thymeleaf 템플릿 생성
+
 ```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title th:text="${title}">Example Management</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
-<body>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+  </head>
+  <body>
     <div class="container">
-        <h1 th:text="${title}">Example Management</h1>
-        <!-- 페이지 내용 -->
+      <h1 th:text="${title}">Example Management</h1>
+      <!-- 페이지 내용 -->
     </div>
-</body>
+  </body>
 </html>
 ```
 
@@ -828,20 +868,25 @@ public class ExampleWebController {
 애플리케이션 시작 시 자동으로 생성되는 테스트 데이터:
 
 #### 사용자 데이터
+
 - 관리자 사용자 (admin/admin123)
 - 일반 사용자 3명
 
 #### 현금카드 데이터
+
 - 5개의 테스트 현금카드
 - 3개의 핫카드
 
 #### 예금 데이터
+
 - 7개의 테스트 예금 계좌
 
 #### 텔러 데이터
+
 - 4명의 테스트 텔러
 
 #### 공통 데이터
+
 - 은행 정보 (신한은행, 국민은행 등)
 - 지점 정보
 - 통화 정보 (KRW, USD, EUR 등)
@@ -849,16 +894,19 @@ public class ExampleWebController {
 ### 🔍 테스트 API
 
 #### 헬스 체크
+
 ```bash
 curl http://localhost:8080/api/health
 ```
 
 #### 사용자 목록 조회
+
 ```bash
 curl http://localhost:8080/api/users
 ```
 
 #### 현금카드 목록 조회
+
 ```bash
 curl http://localhost:8080/api/cashcards
 ```
@@ -870,27 +918,32 @@ curl http://localhost:8080/api/cashcards
 ### 🛡️ 보안 정책
 
 #### 비밀번호 정책
+
 - 최소 8자 이상
 - 영문, 숫자, 특수문자 조합
 - BCrypt 해싱 알고리즘 사용
 
 #### 세션 정책
+
 - 세션 타임아웃: 30분
 - 동시 접속 제한: 1000명
 
 #### IP 화이트리스트
+
 - 개발 환경: 모든 IP 허용
 - 운영 환경: 허용된 IP만 접근
 
 ### 🔐 인증 및 권한
 
 #### 사용자 역할
+
 - **ADMIN**: 시스템 관리자
 - **USER**: 일반 사용자
 - **TELLER**: 텔러
 - **MANAGER**: 관리자
 
 #### 권한 체계
+
 ```java
 @PreAuthorize("hasRole('ADMIN')")
 @PreAuthorize("hasRole('USER')")
@@ -904,6 +957,7 @@ curl http://localhost:8080/api/cashcards
 ### 📊 로깅 설정
 
 #### application.yml
+
 ```yaml
 logging:
   level:
@@ -916,6 +970,7 @@ logging:
 ```
 
 #### 로그 레벨
+
 - **DEBUG**: 개발 환경에서 상세 로그
 - **INFO**: 일반적인 정보 로그
 - **WARN**: 경고 메시지
@@ -924,11 +979,13 @@ logging:
 ### 🔍 모니터링
 
 #### 헬스 체크
+
 - 애플리케이션 상태 확인
 - 데이터베이스 연결 상태
 - 메모리 사용량
 
 #### 메트릭
+
 - 요청 처리 시간
 - 오류율
 - 동시 사용자 수
@@ -938,11 +995,13 @@ logging:
 ## 🚀 배포
 
 ### 📦 JAR 파일 생성
+
 ```bash
 mvn clean package -DskipTests
 ```
 
 ### 🐳 Docker 배포 (선택사항)
+
 ```dockerfile
 FROM openjdk:18-jre-slim
 COPY target/oversea-0.0.1-SNAPSHOT.jar app.jar
@@ -951,6 +1010,7 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]
 ```
 
 ### ☁️ 클라우드 배포
+
 - **AWS**: Elastic Beanstalk, ECS
 - **Azure**: App Service, Container Instances
 - **GCP**: App Engine, Cloud Run
@@ -960,12 +1020,14 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]
 ## 📚 참고 자료
 
 ### 🔗 공식 문서
+
 - [Spring Boot Reference](https://docs.spring.io/spring-boot/docs/current/reference/html/)
 - [Spring Security Reference](https://docs.spring.io/spring-security/reference/)
 - [Spring Data JPA Reference](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/)
 - [Thymeleaf Documentation](https://www.thymeleaf.org/documentation.html)
 
 ### 📖 추가 학습 자료
+
 - Spring Boot 마이그레이션 가이드
 - J2EE에서 Spring Boot로의 전환
 - 마이크로서비스 아키텍처 설계
@@ -976,11 +1038,13 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]
 ## 👥 개발팀
 
 ### 🏢 SKCC Development Team
+
 - **이메일**: dev@skcc.com
 - **웹사이트**: https://www.skcc.com
 - **라이선스**: SKCC Internal License
 
 ### 📞 연락처
+
 - **기술 지원**: tech-support@skcc.com
 - **문서 관련**: docs@skcc.com
 - **보안 관련**: security@skcc.com
@@ -993,5 +1057,5 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 ---
 
-*마지막 업데이트: 2024년 12월*
-*버전: 1.0.0* 
+_마지막 업데이트: 2024년 12월_
+_버전: 1.0.0_

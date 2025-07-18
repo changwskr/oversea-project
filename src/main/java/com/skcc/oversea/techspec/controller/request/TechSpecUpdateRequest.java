@@ -20,6 +20,8 @@ import jakarta.validation.constraints.Size;
 @Builder
 public class TechSpecUpdateRequest {
 
+    private Long id;
+
     @NotBlank(message = "분류 영역은 필수입니다")
     @Size(max = 100, message = "분류 영역은 100자 이하여야 합니다")
     private String category;
@@ -45,6 +47,7 @@ public class TechSpecUpdateRequest {
      */
     public TechSpec toDomain() {
         return TechSpec.builder()
+                .id(this.id)
                 .category(this.category)
                 .subItem(this.subItem)
                 .technologyName(this.technologyName)
@@ -53,4 +56,4 @@ public class TechSpecUpdateRequest {
                 .updatedBy(this.updatedBy)
                 .build();
     }
-} 
+}

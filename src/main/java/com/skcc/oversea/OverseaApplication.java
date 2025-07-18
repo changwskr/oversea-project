@@ -12,10 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * SKCC Oversea Application
+ * SKAX AI TOOL Application
  *
- * Main Spring Boot application class for the SKCC Oversea banking system.
- * This application has been migrated from legacy J2EE/EJB architecture to Spring Boot.
+ * Main Spring Boot application class for the SKAX AI TOOL system.
+ * This application has been migrated from legacy J2EE/EJB architecture to
+ * Spring Boot.
  *
  * Features:
  * - Cash Card Management
@@ -68,18 +69,18 @@ public class OverseaApplication {
     public static void main(String[] args) {
         logger.info("==================[OverseaApplication.main START]");
         try {
-            logger.info("Starting SKCC Oversea Banking System...");
+            logger.info("Starting SKAX AI TOOL System...");
             logger.info("System Version: 1.0.0");
             logger.info("Spring Boot Version: 3.x");
             logger.info("Java Version: {}", System.getProperty("java.version"));
 
             SpringApplication.run(OverseaApplication.class, args);
 
-            logger.info("SKCC Oversea Banking System started successfully!");
+            logger.info("SKAX AI TOOL System started successfully!");
             logger.info("==================[OverseaApplication.main END]");
         } catch (Exception e) {
             logger.error("==================[OverseaApplication.main ERROR] - {}", e.getMessage(), e);
             System.exit(1);
         }
     }
-} 
+}

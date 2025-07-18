@@ -5,18 +5,21 @@ Spring Boot 기반의 기술 스펙 관리 시스템입니다. 프로젝트에�
 ## 🚀 주요 기능
 
 ### 1. 기술 스펙 관리
+
 - **생성**: 새로운 기술 스펙 추가
 - **조회**: 전체 목록, 카테고리별, 검색 기능
 - **수정**: 기존 기술 스펙 정보 업데이트
 - **삭제**: 기술 스펙 논리적 삭제 (Soft Delete)
 
 ### 2. 검색 및 필터링
+
 - 분류 영역별 필터링
 - 기술명 검색
 - 설명 내용 검색
 - 복합 검색 지원
 
 ### 3. 데이터 관리
+
 - 카테고리별 통계
 - 일괄 생성 기능
 - 중복 체크 기능
@@ -24,6 +27,7 @@ Spring Boot 기반의 기술 스펙 관리 시스템입니다. 프로젝트에�
 ## 🏗️ 아키텍처
 
 ### Hexagonal Architecture (Ports & Adapters)
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    Presentation Layer                       │
@@ -45,6 +49,7 @@ Spring Boot 기반의 기술 스펙 관리 시스템입니다. 프로젝트에�
 ```
 
 ### 패키지 구조
+
 ```
 src/main/java/com/skcc/oversea/techspec/
 ├── domain/                          # 도메인 계층
@@ -76,6 +81,7 @@ src/main/java/com/skcc/oversea/techspec/
 ## 🛠️ 기술 스택
 
 ### Backend
+
 - **Spring Boot 3.1.4**: 메인 프레임워크
 - **Java 18**: 프로그래밍 언어
 - **Spring Data JPA**: 데이터 접근 계층
@@ -85,6 +91,7 @@ src/main/java/com/skcc/oversea/techspec/
 - **Lombok**: 코드 자동화
 
 ### Architecture
+
 - **Hexagonal Architecture**: 포트와 어댑터 패턴
 - **Clean Architecture**: 계층 분리
 - **DDD**: 도메인 주도 설계
@@ -92,6 +99,7 @@ src/main/java/com/skcc/oversea/techspec/
 ## 📋 데이터 모델
 
 ### TechSpec 엔티티
+
 ```java
 public class TechSpec {
     private Long id;                    // 고유 식별자
@@ -111,12 +119,14 @@ public class TechSpec {
 ## 🚀 실행 방법
 
 ### 1. 애플리케이션 실행
+
 ```bash
 # 프로젝트 루트 디렉토리에서
 ./mvnw spring-boot:run
 ```
 
 ### 2. 접속 URL
+
 - **웹 인터페이스**: http://localhost:8080/tech-specs
 - **REST API**: http://localhost:8080/api/tech-specs
 - **H2 콘솔**: http://localhost:8080/h2-console
@@ -126,6 +136,7 @@ public class TechSpec {
 ### REST API 엔드포인트
 
 #### 1. 기술 스펙 생성
+
 ```http
 POST /api/tech-specs
 Content-Type: application/json
@@ -141,26 +152,31 @@ Content-Type: application/json
 ```
 
 #### 2. 기술 스펙 조회
+
 ```http
 GET /api/tech-specs/{id}
 ```
 
 #### 3. 전체 기술 스펙 조회
+
 ```http
 GET /api/tech-specs
 ```
 
 #### 4. 카테고리별 조회
+
 ```http
 GET /api/tech-specs/category/{category}
 ```
 
 #### 5. 검색
+
 ```http
 GET /api/tech-specs/search?category=아키텍처&technologyName=Spring&description=마이크로서비스
 ```
 
 #### 6. 기술 스펙 수정
+
 ```http
 PUT /api/tech-specs/{id}
 Content-Type: application/json
@@ -176,21 +192,25 @@ Content-Type: application/json
 ```
 
 #### 7. 기술 스펙 삭제
+
 ```http
 DELETE /api/tech-specs/{id}
 ```
 
 #### 8. 카테고리 목록 조회
+
 ```http
 GET /api/tech-specs/categories
 ```
 
 #### 9. 카테고리별 개수 조회
+
 ```http
 GET /api/tech-specs/categories/count
 ```
 
 #### 10. 일괄 생성
+
 ```http
 POST /api/tech-specs/batch
 Content-Type: application/json
@@ -212,22 +232,26 @@ Content-Type: application/json
 ### 주요 페이지
 
 #### 1. 목록 페이지 (`/tech-specs`)
+
 - 전체 기술 스펙 목록 표시
 - 검색 및 필터링 기능
 - 카테고리별 필터링
 - CRUD 작업 버튼
 
 #### 2. 생성 페이지 (`/tech-specs/create`)
+
 - 새로운 기술 스펙 생성 폼
 - 유효성 검사
 - 카테고리 선택 드롭다운
 
 #### 3. 상세 페이지 (`/tech-specs/{id}`)
+
 - 기술 스펙 상세 정보 표시
 - 수정 및 삭제 버튼
 - 생성/수정 이력 정보
 
 #### 4. 수정 페이지 (`/tech-specs/{id}/edit`)
+
 - 기존 기술 스펙 수정 폼
 - 기존 데이터 자동 입력
 - 유효성 검사
@@ -235,19 +259,20 @@ Content-Type: application/json
 ## 🔧 설정
 
 ### application.yml
+
 ```yaml
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
     username: sa
-    password: 
-  
+    password:
+
   h2:
     console:
       enabled: true
       path: /h2-console
-  
+
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -255,7 +280,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  
+
   sql:
     init:
       mode: always
@@ -282,11 +307,13 @@ spring:
 ## 🧪 테스트
 
 ### 단위 테스트 실행
+
 ```bash
 ./mvnw test
 ```
 
 ### 통합 테스트 실행
+
 ```bash
 ./mvnw verify
 ```
@@ -325,6 +352,7 @@ spring:
 ## 🚀 배포
 
 ### Docker 배포
+
 ```bash
 # Docker 이미지 빌드
 docker build -t techspec-app .
@@ -334,6 +362,7 @@ docker run -p 8080:8080 techspec-app
 ```
 
 ### JAR 배포
+
 ```bash
 # JAR 파일 빌드
 ./mvnw clean package
@@ -348,4 +377,4 @@ java -jar target/oversea-0.0.1-SNAPSHOT.jar
 
 ---
 
-**SKCC Oversea Project** - 기술 스펙 관리 시스템 
+**SKAX AI TOOL Project** - 기술 스펙 관리 시스템

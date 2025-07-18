@@ -1,4 +1,4 @@
--- SKCC Oversea Banking System Comprehensive Test Data
+-- SKAX AI TOOL System Comprehensive Test Data
 -- This file contains comprehensive test data for all tables
 -- Generated for testing purposes with various scenarios
 
@@ -8,7 +8,7 @@
 INSERT INTO common (common_code, common_name, common_type, common_value, description, is_active, effective_date, register_date, register_by) VALUES
 -- Bank Codes (은행 코드)
 ('BANK_001', 'SKCC Main Bank', 'BANK', '001', 'SKCC Main Bank Code', true, '20240101', '20240101', 'SYSTEM'),
-('BANK_002', 'SKCC Overseas', 'BANK', '002', 'SKCC Overseas Branch Code', true, '20240101', '20240101', 'SYSTEM'),
+('BANK_002', 'SKAX AI TOOL', 'BANK', '002', 'SKAX AI TOOL Branch Code', true, '20240101', '20240101', 'SYSTEM'),
 ('BANK_003', 'SKCC Investment', 'BANK', '003', 'SKCC Investment Bank Code', true, '20240101', '20240101', 'SYSTEM'),
 
 -- Branch Codes (지점 코드)

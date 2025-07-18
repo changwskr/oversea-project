@@ -201,7 +201,7 @@
     <!-- System Configuration -->
     <SYSTEM>
         <application>
-            <name>SKCC Oversea System</name>
+            <name>SKAX AI TOOL System</name>
             <version>2.0.0</version>
             <environment>development</environment>
         </application>
