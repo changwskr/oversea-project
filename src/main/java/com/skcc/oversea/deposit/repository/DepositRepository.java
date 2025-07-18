@@ -15,6 +15,14 @@ public interface DepositRepository extends JpaRepository<Deposit, Long> {
 
         Optional<Deposit> findByAccountNumber(String accountNumber);
 
+        // 디버깅용: 계좌번호로 조회 (삭제 여부 무관)
+        @Query("SELECT d FROM MainDeposit d WHERE d.accountNumber = :accountNumber")
+        List<Deposit> findByAccountNumberDebug(@Param("accountNumber") String accountNumber);
+
+        // 디버깅용: 모든 예금 조회 (삭제 여부 무관)
+        @Query("SELECT d FROM MainDeposit d")
+        List<Deposit> findAllDebug();
+
         List<Deposit> findByCifNo(String cifNo);
 
         List<Deposit> findByBankCodeAndBranchCode(String bankCode, String branchCode);
@@ -34,11 +42,12 @@ public interface DepositRepository extends JpaRepository<Deposit, Long> {
 
         // 복합 검색
         @Query("SELECT d FROM MainDeposit d WHERE " +
-                        "(:accountNumber IS NULL OR d.accountNumber LIKE %:accountNumber%) AND " +
-                        "(:cifNo IS NULL OR d.cifNo LIKE %:cifNo%) AND " +
-                        "(:cifName IS NULL OR d.cifName LIKE %:cifName%) AND " +
-                        "(:depositType IS NULL OR d.depositType LIKE %:depositType%) AND " +
-                        "(:status IS NULL OR d.status = :status) AND " +
+                        "(:accountNumber IS NULL OR :accountNumber = '' OR d.accountNumber LIKE %:accountNumber%) AND "
+                        +
+                        "(:cifNo IS NULL OR :cifNo = '' OR d.cifNo LIKE %:cifNo%) AND " +
+                        "(:cifName IS NULL OR :cifName = '' OR d.cifName LIKE %:cifName%) AND " +
+                        "(:depositType IS NULL OR :depositType = '' OR d.depositType LIKE %:depositType%) AND " +
+                        "(:status IS NULL OR :status = '' OR d.status = :status) AND " +
                         "d.isDeleted = false")
         List<Deposit> findBySearchCriteria(
                         @Param("accountNumber") String accountNumber,

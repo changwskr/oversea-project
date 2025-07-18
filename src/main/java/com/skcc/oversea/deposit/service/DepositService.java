@@ -70,6 +70,36 @@ public class DepositService {
     }
 
     /**
+     * 디버깅용: 계좌번호로 예금 조회 (삭제 여부 무관)
+     */
+    public List<DepositDTO> getDepositByAccountNumberDebug(String accountNumber) {
+        log.info("[DepositService] getDepositByAccountNumberDebug START - accountNumber: {}", accountNumber);
+
+        List<DepositDTO> result = depositRepository.findByAccountNumberDebug(accountNumber)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+
+        log.info("[DepositService] getDepositByAccountNumberDebug END - count: {}", result.size());
+        return result;
+    }
+
+    /**
+     * 디버깅용: 모든 예금 조회 (삭제 여부 무관)
+     */
+    public List<DepositDTO> getAllDepositsDebug() {
+        log.info("[DepositService] getAllDepositsDebug START");
+
+        List<DepositDTO> result = depositRepository.findAllDebug()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+
+        log.info("[DepositService] getAllDepositsDebug END - count: {}", result.size());
+        return result;
+    }
+
+    /**
      * CIF 번호로 예금 조회
      */
     public List<DepositDTO> getDepositsByCifNo(String cifNo) {

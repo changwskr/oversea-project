@@ -65,7 +65,7 @@ public class DepositController {
         log.info("[DepositController] depositList START");
 
         try {
-            List<DepositDTO> deposits = depositService.searchDeposits(accountNumber, cifNo, null, depositType, status);
+            List<DepositDTO> deposits = depositService.searchDeposits(accountNumber, cifNo, "", depositType, status);
 
             model.addAttribute("title", "예금 목록");
             model.addAttribute("deposits", deposits);
@@ -81,6 +81,49 @@ public class DepositController {
             model.addAttribute("errorMessage", "예금 목록을 불러오는 중 오류가 발생했습니다: " + e.getMessage());
             model.addAttribute("title", "예금 목록");
             return "deposit/list";
+        }
+    }
+
+    /**
+     * 디버깅용: 계좌번호로 예금 조회
+     */
+    @GetMapping("/debug/account/{accountNumber}")
+    @ResponseBody
+    public String debugAccountNumber(@PathVariable String accountNumber) {
+        log.info("[DepositController] debugAccountNumber START - accountNumber: {}", accountNumber);
+
+        try {
+            List<DepositDTO> deposits = depositService.getDepositByAccountNumberDebug(accountNumber);
+            List<DepositDTO> allDeposits = depositService.getAllDepositsDebug();
+
+            StringBuilder result = new StringBuilder();
+            result.append("=== 디버깅 결과 ===\n");
+            result.append("검색 계좌번호: ").append(accountNumber).append("\n");
+            result.append("해당 계좌번호로 찾은 예금 수: ").append(deposits.size()).append("\n");
+            result.append("전체 예금 수: ").append(allDeposits.size()).append("\n\n");
+
+            if (!deposits.isEmpty()) {
+                result.append("=== 찾은 예금 정보 ===\n");
+                for (DepositDTO deposit : deposits) {
+                    result.append("ID: ").append(deposit.getDepositId()).append("\n");
+                    result.append("계좌번호: ").append(deposit.getAccountNumber()).append("\n");
+                    result.append("CIF명: ").append(deposit.getCifName()).append("\n");
+                    result.append("예금종류: ").append(deposit.getDepositType()).append("\n");
+                    result.append("상태: ").append(deposit.getStatus()).append("\n");
+                    result.append("삭제여부: ").append(deposit.getIsDeleted()).append("\n\n");
+                }
+            }
+
+            result.append("=== 전체 예금 계좌번호 목록 ===\n");
+            for (DepositDTO deposit : allDeposits) {
+                result.append(deposit.getAccountNumber()).append(" (").append(deposit.getCifName()).append(")\n");
+            }
+
+            log.info("[DepositController] debugAccountNumber END - found: {}", deposits.size());
+            return result.toString();
+        } catch (Exception e) {
+            log.error("Error in debug account number: {}", e.getMessage(), e);
+            return "Error: " + e.getMessage();
         }
     }
 
