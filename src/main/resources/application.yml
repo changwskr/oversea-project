@@ -56,13 +56,13 @@ springdoc:
     tags-sorter: alpha
     doc-expansion: none
     disable-swagger-default-url: true
-  packages-to-scan: com.skcc.oversea.controller
+  packages-to-scan: com.skax.eatool.controller
   paths-to-match: /api/**
 
 # Logging Configuration
 logging:
   level:
-    com.skcc.oversea: DEBUG
+    com.skax.eatool: DEBUG
     org.springframework.web: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
@@ -76,4 +76,4 @@ service:
 tpmservice:
   url: http://localhost:8080
   timeout: 30
-bizaction-map-filename: classpath:config/oversea-config.xml
+bizaction-map-filename: classpath:config/eatool-config.xml

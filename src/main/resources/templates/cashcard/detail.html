@@ -181,7 +181,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/home"><i class="fas fa-home"></i> 홈</a>
+                        <a class="nav-link" href="/home"><i class="fas fa-home"></i> ??/a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> Cash Card</a>
@@ -203,166 +203,166 @@
     <div class="container main-content">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i> 홈</a></li>
+                <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i> ??/a></li>
                 <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
                 <li class="breadcrumb-item"><a href="/cashcard/search">카드 조회</a></li>
-                <li class="breadcrumb-item active" aria-current="page">카드 상세 정보</li>
+                <li class="breadcrumb-item active" aria-current="page">카드 ?�세 ?�보</li>
             </ol>
         </nav>
 
         <div class="page-header">
-            <h1><i class="fas fa-credit-card"></i> <span th:text="${pageTitle}">카드 상세 정보</span></h1>
-            <p th:text="${description}">카드 상세 정보를 확인합니다</p>
+            <h1><i class="fas fa-credit-card"></i> <span th:text="${pageTitle}">카드 ?�세 ?�보</span></h1>
+            <p th:text="${description}">카드 ?�세 ?�보�??�인?�니??/p>
         </div>
         
-        <!-- 성공/실패 메시지 -->
+        <!-- ?�공/?�패 메시지 -->
         <div th:if="${successMessage}" class="alert alert-success" role="alert">
-            <i class="fas fa-check-circle"></i> <span th:text="${successMessage}">성공 메시지</span>
+            <i class="fas fa-check-circle"></i> <span th:text="${successMessage}">?�공 메시지</span>
         </div>
         
         <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-            <i class="fas fa-exclamation-triangle"></i> <span th:text="${errorMessage}">오류 메시지</span>
+            <i class="fas fa-exclamation-triangle"></i> <span th:text="${errorMessage}">?�류 메시지</span>
         </div>
         
         <div class="content-card">
-            <!-- 카드 정보가 없는 경우 -->
+            <!-- 카드 ?�보가 ?�는 경우 -->
             <div th:if="${cardInfo == null}" class="text-center py-5">
                 <i class="fas fa-search" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
-                <h5 class="text-muted">카드 정보를 찾을 수 없습니다</h5>
+                <h5 class="text-muted">카드 ?�보�?찾을 ???�습?�다</h5>
                 <p class="text-muted">카드번호: <span th:text="${cardNumber}">카드번호</span></p>
                 <a href="/cashcard/search" class="btn btn-success">
-                    <i class="fas fa-search"></i> 다시 검색
+                    <i class="fas fa-search"></i> ?�시 검??
                 </a>
             </div>
             
-            <!-- 카드 정보가 있는 경우 -->
+            <!-- 카드 ?�보가 ?�는 경우 -->
             <div th:if="${cardInfo != null}">
-                <!-- 카드번호 표시 -->
+                <!-- 카드번호 ?�시 -->
                 <div class="card-number-display">
                     <div class="card-number-text" th:text="${cardInfo.cardNumber}">카드번호</div>
-                    <div class="card-type-text" th:text="${cardInfo.type != null ? cardInfo.type : '현금카드'}">카드종류</div>
+                    <div class="card-type-text" th:text="${cardInfo.type != null ? cardInfo.type : '?�금카드'}">카드종류</div>
                 </div>
                 
-                <!-- 상태 표시 -->
+                <!-- ?�태 ?�시 -->
                 <div class="text-center mb-4">
                     <span th:class="${'status-badge ' + (cardInfo.status == 'A' ? 'status-active' : (cardInfo.status == 'H' ? 'status-hot' : (cardInfo.status == 'P' ? 'status-pending' : 'status-inactive')))}" 
-                          th:text="${cardInfo.status == 'A' ? '정상' : (cardInfo.status == 'H' ? '핫카드' : (cardInfo.status == 'P' ? '휴면상태' : '비활성'))}">상태</span>
+                          th:text="${cardInfo.status == 'A' ? '?�상' : (cardInfo.status == 'H' ? '?�카?? : (cardInfo.status == 'P' ? '?�면?�태' : '비활??))}">?�태</span>
                 </div>
                 
-                <!-- 고객 정보 섹션 -->
+                <!-- 고객 ?�보 ?�션 -->
                 <div class="detail-section">
-                    <h4><i class="fas fa-user"></i> 고객 정보</h4>
+                    <h4><i class="fas fa-user"></i> 고객 ?�보</h4>
                     <div class="detail-grid">
                         <div class="detail-item">
-                            <div class="detail-label">고객명</div>
-                            <div class="detail-value" th:text="${cardInfo.CIFName != null ? cardInfo.CIFName : '미등록'}">고객명</div>
+                            <div class="detail-label">고객�?/div>
+                            <div class="detail-value" th:text="${cardInfo.CIFName != null ? cardInfo.CIFName : '미등�?}">고객�?/div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">고객번호</div>
-                            <div class="detail-value" th:text="${cardInfo.CIFNo != null ? cardInfo.CIFNo : '미등록'}">고객번호</div>
+                            <div class="detail-value" th:text="${cardInfo.CIFNo != null ? cardInfo.CIFNo : '미등�?}">고객번호</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 계좌 정보 섹션 -->
+                <!-- 계좌 ?�보 ?�션 -->
                 <div class="detail-section">
-                    <h4><i class="fas fa-university"></i> 계좌 정보</h4>
+                    <h4><i class="fas fa-university"></i> 계좌 ?�보</h4>
                     <div class="detail-grid">
                         <div class="detail-item">
-                            <div class="detail-label">주계좌번호</div>
-                            <div class="detail-value" th:text="${cardInfo.primaryAccountNo != null ? cardInfo.primaryAccountNo : '미등록'}">주계좌번호</div>
+                            <div class="detail-label">주계좌번??/div>
+                            <div class="detail-value" th:text="${cardInfo.primaryAccountNo != null ? cardInfo.primaryAccountNo : '미등�?}">주계좌번??/div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">보조계좌번호</div>
-                            <div class="detail-value" th:text="${cardInfo.secondaryAccountNo != null and cardInfo.secondaryAccountNo != '' ? cardInfo.secondaryAccountNo : '미등록'}">보조계좌번호</div>
+                            <div class="detail-value" th:text="${cardInfo.secondaryAccountNo != null and cardInfo.secondaryAccountNo != '' ? cardInfo.secondaryAccountNo : '미등�?}">보조계좌번호</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">은행코드</div>
-                            <div class="detail-value" th:text="${cardInfo.bankCode != null ? cardInfo.bankCode : '미등록'}">은행코드</div>
+                            <div class="detail-label">?�?�코??/div>
+                            <div class="detail-value" th:text="${cardInfo.bankCode != null ? cardInfo.bankCode : '미등�?}">?�?�코??/div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">지점코드</div>
-                            <div class="detail-value" th:text="${cardInfo.branchCode != null ? cardInfo.branchCode : '미등록'}">지점코드</div>
+                            <div class="detail-label">지?�코??/div>
+                            <div class="detail-value" th:text="${cardInfo.branchCode != null ? cardInfo.branchCode : '미등�?}">지?�코??/div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 한도 정보 섹션 -->
+                <!-- ?�도 ?�보 ?�션 -->
                 <div class="detail-section">
-                    <h4><i class="fas fa-chart-line"></i> 한도 정보</h4>
+                    <h4><i class="fas fa-chart-line"></i> ?�도 ?�보</h4>
                     <div class="detail-grid">
                         <div class="detail-item">
-                            <div class="detail-label">일일한도</div>
-                            <div class="detail-value" th:text="${cardInfo.dailyLimitAmount != null ? cardInfo.dailyLimitAmount + ' ' + (cardInfo.dailyLimitCcy != null ? cardInfo.dailyLimitCcy : 'KRW') : '설정됨'}">일일한도</div>
+                            <div class="detail-label">?�일?�도</div>
+                            <div class="detail-value" th:text="${cardInfo.dailyLimitAmount != null ? cardInfo.dailyLimitAmount + ' ' + (cardInfo.dailyLimitCcy != null ? cardInfo.dailyLimitCcy : 'KRW') : '?�정??}">?�일?�도</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">일일누적</div>
-                            <div class="detail-value" th:text="${cardInfo.dailyAccumAmount != null ? cardInfo.dailyAccumAmount + ' ' + (cardInfo.dailyLimitCcy != null ? cardInfo.dailyLimitCcy : 'KRW') : '0 KRW'}">일일누적</div>
+                            <div class="detail-label">?�일?�적</div>
+                            <div class="detail-value" th:text="${cardInfo.dailyAccumAmount != null ? cardInfo.dailyAccumAmount + ' ' + (cardInfo.dailyLimitCcy != null ? cardInfo.dailyLimitCcy : 'KRW') : '0 KRW'}">?�일?�적</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">체크한도</div>
-                            <div class="detail-value" th:text="${cardInfo.dailyTrfLimitAmount != null ? cardInfo.dailyTrfLimitAmount + ' ' + (cardInfo.dailyTrfLimitCcy != null ? cardInfo.dailyTrfLimitCcy : 'KRW') : '설정됨'}">체크한도</div>
+                            <div class="detail-label">체크?�도</div>
+                            <div class="detail-value" th:text="${cardInfo.dailyTrfLimitAmount != null ? cardInfo.dailyTrfLimitAmount + ' ' + (cardInfo.dailyTrfLimitCcy != null ? cardInfo.dailyTrfLimitCcy : 'KRW') : '?�정??}">체크?�도</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">체크누적</div>
-                            <div class="detail-value" th:text="${cardInfo.dailyTrfAccumAmount != null ? cardInfo.dailyTrfAccumAmount + ' ' + (cardInfo.dailyTrfLimitCcy != null ? cardInfo.dailyTrfLimitCcy : 'KRW') : '0 KRW'}">체크누적</div>
+                            <div class="detail-label">체크?�적</div>
+                            <div class="detail-value" th:text="${cardInfo.dailyTrfAccumAmount != null ? cardInfo.dailyTrfAccumAmount + ' ' + (cardInfo.dailyTrfLimitCcy != null ? cardInfo.dailyTrfLimitCcy : 'KRW') : '0 KRW'}">체크?�적</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 발급 정보 섹션 -->
+                <!-- 발급 ?�보 ?�션 -->
                 <div class="detail-section">
-                    <h4><i class="fas fa-calendar-alt"></i> 발급 정보</h4>
+                    <h4><i class="fas fa-calendar-alt"></i> 발급 ?�보</h4>
                     <div class="detail-grid">
                         <div class="detail-item">
-                            <div class="detail-label">발급일자</div>
-                            <div class="detail-value" th:text="${cardInfo.registerDate != null and cardInfo.registerDate != '' ? cardInfo.registerDate : '미등록'}">발급일자</div>
+                            <div class="detail-label">발급?�자</div>
+                            <div class="detail-value" th:text="${cardInfo.registerDate != null and cardInfo.registerDate != '' ? cardInfo.registerDate : '미등�?}">발급?�자</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">발급시간</div>
-                            <div class="detail-value" th:text="${cardInfo.registerTime != null and cardInfo.registerTime != '' ? cardInfo.registerTime : '미등록'}">발급시간</div>
+                            <div class="detail-label">발급?�간</div>
+                            <div class="detail-value" th:text="${cardInfo.registerTime != null and cardInfo.registerTime != '' ? cardInfo.registerTime : '미등�?}">발급?�간</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">발급자</div>
-                            <div class="detail-value" th:text="${cardInfo.registerBy != null ? cardInfo.registerBy : 'SYSTEM'}">발급자</div>
+                            <div class="detail-label">발급??/div>
+                            <div class="detail-value" th:text="${cardInfo.registerBy != null ? cardInfo.registerBy : 'SYSTEM'}">발급??/div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">유효기간</div>
-                            <div class="detail-value" th:text="${cardInfo.effectiveDate != null and cardInfo.effectiveDate != '' ? cardInfo.effectiveDate + ' ~ ' + (cardInfo.expiryDate != null ? cardInfo.expiryDate : '') : '미등록'}">유효기간</div>
+                            <div class="detail-label">?�효기간</div>
+                            <div class="detail-value" th:text="${cardInfo.effectiveDate != null and cardInfo.effectiveDate != '' ? cardInfo.effectiveDate + ' ~ ' + (cardInfo.expiryDate != null ? cardInfo.expiryDate : '') : '미등�?}">?�효기간</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 관리 정보 섹션 -->
+                <!-- 관�??�보 ?�션 -->
                 <div class="detail-section">
-                    <h4><i class="fas fa-cog"></i> 관리 정보</h4>
+                    <h4><i class="fas fa-cog"></i> 관�??�보</h4>
                     <div class="detail-grid">
                         <div class="detail-item">
-                            <div class="detail-label">일련번호</div>
-                            <div class="detail-value" th:text="${cardInfo.sequenceNo}">일련번호</div>
+                            <div class="detail-label">?�련번호</div>
+                            <div class="detail-value" th:text="${cardInfo.sequenceNo}">?�련번호</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">비밀번호 오류 횟수</div>
-                            <div class="detail-value" th:text="${cardInfo.invalidAttemptCnt}">비밀번호 오류 횟수</div>
+                            <div class="detail-label">비�?번호 ?�류 ?�수</div>
+                            <div class="detail-value" th:text="${cardInfo.invalidAttemptCnt}">비�?번호 ?�류 ?�수</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">최종수정일자</div>
-                            <div class="detail-value" th:text="${cardInfo.lastUpdateDate != null and cardInfo.lastUpdateDate != '' ? cardInfo.lastUpdateDate : '미수정'}">최종수정일자</div>
+                            <div class="detail-label">최종?�정?�자</div>
+                            <div class="detail-value" th:text="${cardInfo.lastUpdateDate != null and cardInfo.lastUpdateDate != '' ? cardInfo.lastUpdateDate : '미수??}">최종?�정?�자</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">최종수정자</div>
-                            <div class="detail-value" th:text="${cardInfo.lastUpdateUserID != null ? cardInfo.lastUpdateUserID : '미수정'}">최종수정자</div>
+                            <div class="detail-label">최종?�정??/div>
+                            <div class="detail-value" th:text="${cardInfo.lastUpdateUserID != null ? cardInfo.lastUpdateUserID : '미수??}">최종?�정??/div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- 버튼 영역 -->
+                <!-- 버튼 ?�역 -->
                 <div class="text-center mt-4">
                     <a href="/cashcard/search" class="btn-back">
-                        <i class="fas fa-arrow-left"></i> 목록으로
+                        <i class="fas fa-arrow-left"></i> 목록?�로
                     </a>
                     <a th:href="@{/cashcard/manage/edit(cardNumber=${cardInfo.cardNumber})}" class="btn-edit">
-                        <i class="fas fa-edit"></i> 정보 수정
+                        <i class="fas fa-edit"></i> ?�보 ?�정
                     </a>
                 </div>
             </div>

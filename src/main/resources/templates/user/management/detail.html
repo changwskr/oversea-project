@@ -89,10 +89,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">홈</a>
+                        <a class="nav-link" href="/">??/a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user-management-web">사용자 관리</a>
+                        <a class="nav-link" href="/user-management-web">?�용??관�?/a>
                     </li>
                 </ul>
             </div>
@@ -101,7 +101,7 @@
 
     <div class="main-content">
         <div class="container">
-            <!-- 알림 메시지 -->
+            <!-- ?�림 메시지 -->
             <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="fas fa-check-circle"></i>
                 <span th:text="${successMessage}"></span>
@@ -118,36 +118,36 @@
                 <div class="col-12">
                     <div class="user-info-card">
                         <h2 class="mb-4">
-                            <i class="fas fa-user"></i> 사용자 상세 정보
+                            <i class="fas fa-user"></i> ?�용???�세 ?�보
                         </h2>
                         
                         <div class="info-row">
-                            <div class="info-label">사용자 ID:</div>
+                            <div class="info-label">?�용??ID:</div>
                             <div class="info-value" th:text="${user.userId}">-</div>
                         </div>
                         
                         <div class="info-row">
-                            <div class="info-label">이름:</div>
+                            <div class="info-label">?�름:</div>
                             <div class="info-value" th:text="${user.name}">-</div>
                         </div>
                         
                         <div class="info-row">
-                            <div class="info-label">사용자명:</div>
+                            <div class="info-label">?�용?�명:</div>
                             <div class="info-value" th:text="${user.username}">-</div>
                         </div>
                         
                         <div class="info-row">
-                            <div class="info-label">이메일:</div>
+                            <div class="info-label">?�메??</div>
                             <div class="info-value" th:text="${user.email}">-</div>
                         </div>
                         
                         <div class="info-row">
-                            <div class="info-label">전화번호:</div>
+                            <div class="info-label">?�화번호:</div>
                             <div class="info-value" th:text="${user.phone}">-</div>
                         </div>
                         
                         <div class="info-row">
-                            <div class="info-label">나이:</div>
+                            <div class="info-label">?�이:</div>
                             <div class="info-value" th:text="${user.age}">-</div>
                         </div>
                         
@@ -162,12 +162,12 @@
                         </div>
                         
                         <div class="info-row">
-                            <div class="info-label">회사:</div>
+                            <div class="info-label">?�사:</div>
                             <div class="info-value" th:text="${user.company}">-</div>
                         </div>
                         
                         <div class="info-row">
-                            <div class="info-label">부서:</div>
+                            <div class="info-label">부??</div>
                             <div class="info-value" th:text="${user.department}">-</div>
                         </div>
                         
@@ -177,41 +177,41 @@
                         </div>
                         
                         <div class="info-row">
-                            <div class="info-label">사용자 유형:</div>
+                            <div class="info-label">?�용???�형:</div>
                             <div class="info-value" th:text="${user.userType}">-</div>
                         </div>
                         
                         <div class="info-row">
-                            <div class="info-label">상태:</div>
+                            <div class="info-label">?�태:</div>
                             <div class="info-value">
-                                <span th:if="${user.status == T(com.skcc.oversea.user.domain.UserStatus).ACTIVE}" 
-                                      class="status-badge status-active">활성</span>
-                                <span th:if="${user.status == T(com.skcc.oversea.user.domain.UserStatus).INACTIVE}" 
-                                      class="status-badge status-inactive">비활성</span>
-                                <span th:if="${user.status == T(com.skcc.oversea.user.domain.UserStatus).PENDING}" 
-                                      class="status-badge status-pending">대기</span>
+                                <span th:if="${user.status == T(com.skax.eatool.user.domain.UserStatus).ACTIVE}" 
+                                      class="status-badge status-active">?�성</span>
+                                <span th:if="${user.status == T(com.skax.eatool.user.domain.UserStatus).INACTIVE}" 
+                                      class="status-badge status-inactive">비활??/span>
+                                <span th:if="${user.status == T(com.skax.eatool.user.domain.UserStatus).PENDING}" 
+                                      class="status-badge status-pending">?��?/span>
                             </div>
                         </div>
                         
                         <div class="info-row">
-                            <div class="info-label">생성일:</div>
+                            <div class="info-label">?�성??</div>
                             <div class="info-value" th:text="${#temporals.format(user.createdDate, 'yyyy-MM-dd HH:mm:ss')}">-</div>
                         </div>
                         
                         <div class="info-row">
-                            <div class="info-label">수정일:</div>
+                            <div class="info-label">?�정??</div>
                             <div class="info-value" th:text="${#temporals.format(user.lastModifiedDate, 'yyyy-MM-dd HH:mm:ss')}">-</div>
                         </div>
                         
                         <div class="action-buttons">
                             <a th:href="@{/user-management-web/edit/{id}(id=${user.id})}" class="btn btn-edit">
-                                <i class="fas fa-edit"></i> 수정
+                                <i class="fas fa-edit"></i> ?�정
                             </a>
                             <button type="button" class="btn btn-delete" onclick="confirmDelete()">
-                                <i class="fas fa-trash"></i> 삭제
+                                <i class="fas fa-trash"></i> ??��
                             </button>
                             <a href="/user-management-web" class="btn btn-back">
-                                <i class="fas fa-arrow-left"></i> 목록으로
+                                <i class="fas fa-arrow-left"></i> 목록?�로
                             </a>
                         </div>
                     </div>
@@ -220,22 +220,22 @@
         </div>
     </div>
 
-    <!-- 삭제 확인 모달 -->
+    <!-- ??�� ?�인 모달 -->
     <div class="modal fade" id="deleteModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">사용자 삭제 확인</h5>
+                    <h5 class="modal-title">?�용????�� ?�인</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p>정말로 이 사용자를 삭제하시겠습니까?</p>
+                    <p>?�말�????�용?��? ??��?�시겠습?�까?</p>
                     <p><strong th:text="${user.name}"></strong> (<span th:text="${user.email}"></span>)</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                     <form th:action="@{/user-management-web/delete/{id}(id=${user.id})}" method="post" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">삭제</button>
+                        <button type="submit" class="btn btn-danger">??��</button>
                     </form>
                 </div>
             </div>

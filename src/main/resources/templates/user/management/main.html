@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>사용자 관리</title>
+    <title>사용자관리</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -177,7 +177,7 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션바-->
+    <!-- ?�비게이?�바-->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/home">
@@ -225,8 +225,8 @@
 
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
-            <h1><i class="fas fa-users"></i> 사용자 관리</h1>
-            <p>사용자 등록, 조회, 수정, 삭제 및 권한 관리, 보안 관리, 활동 로그 등 모든 관리를 합니다</p>
+            <h1><i class="fas fa-users"></i> 사용자관리</h1>
+            <p>사용자 등록, 조회, 수정, 삭제 및 권한 관리 보안 로그 모든 관리를 할 수 있습니다.</p>
         </div>
         
         <div class="text-center mb-4">
@@ -234,11 +234,11 @@
                 <i class="fas fa-arrow-left"></i> 뒤로가기
             </a>
             <a href="/user-management-web/register" class="btn btn-success ms-3">
-                <i class="fas fa-user-plus"></i> 새 사용자 등록
+                <i class="fas fa-user-plus"></i> 사용자 등록
             </a>
         </div>
         
-        <!-- 검색 및 필터 -->
+        <!-- 검??�??�터 -->
         <div class="row mb-4">
             <div class="col-md-8 mx-auto">
                 <div class="card">
@@ -259,7 +259,7 @@
             </div>
         </div>
         
-        <!-- 통계 카드 -->
+        <!-- ?�계 카드 -->
         <div class="row mb-4">
             <div class="col-md-3">
                 <div class="stats-card">
@@ -282,12 +282,12 @@
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">1</div>
-                    <div class="stats-label">대기 사용자</div>
+                    <div class="stats-label">비활성 사용자</div>
                 </div>
             </div>
         </div>
         
-        <!-- 사용자 목록 -->
+        <!-- ?�용??목록 -->
         <div class="row mb-4" th:if="${users != null and users.totalElements > 0}">
             <div class="col-12">
                 <div class="card">
@@ -306,7 +306,7 @@
                                         <th>사용자 ID</th>
                                         <th>이름</th>
                                         <th>이메일</th>
-                                        <th>전화번호</th>
+                                        <th>휴대폰 번호</th>
                                         <th>상태</th>
                                         <th>생성일</th>
                                         <th>작업</th>
@@ -320,11 +320,11 @@
                                         <td th:text="${user.email}">-</td>
                                         <td th:text="${user.phone}">-</td>
                                         <td>
-                                            <span th:if="${user.status == T(com.skcc.oversea.user.domain.UserStatus).ACTIVE}" 
+                                            <span th:if="${user.status == T(com.skax.eatool.user.domain.UserStatus).ACTIVE}" 
                                                   class="badge bg-success">활성</span>
-                                            <span th:if="${user.status == T(com.skcc.oversea.user.domain.UserStatus).INACTIVE}" 
+                                            <span th:if="${user.status == T(com.skax.eatool.user.domain.UserStatus).INACTIVE}" 
                                                   class="badge bg-danger">비활성</span>
-                                            <span th:if="${user.status == T(com.skcc.oversea.user.domain.UserStatus).PENDING}" 
+                                            <span th:if="${user.status == T(com.skax.eatool.user.domain.UserStatus).PENDING}" 
                                                   class="badge bg-warning">대기</span>
                                         </td>
                                         <td th:text="${#temporals.format(user.createdDate, 'yyyy-MM-dd')}">-</td>
@@ -349,7 +349,7 @@
                             </table>
                         </div>
                         
-                        <!-- 페이지네이션 -->
+                        <!-- ?�이지?�이??-->
                         <nav th:if="${users.totalPages > 1}">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item" th:classappend="${users.first ? 'disabled' : ''}">
@@ -386,14 +386,14 @@
             </div>
         </div>
         
-        <!-- 사용자가 없을 때 -->
+        <!-- ?�용?��? ?�을 ??-->
         <div class="row mb-4" th:if="${users != null and users.totalElements == 0}">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body text-center">
                         <i class="fas fa-users fa-3x text-muted mb-3"></i>
                         <h5>등록된 사용자가 없습니다</h5>
-                        <p class="text-muted">새로운 사용자를 등록해보세요.</p>
+                        <p class="text-muted">먼저 사용자를 등록해보세요.</p>
                         <a href="/user-management-web/register" class="btn btn-primary">
                             <i class="fas fa-user-plus"></i> 사용자 등록
                         </a>
@@ -402,7 +402,7 @@
             </div>
         </div>
         
-        <!-- 관리 카드-->
+        <!-- 관?카드-->
         <div class="row">
             <div class="col-md-6 col-lg-3">
                 <a href="/user-management-web/register" class="management-card" 
@@ -415,7 +415,7 @@
                     <div class="card-title">사용자 등록</div>
                     <div class="card-description">
                         사용자 정보를 입력하고 기본 설정을 완료합니다.
-                        비밀번호, 개인정보 관리를 위한 설정을 합니다.
+                        비밀번호, 개인정보 관리를 위한 설정을 할 수 있습니다.
                     </div>
                 </a>
             </div>
@@ -431,7 +431,7 @@
                     <div class="card-title">권한 관리</div>
                     <div class="card-description">
                         사용자별 권한을 관리합니다.
-                        성격, 정보, 사용자 유형별 권한을 설정합니다.
+                        역할, 권한 유형, 권한 형태 등을 설정할 수 있습니다.
                     </div>
                 </a>
             </div>
@@ -446,8 +446,8 @@
                     </div>
                     <div class="card-title">보안 관리</div>
                     <div class="card-description">
-                        시스템 보안 정책을 관리합니다.
-                        비밀번호 정책, 세션 관리, IP 관리를 합니다.
+                        보안 정책을 관리합니다.
+                        비밀번호 정책, 세션 정책, IP 관리 등을 설정할 수 있습니다.
                     </div>
                 </a>
             </div>
@@ -462,14 +462,14 @@
                     </div>
                     <div class="card-title">활동 로그</div>
                     <div class="card-description">
-                        사용자 활동 로그를 조회하고 분석합니다.
-                        로그 기록, 시스템 사용 역추적을 합니다.
+                        사용자의 활동 로그를 조회하고 분석합니다.
+                        로그 기록, 사용자 활동 등을 확인할 수 있습니다.
                     </div>
                 </a>
             </div>
         </div>
         
-        <!-- 추가 관리 카드-->
+        <!-- 추? 관?카드-->
         <div class="row mt-4">
             <div class="col-md-6 col-lg-4">
                 <a href="/user-management-web/security/policies" class="management-card" 
@@ -481,8 +481,8 @@
                     </div>
                     <div class="card-title">보안 정책 관리</div>
                     <div class="card-description">
-                        인증된 보안 정책을 정의하고 관리합니다.
-                        정책 성능, 비활성화 처리를 합니다.
+                        인증 보안 정책을 설정하고 관리합니다.
+                        정책 기능, 비활성화 처리 등을 할 수 있습니다.
                     </div>
                 </a>
             </div>
@@ -498,7 +498,7 @@
                     <div class="card-title">비밀번호 정책</div>
                     <div class="card-description">
                         비밀번호 복잡성을 강화하고 보안을 구성합니다.
-                        최소 길이, 문자 조합, 만료 정책을 관리합니다.
+                        최소 길이, 문자 조합, 만료 정책 등을 관리합니다.
                     </div>
                 </a>
             </div>
@@ -513,15 +513,15 @@
                     </div>
                     <div class="card-title">세션 정책</div>
                     <div class="card-description">
-                        사용자 세션 관리 정책을 정의합니다.
-                        세션 타임아웃, 로그인 한 것으로 관리합니다.
+                        사용자 세션 관리 정책을 설정합니다.
+                        세션 최대 시간, 로그인 실패 횟수 등을 관리합니다.
                     </div>
                 </a>
             </div>
         </div>
     </div>
     
-    <!-- 삭제 확인 모달 -->
+    <!-- ?? ?인 모달 -->
     <div class="modal fade" id="deleteModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -545,7 +545,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // 사용자 삭제 확인 함수
+        // 사용자 삭제 함수
         function confirmDelete(userId, userName) {
             console.log('삭제 확인 요청:', { userId: userId, userName: userName });
             
@@ -568,9 +568,9 @@
         
         // 페이지 로드 시 실행
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('사용자 관리 페이지 로드됨');
+            console.log('사용자 관리 페이지 로드');
             
-            // 검색 폼 자동 제출 방지
+            // 검색 폼 제출 시 빈 검색어 처리
             const searchForm = document.querySelector('form[method="get"]');
             if (searchForm) {
                 searchForm.addEventListener('submit', function(e) {
@@ -582,7 +582,7 @@
                 });
             }
             
-            // 삭제 버튼 이벤트 리스너 추가 (대안 방법)
+            // 삭제 버튼 클릭 시 확인 로직
             document.querySelectorAll('.btn-danger[data-user-id]').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();

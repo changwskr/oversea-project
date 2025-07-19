@@ -234,7 +234,7 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션바 -->
+    <!-- 네비게이션 바 -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/home">
@@ -332,7 +332,7 @@
                 <i class="fas fa-info-circle"></i>
                 <strong>보안 정책 개요:</strong> 
                 현재 <span th:text="${totalActivePolicies != null ? totalActivePolicies : 0}">0</span>개의 활성 보안 정책이 적용되어 있습니다. 
-                비밀번호 복잡성, 세션 관리, IP 접근 제어 등의 정책을 관리할 수 있습니다.
+                비밀번호 복잡도, 세션 관리, IP 접근 제어 등의 정책을 관리할 수 있습니다.
             </div>
             
             <!-- 보안 정책 카드들 -->
@@ -343,7 +343,7 @@
                             <i class="fas fa-key"></i> 비밀번호 정책
                         </div>
                         <div class="card-description">
-                            비밀번호 복잡성, 최소 길이, 문자 조합 등의 정책을 관리할 수 있습니다.
+                            비밀번호 복잡도, 최소 길이, 문자 조합 등의 정책을 관리할 수 있습니다.
                         </div>
                         <div class="card-status">
                             <span class="status-indicator" th:classappend="${totalPasswordPolicies > 0 ? 'status-active' : 'status-inactive'}"></span>
@@ -363,7 +363,7 @@
                             <i class="fas fa-clock"></i> 세션 정책
                         </div>
                         <div class="card-description">
-                            사용자 세션 관리 정책을 설정하고 관리합니다.
+                            사용자의 세션 관리 정책을 설정하고 관리합니다.
                         </div>
                         <div class="card-status">
                             <span class="status-indicator" th:classappend="${totalSessionPolicies > 0 ? 'status-active' : 'status-inactive'}"></span>
@@ -383,7 +383,7 @@
                             <i class="fas fa-network-wired"></i> IP 화이트리스트
                         </div>
                         <div class="card-description">
-                            허용된 IP 주소에서만 접근을 허용하는 정책을 관리합니다.
+                            사용자의 IP 주소에서의 접근을 허용하는 정책을 관리합니다.
                         </div>
                         <div class="card-status">
                             <span class="status-indicator" th:classappend="${totalIpWhitelistPolicies > 0 ? 'status-active' : 'status-inactive'}"></span>
@@ -403,7 +403,7 @@
                             <i class="fas fa-shield-virus"></i> 접근 제어
                         </div>
                         <div class="card-description">
-                            사용자별 접근 권한과 기능에 대한 관리합니다.
+                            사용자별 접근 권한과 기능을 관리합니다.
                         </div>
                         <div class="card-status">
                             <span class="status-indicator status-active"></span>

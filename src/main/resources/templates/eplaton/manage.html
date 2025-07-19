@@ -83,7 +83,7 @@
                         EPlaton 비즈니스 델리게이트 관리
                     </h1>
                     <a href="/home" class="btn btn-outline-secondary">
-                        <i class="fas fa-home me-2"></i>홈으로
+                        <i class="fas fa-home me-2"></i>메인
                     </a>
                 </div>
             </div>
@@ -104,18 +104,18 @@
                             </h6>
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="bankCode" class="form-label">은행 코드</label>
+                                    <label for="bankCode" class="form-label">은행코드</label>
                                     <input type="text" class="form-control" id="bankCode" 
                                            th:value="${defaultBankCode}" placeholder="001">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="branchCode" class="form-label">지점 코드</label>
+                                    <label for="branchCode" class="form-label">지점코드</label>
                                     <input type="text" class="form-control" id="branchCode" 
                                            th:value="${defaultBranchCode}" placeholder="001">
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="userId" class="form-label">사용자 ID</label>
+                                <label for="userId" class="form-label">사용자ID</label>
                                 <input type="text" class="form-control" id="userId" 
                                        th:value="${defaultUserId}" placeholder="USER001">
                             </div>
@@ -125,7 +125,7 @@
                                 <i class="fas fa-server me-2"></i>TPSVC 정보
                             </h6>
                             <div class="mb-3">
-                                <label for="systemName" class="form-label">시스템 명</label>
+                                <label for="systemName" class="form-label">시스템명</label>
                                 <input type="text" class="form-control" id="systemName" 
                                        th:value="${defaultSystemName}" placeholder="CashCard">
                             </div>
@@ -159,14 +159,14 @@
                                 <textarea class="form-control" id="requestData" rows="4" placeholder='{"cardNumber": "1234567890123456"}'></textarea>
                             </div>
 
-                            <!-- 업무 형태 선택 -->
+                            <!-- 업무 상태 선택 -->
                             <h6 class="text-muted mb-3">
-                                <i class="fas fa-play-circle me-2"></i>업무 형태
+                                <i class="fas fa-play-circle me-2"></i>업무 상태
                             </h6>
                             <div class="mb-3">
                                 <select class="form-select" id="operationType">
                                     <option value="execute">반행</option>
-                                    <option value="execute-readonly">기본 사용 반행</option>
+                                    <option value="execute-readonly">기본 용도 반행</option>
                                     <option value="route-action">액션 라우팅</option>
                                     <option value="health">상태 체크</option>
                                 </select>
@@ -207,7 +207,7 @@
                         <div class="response-area" id="responseArea">
                             <div class="text-muted text-center py-4">
                                 <i class="fas fa-arrow-left fa-2x mb-3"></i>
-                                <p>왼쪽에서 요청을 완료하고 실행 버튼을 클릭하세요</p>
+                                <p>왼쪽에서 요청을 완료하고 실행 버튼을 클릭하세요.</p>
                             </div>
                         </div>
                     </div>
@@ -247,7 +247,7 @@
                 reqName: document.getElementById('reqName').value
             };
 
-            // 요청 데이터가 있으면 추가
+            // 요청 데이터를 메인에 추가
             const requestDataText = document.getElementById('requestData').value.trim();
             if (requestDataText) {
                 try {
@@ -277,7 +277,7 @@
                 showError('요청 처리 중 오류가 발생했습니다: ' + error.message);
             })
             .finally(() => {
-                // 로딩 상태 해제
+                // 로딩 상태 제거
                 loadingSpinner.classList.remove('show');
                 executeBtn.disabled = false;
             });
@@ -319,7 +319,7 @@
             responseArea.innerHTML = `
                 <div class="text-muted text-center py-4">
                     <i class="fas fa-arrow-left fa-2x mb-3"></i>
-                    <p>왼쪽에서 요청을 완료하고 실행 버튼을 클릭하세요</p>
+                    <p>왼쪽에서 요청을 완료하고 실행 버튼을 클릭하세요.</p>
                 </div>
             `;
             statusBadge.style.display = 'none';

@@ -167,7 +167,7 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션바 -->
+    <!-- ?�비게이?�바 -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/home">
@@ -216,7 +216,7 @@
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
             <h1><i class="fas fa-piggy-bank"></i> 예금 관리</h1>
-            <p>은행 예금 계좌를 관리합니다</p>
+            <p>전체 예금 계좌를 관리합니다</p>
         </div>
         
         <!-- 오류 메시지 -->
@@ -287,7 +287,7 @@
                         </div>
                         <div class="card-title">활성 예금</div>
                         <div class="card-description">
-                            현재 활성 상태인 예금 계좌들만 확인할 수 있습니다.
+                            현재 활성 상태인 예금 계좌만 확인할 수 있습니다.
                         </div>
                     </a>
                 </div>
@@ -299,7 +299,7 @@
                         </div>
                         <div class="card-title">비활성 예금</div>
                         <div class="card-description">
-                            비활성 상태인 예금 계좌들을 확인하고 관리할 수 있습니다.
+                            비활성 상태인 예금 계좌를 확인하고 관리할 수 있습니다.
                         </div>
                     </a>
                 </div>
@@ -384,7 +384,7 @@
     <script>
         // 페이지 로드 시 실행
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('예금 관리 페이지 로드됨');
+            console.log('예금 관리 페이지 로드');
             
             // 통계 카드 애니메이션
             const statsCards = document.querySelectorAll('.stats-card');
@@ -402,7 +402,7 @@
             const managementCards = document.querySelectorAll('.management-card');
             managementCards.forEach(card => {
                 card.addEventListener('click', function() {
-                    console.log('카드 클릭됨:', this.querySelector('.card-title').textContent);
+                    console.log('카드 클릭:', this.querySelector('.card-title').textContent);
                 });
             });
         });

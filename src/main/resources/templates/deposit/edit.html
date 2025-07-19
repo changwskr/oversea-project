@@ -157,7 +157,7 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션바 -->
+    <!-- 네비게이션 바 -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/home">
@@ -206,7 +206,7 @@
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
             <h1><i class="fas fa-edit"></i> 예금 수정</h1>
-            <p>예금 계좌 정보를 수정합니다</p>
+            <p>예금 계좌 정보를 수정합니다.</p>
         </div>
         
         <div class="text-center">
@@ -256,8 +256,7 @@
                             <select class="form-control" id="depositType" name="depositType" th:field="*{depositType}" required>
                                 <option value="">예금종류 선택</option>
                                 <option value="정기예금">정기예금</option>
-                                <option value="정기적금">정기적금</option>
-                                <option value="자유적금">자유적금</option>
+                                <option value="자유예금">자유예금</option>
                                 <option value="기타예금">기타예금</option>
                             </select>
                         </div>
@@ -382,7 +381,7 @@
             </form>
         </div>
         
-        <!-- 예금이 없을 때 -->
+        <!-- 예금 정보를 찾을 수 없을 때 -->
         <div class="content-container" th:if="${deposit == null}">
             <div class="text-center">
                 <i class="fas fa-piggy-bank fa-3x text-muted mb-3"></i>
@@ -398,9 +397,9 @@
     <script>
         // 페이지 로드 시 실행
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('예금 수정 페이지 로드됨');
+            console.log('예금 수정 페이지 로드');
             
-            // 폼 유효성 검사
+            // 유효성 검사
             const form = document.querySelector('form');
             form.addEventListener('submit', function(e) {
                 const cifName = document.getElementById('cifName').value.trim();
@@ -408,19 +407,19 @@
                 const amount = document.getElementById('amount').value;
                 
                 if (!cifName) {
-                    alert('고객명을 입력해주세요.');
+                    alert('고객명을 입력해 주세요.');
                     e.preventDefault();
                     return;
                 }
                 
                 if (!depositType) {
-                    alert('예금종류를 선택해주세요.');
+                    alert('예금종류를 선택해 주세요.');
                     e.preventDefault();
                     return;
                 }
                 
                 if (!amount || parseFloat(amount) <= 0) {
-                    alert('유효한 예금액을 입력해주세요.');
+                    alert('유효한 예금액을 입력해 주세요.');
                     e.preventDefault();
                     return;
                 }

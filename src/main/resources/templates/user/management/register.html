@@ -151,7 +151,7 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션바-->
+    <!-- 네비게이션 바-->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/home">
@@ -200,7 +200,7 @@
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
             <h1><i class="fas fa-user-plus"></i> 사용자 등록</h1>
-            <p>새로운 사용자를 등록하고 기본 정보를 설정합니다</p>
+            <p>로그인 후 사용자 등록 및 기본 정보를 입력해주세요.</p>
         </div>
         
         <div class="text-center">
@@ -209,10 +209,10 @@
             </a>
         </div>
         
-        <!-- 성공/오류 메시지 -->
+        <!-- 공/오류 메시지 -->
         <div th:if="${successMessage}" class="alert alert-success" role="alert">
             <i class="fas fa-check-circle"></i>
-            <span th:text="${successMessage}">사용자가 성공적으로 등록되었습니다.</span>
+            <span th:text="${successMessage}">사용자 등록이 완료되었습니다.</span>
         </div>
         
         <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
@@ -221,7 +221,7 @@
         </div>
         
         <div class="content-container">
-            <!-- 진행률 표시 -->
+            <!-- 진행 표시 -->
             <div class="progress mb-4" style="height: 8px;">
                 <div class="progress-bar" role="progressbar" style="width: 25%;" 
                      aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -233,10 +233,10 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label">
-                                    <i class="fas fa-envelope"></i> 이메일*
+                                    <i class="fas fa-envelope"></i> 이메일
                                 </label>
                                 <input type="email" class="form-control" id="email" th:field="*{email}" 
-                                       placeholder="이메일을 입력하세요" required>
+                                       placeholder="이메일을 입력해주세요 (필수)" required>
                             </div>
                             
                             <div class="col-md-6 mb-3">
@@ -244,27 +244,27 @@
                                     <i class="fas fa-user-circle"></i> 이름 *
                                 </label>
                                 <input type="text" class="form-control" id="name" th:field="*{name}" 
-                                       placeholder="이름을 입력하세요" required>
+                                       placeholder="이름을 입력해주세요 (필수)" required>
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="userId" class="form-label">
-                                    <i class="fas fa-id-card"></i> 사용자 ID (선택사항)
+                                    <i class="fas fa-id-card"></i> 사용자 ID (선택)
                                 </label>
                                 <input type="text" class="form-control" id="userId" th:field="*{userId}" 
-                                       placeholder="사용자 ID를 입력하세요 (자동 생성됨)">
-                                <small class="form-text text-muted">비워두면 자동으로 생성됩니다.</small>
+                                       placeholder="사용자 ID (중복 불가)">
+                                <small class="form-text text-muted">비워두면 자동 생성됩니다.</small>
                             </div>
                             
                             <div class="col-md-6 mb-3">
                                 <label for="username" class="form-label">
-                                    <i class="fas fa-user"></i> 사용자명 (선택사항)
+                                    <i class="fas fa-user"></i> 사용자 이름 (선택)
                                 </label>
                                 <input type="text" class="form-control" id="username" th:field="*{username}" 
-                                       placeholder="사용자명을 입력하세요 (이메일 사용)">
-                                <small class="form-text text-muted">비워두면 이메일이 사용됩니다.</small>
+                                       placeholder="사용자 이름 (이메일 사용자)">
+                                <small class="form-text text-muted">비워두면 이메일이 사용자 이름이 됩니다.</small>
                             </div>
                         </div>
                         
@@ -274,7 +274,7 @@
                                     <i class="fas fa-lock"></i> 비밀번호 *
                                 </label>
                                 <input type="password" class="form-control" id="password" th:field="*{password}" 
-                                       placeholder="비밀번호를 입력하세요" required>
+                                       placeholder="비밀번호를 입력해주세요 (필수)" required>
                             </div>
                             
                             <div class="col-md-6 mb-3">
@@ -282,17 +282,17 @@
                                     <i class="fas fa-lock"></i> 비밀번호 확인 *
                                 </label>
                                 <input type="password" class="form-control" id="confirmPassword" 
-                                       placeholder="비밀번호를 다시 입력하세요">
+                                       placeholder="비밀번호를 다시 입력해주세요" required>
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="phone" class="form-label">
-                                    <i class="fas fa-phone"></i> 전화번호
+                                    <i class="fas fa-phone"></i> 휴대폰 번호
                                 </label>
                                 <input type="tel" class="form-control" id="phone" th:field="*{phone}" 
-                                       placeholder="전화번호를 입력하세요">
+                                       placeholder="휴대폰 번호를 입력해주세요">
                             </div>
                             
                             <div class="col-md-6 mb-3">
@@ -300,7 +300,7 @@
                                     <i class="fas fa-building"></i> 부서
                                 </label>
                                 <input type="text" class="form-control" id="department" th:field="*{department}" 
-                                       placeholder="부서를 입력하세요">
+                                       placeholder="부서를 입력해주세요">
                             </div>
                         </div>
                         
@@ -310,12 +310,12 @@
                                     <i class="fas fa-briefcase"></i> 직책
                                 </label>
                                 <input type="text" class="form-control" id="position" th:field="*{position}" 
-                                       placeholder="직책을 입력하세요">
+                                       placeholder="직책을 입력해주세요">
                             </div>
                             
                             <div class="col-md-6 mb-3">
                                 <label for="userType" class="form-label">
-                                    <i class="fas fa-users"></i> 사용자 유형
+                                    <i class="fas fa-users"></i> 사용자 형태
                                 </label>
                                 <select class="form-control" id="userType" th:field="*{userType}">
                                     <option value="EMPLOYEE">직원</option>
@@ -330,7 +330,7 @@
                                 <i class="fas fa-map-marker-alt"></i> 주소
                             </label>
                             <textarea class="form-control" id="address" th:field="*{address}" 
-                                      rows="3" placeholder="주소를 입력하세요"></textarea>
+                                      rows="3" placeholder="주소를 입력해주세요"></textarea>
                         </div>
                         
                         <div class="mb-3">
@@ -362,18 +362,18 @@
     <script>
         // 페이지 로드 시 실행
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('사용자 등록 페이지 로드됨');
+            console.log('사용자 등록 페이지 로드');
             
             const password = document.getElementById('password');
             const confirmPassword = document.getElementById('confirmPassword');
             const form = document.querySelector('form');
             
-            // 비밀번호 확인 검사 (실시간)
+            // 비밀번호 일치 검증
             confirmPassword.addEventListener('input', function() {
                 validatePassword();
             });
             
-            // 비밀번호 변경 시 확인
+            // 비밀번호 변경 시 일치 검증
             password.addEventListener('input', function() {
                 validatePassword();
             });
@@ -395,29 +395,29 @@
                 }
             }
             
-            // 폼 제출 시 검사
+            // 제출 시 검증
             form.addEventListener('submit', function(e) {
-                console.log('폼 제출 시도');
+                console.log('제출 시도');
                 
                 const passwordValue = password.value;
                 const confirmPasswordValue = confirmPassword.value;
                 
-                // 비밀번호 확인 검사
+                // 비밀번호 일치 검증
                 if (passwordValue !== confirmPasswordValue) {
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    // 사용자에게 알림
+                    // 알림 표시
                     alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
                     
-                    // 비밀번호 확인 필드에 포커스
+                    // 비밀번호 입력 필드로 포커스
                     confirmPassword.focus();
                     
-                    console.log('비밀번호 불일치로 폼 제출 차단');
+                    console.log('비밀번호 불일치로 제출 차단');
                     return false;
                 }
                 
-                // 모든 필수 필드 검사
+                // 모든 필드 검증
                 const requiredFields = form.querySelectorAll('[required]');
                 let isValid = true;
                 
@@ -431,16 +431,16 @@
                 
                 if (!isValid) {
                     e.preventDefault();
-                    alert('필수 필드를 모두 입력해주세요.');
+                    alert('모든 필드를 입력해주세요.');
                     return false;
                 }
                 
-                console.log('폼 제출 승인');
+                console.log('제출 인증');
                 return true;
             });
             
             // 디버깅을 위한 로그
-            console.log('요소들', {
+            console.log('소스:', {
                 password: password,
                 confirmPassword: confirmPassword,
                 form: form

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}">?션 ?책</title>
+    <title th:text="${title}">세션 정책</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -269,7 +269,7 @@
     </style>
 </head>
 <body>
-    <!-- ?비게이트-->
+    <!-- 네비게이션-->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/home">
@@ -317,41 +317,41 @@
 
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
-            <h1><i class="fas fa-clock"></i> ?션 ?책</h1>
-            <p>?용???션 관리?책???정?니??/p>
+            <h1><i class="fas fa-clock"></i> 세션 정책</h1>
+            <p>세션 관리 및 보안 정책을 설정합니다</p>
         </div>
         
-        <!-- ?공/?러 메시지 -->
+        <!-- 성공 메시지 -->
         <div th:if="${successMessage}" class="alert alert-success" role="alert">
             <i class="fas fa-check-circle"></i>
-            <span th:text="${successMessage}">?션 ?책???공?으로 데이터가 저장되었습니다.</span>
+            <span th:text="${successMessage}">세션 정책이 성공적으로 저장되었습니다.</span>
         </div>
         
         <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
             <i class="fas fa-exclamation-triangle"></i>
-            <span th:text="${errorMessage}">?션 ?책 데이터 오류가 발생했습니다.</span>
+            <span th:text="${errorMessage}">세션 정책 저장 중 오류가 발생했습니다.</span>
         </div>
         
         <div class="content-container">
-            <!-- ?재 ?션 ?보 -->
+            <!-- 세션 정보 -->
             <div class="session-info">
-                <h6><i class="fas fa-info-circle"></i> ?재 ?션 ?보</h6>
-                <p><strong>?용??</strong> admin</p>
+                <h6><i class="fas fa-info-circle"></i> 세션 정보</h6>
+                <p><strong>사용자</strong> admin</p>
                 <p><strong>로그인 시간:</strong> <span class="time-display">2025-07-17 13:30:00</span></p>
-                <p><strong>?션 ID:</strong> <span class="time-display">ABC123XYZ789</span></p>
+                <p><strong>세션 ID:</strong> <span class="time-display">ABC123XYZ789</span></p>
                 <p><strong>IP 주소:</strong> 192.168.1.100</p>
-                <p><strong>?남은 시간:</strong> <span class="time-display" id="remainingTime">25분 30초</span></p>
+                <p><strong>남은 시간:</strong> <span class="time-display" id="remainingTime">25분 30초</span></p>
             </div>
             
-            <!-- ?션 ?아???책 -->
+            <!-- 세션 정책 -->
             <div class="policy-card">
                 <div class="policy-header">
-                    <h5 class="policy-title">?션 ?아???책</h5>
-                    <span class="policy-status status-active">?성</span>
+                    <h5 class="policy-title">세션 정책</h5>
+                    <span class="policy-status status-active">활성</span>
                 </div>
                 <p class="policy-description">
-                    세션 만료 시간과 유휴 시간을 설정합니다.
-                    보안을 강화하기 위해 자동 로그아웃을 활성화합니다.
+                    세션 만료 시간과 휴면 시간을 설정합니다.
+                    보안을 강화하기 위해 자동 로그아웃을 설정합니다.
                 </p>
                 
                 <form th:action="@{/user-management/security/session-policies}" method="post">
@@ -366,7 +366,7 @@
                         </div>
                         
                         <div class="setting-item">
-                            <span class="setting-label">유휴 시간</span>
+                            <span class="setting-label">휴면 시간</span>
                             <div class="d-flex align-items-center">
                                 <input type="range" class="form-range me-3" id="idleTimeout" name="idleTimeout" 
                                        min="5" max="60" value="15" style="width: 150px;">
@@ -388,46 +388,46 @@
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" id="autoLogout" 
                                        name="autoLogout" checked>
-                                <label class="form-check-label" for="autoLogout">?성??/label>
+                                <label class="form-check-label" for="autoLogout">활성</label>
                             </div>
                         </div>
                         
                         <div class="setting-item">
-                            <span class="setting-label">세션 확장 허용</span>
+                            <span class="setting-label">세션 연장 허용</span>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" id="allowSessionExtension" 
                                        name="allowSessionExtension" checked>
-                                <label class="form-check-label" for="allowSessionExtension">?성??/label>
+                                <label class="form-check-label" for="allowSessionExtension">활성</label>
                             </div>
                         </div>
                         
                         <div class="setting-item">
-                            <span class="setting-label">로그인 시 기존 세션 종료</span>
+                            <span class="setting-label">로그인시 기존 세션 종료</span>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" id="terminateExistingSessions" 
                                        name="terminateExistingSessions">
-                                <label class="form-check-label" for="terminateExistingSessions">?성??/label>
+                                <label class="form-check-label" for="terminateExistingSessions">활성</label>
                             </div>
                         </div>
                     </div>
                     
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> ?책 저장
+                            <i class="fas fa-save"></i> 정책 저장
                         </button>
                     </div>
                 </form>
             </div>
             
-            <!-- ?션 보안 ?책 -->
+            <!-- 추가 보안 정책 -->
             <div class="policy-card">
                 <div class="policy-header">
-                    <h5 class="policy-title">?션 보안 ?책</h5>
-                    <span class="policy-status status-active">?성</span>
+                    <h5 class="policy-title">추가 보안 정책</h5>
+                    <span class="policy-status status-active">활성</span>
                 </div>
                 <p class="policy-description">
                     세션 보안을 강화하기 위한 추가 정책을 설정합니다.
-                    IP 변경 감지, 브라우저 변경 감지, User-Agent 변경 감지를 관리합니다.
+                    IP 변경 감지, 브라우저 변경 감지, User-Agent 변경 감지 등을 관리합니다.
                 </p>
                 
                 <div class="policy-settings">
@@ -435,7 +435,7 @@
                         <span class="setting-label">IP 변경 감지</span>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="detectIPChange" checked>
-                            <label class="form-check-label" for="detectIPChange">?성??/label>
+                            <label class="form-check-label" for="detectIPChange">활성</label>
                         </div>
                     </div>
                     
@@ -443,7 +443,7 @@
                         <span class="setting-label">브라우저 변경 감지</span>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="detectBrowserChange">
-                            <label class="form-check-label" for="detectBrowserChange">?성??/label>
+                            <label class="form-check-label" for="detectBrowserChange">활성</label>
                         </div>
                     </div>
                     
@@ -451,15 +451,15 @@
                         <span class="setting-label">User-Agent 변경 감지</span>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="detectUserAgentChange">
-                            <label class="form-check-label" for="detectUserAgentChange">?성??/label>
+                            <label class="form-check-label" for="detectUserAgentChange">활성</label>
                         </div>
                     </div>
                     
                     <div class="setting-item">
-                        <span class="setting-label">세션 후원 방지</span>
+                        <span class="setting-label">세션 하이재킹 방지</span>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="preventSessionHijacking" checked>
-                            <label class="form-check-label" for="preventSessionHijacking">?성??/label>
+                            <label class="form-check-label" for="preventSessionHijacking">활성</label>
                         </div>
                     </div>
                     
@@ -467,7 +467,7 @@
                         <span class="setting-label">HTTPS 강제</span>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="forceHTTPS" checked>
-                            <label class="form-check-label" for="forceHTTPS">?성??/label>
+                            <label class="form-check-label" for="forceHTTPS">활성</label>
                         </div>
                     </div>
                     
@@ -475,22 +475,22 @@
                         <span class="setting-label">세션 쿠키 보안</span>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="secureSessionCookie" checked>
-                            <label class="form-check-label" for="secureSessionCookie">?성??/label>
+                            <label class="form-check-label" for="secureSessionCookie">활성</label>
                         </div>
                     </div>
                 </div>
                 
                 <div class="text-center mt-3">
                     <button class="btn btn-primary">
-                        <i class="fas fa-save"></i> 보안 ?책 저장
+                        <i class="fas fa-save"></i> 보안 정책 저장
                     </button>
                 </div>
             </div>
             
-            <!-- ?션 모니터링 -->
+            <!-- 세션 모니터링 -->
             <div class="policy-card">
                 <div class="policy-header">
-                    <h5 class="policy-title">?션 모니터링</h5>
+                    <h5 class="policy-title">세션 모니터링</h5>
                 </div>
                 <p class="policy-description">
                     현재 활성 세션을 모니터링하고 관리합니다.
@@ -505,11 +505,11 @@
                             </div>
                             <div class="setting-item">
                                 <span class="setting-label">매일 로그인</span>
-                                <span class="setting-value">45번</span>
+                                <span class="setting-value">45개</span>
                             </div>
                             <div class="setting-item">
                                 <span class="setting-label">세션 만료</span>
-                                <span class="setting-value">3일</span>
+                                <span class="setting-value">3개</span>
                             </div>
                         </div>
                     </div>
@@ -536,7 +536,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ?라?더 데이터
+        // 세션 시간 이벤트
         document.getElementById('sessionTimeout').addEventListener('input', function() {
             document.getElementById('sessionTimeoutValue').textContent = this.value + '분';
         });
@@ -549,7 +549,7 @@
             document.getElementById('maxConcurrentSessionsValue').textContent = this.value + '개';
         });
         
-        // ?남은 시간 카운터
+        // 남은 시간 카운터
         function updateRemainingTime() {
             const now = new Date();
             const loginTime = new Date('2025-07-17T13:30:00');
@@ -567,7 +567,7 @@
             }
         }
         
-        // 1초마다 데이터
+        // 1초마다 업데이트
         setInterval(updateRemainingTime, 1000);
         updateRemainingTime();
     </script>

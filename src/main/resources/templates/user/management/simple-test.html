@@ -42,41 +42,41 @@
     <p>이 페이지는 링크 클릭을 테스트하기 위한 것입니다.</p>
     
     <div class="debug-info">
-        <h4>서버 정보:</h4>
+        <h4>디버그 정보:</h4>
         <p>페이지 로드 시간: <span id="loadTime"></span></p>
-        <p>JavaScript 상태: <span id="jsStatus">확인 중..</span></p>
-        <p>링크 개수: <span id="linkCount">확인 중..</span></p>
+        <p>JavaScript 상태: <span id="jsStatus">확인 중...</span></p>
+        <p>링크 개수: <span id="linkCount">확인 중...</span></p>
     </div>
     
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-        <a href="/user-management-web/register" class="test-card" onclick="alert('?�용???�록 ?�릭!')">
-            <h3>?�용???�록</h3>
-            <p>?�릭?�여 ?�용???�록 ?�이지�??�동</p>
+        <a href="/user-management-web/register" class="test-card" onclick="alert('사용자 등록 클릭!')">
+            <h3>사용자 등록</h3>
+            <p>클릭하여 사용자 등록 페이지로 이동</p>
         </a>
         
-        <a href="/user-management-web/roles" class="test-card" onclick="alert('권한 관�??�릭!')">
-            <h3>권한 관�?/h3>
-            <p>?�릭?�여 권한 관�??�이지�??�동</p>
+        <a href="/user-management-web/roles" class="test-card" onclick="alert('권한 관리 클릭!')">
+            <h3>권한 관리</h3>
+            <p>클릭하여 권한 관리 페이지로 이동</p>
         </a>
         
-        <a href="/user-management-web/security" class="test-card" onclick="alert('보안 관�??�릭!')">
-            <h3>보안 관�?/h3>
-            <p>?�릭?�여 보안 관�??�이지�??�동</p>
+        <a href="/user-management-web/security" class="test-card" onclick="alert('보안 관리 클릭!')">
+            <h3>보안 관리</h3>
+            <p>클릭하여 보안 관리 페이지로 이동</p>
         </a>
         
-        <a href="/user-management-web/activity-logs" class="test-card" onclick="alert('?�동 로그 ?�릭!')">
-            <h3>?�동 로그</h3>
-            <p>?�릭?�여 ?�동 로그 ?�이지�??�동</p>
+        <a href="/user-management-web/activity-logs" class="test-card" onclick="alert('활동 로그 클릭!')">
+            <h3>활동 로그</h3>
+            <p>클릭하여 활동 로그 페이지로 이동</p>
         </a>
     </div>
     
     <div style="margin-top: 30px;">
         <button onclick="testButton()" style="padding: 10px 20px; font-size: 16px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
-            JavaScript 버튼 ?�스??
+            JavaScript 버튼 테스트
         </button>
         
         <a href="/user-management-web" style="margin-left: 10px; padding: 10px 20px; font-size: 16px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">
-            메인 ?�이지�??�아가�?
+            메인 페이지로 돌아가기
         </a>
     </div>
     
@@ -85,9 +85,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('간단한 테스트 페이지 로드됨');
             
-            // 서버 정보 업데이트
+            // 디버그 정보 업데이트
             document.getElementById('loadTime').textContent = new Date().toLocaleString();
-            document.getElementById('jsStatus').textContent = '정상됨';
+            document.getElementById('jsStatus').textContent = '정상';
             
             // 모든 링크에 이벤트 리스너 추가
             const links = document.querySelectorAll('a');
@@ -101,7 +101,7 @@
         });
         
         function testButton() {
-            alert('JavaScript 버튼이 동작합니다!');
+            alert('JavaScript 버튼이 작동합니다!');
             console.log('버튼 클릭 성공');
         }
     </script>

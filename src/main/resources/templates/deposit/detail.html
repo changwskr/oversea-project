@@ -231,7 +231,7 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션바 -->
+    <!-- 네비게이션 바 -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/home">
@@ -280,7 +280,7 @@
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
             <h1><i class="fas fa-piggy-bank"></i> 예금 상세</h1>
-            <p>예금 계좌 정보를 확인합니다</p>
+            <p>예금 계좌 상세 정보를 확인해 주세요.</p>
         </div>
         
         <div class="text-center">
@@ -296,7 +296,7 @@
         </div>
         
         <div class="content-container" th:if="${deposit != null}">
-            <!-- 예금 프로필 -->
+            <!-- 예금 계좌 정보 -->
             <div class="text-center mb-4">
                 <div class="account-avatar">
                     <span th:text="${deposit.accountNumber != null ? deposit.accountNumber.substring(deposit.accountNumber.length() - 2) : 'DP'}">DP</span>
@@ -351,11 +351,11 @@
                 <h5><i class="fas fa-money-bill-wave"></i> 금액 정보</h5>
                 <div class="info-item">
                     <span class="info-label">예금액</span>
-                    <span class="info-value" th:text="${#numbers.formatDecimal(deposit.amount, 1, 'COMMA', 0, 'POINT')} + ' 원'">예금액</span>
+                    <span class="info-value" th:text="${#numbers.formatDecimal(deposit.amount, 1, 'COMMA', 0, 'POINT')} + ' 원">예금액</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">현재 잔액</span>
-                    <span class="info-value" th:text="${#numbers.formatDecimal(deposit.balance, 1, 'COMMA', 0, 'POINT')} + ' 원'">잔액</span>
+                    <span class="info-label">잔액</span>
+                    <span class="info-value" th:text="${#numbers.formatDecimal(deposit.balance, 1, 'COMMA', 0, 'POINT')} + ' 원">잔액</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">이율</span>
@@ -402,7 +402,7 @@
                 </div>
                 <div class="info-item">
                     <span class="info-label">등록 시간</span>
-                    <span class="info-value" th:text="${deposit.registerTime != null ? deposit.registerTime : '-'}">등록시간</span>
+                    <span class="info-value" th:text="${deposit.registerTime != null ? deposit.registerTime : '-'}">등록 시간</span>
                 </div>
             </div>
             
@@ -437,7 +437,7 @@
                     <i class="fas fa-edit"></i> 예금 수정
                 </a>
                 <button type="button" class="btn btn-success btn-lg me-3" onclick="showDepositModal()">
-                    <i class="fas fa-plus"></i> 입금
+                    <i class="fas fa-plus"></i> 예금
                 </button>
                 <button type="button" class="btn btn-danger btn-lg me-3" onclick="showWithdrawModal()">
                     <i class="fas fa-minus"></i> 출금
@@ -448,7 +448,7 @@
             </div>
         </div>
         
-        <!-- 예금이 없을 때 -->
+        <!-- 예금 정보를 찾을 수 없을 때 -->
         <div class="content-container" th:if="${deposit == null}">
             <div class="text-center">
                 <i class="fas fa-piggy-bank fa-3x text-muted mb-3"></i>
@@ -460,23 +460,23 @@
         </div>
     </div>
     
-    <!-- 입금 모달 -->
+    <!-- 예금 모달 -->
     <div class="modal fade" id="depositModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">입금</h5>
+                    <h5 class="modal-title">예금</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="depositAmount" class="form-label">입금액</label>
+                        <label for="depositAmount" class="form-label">예금액</label>
                         <input type="number" class="form-control" id="depositAmount" step="0.01" min="0">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                    <button type="button" class="btn btn-success" onclick="depositMoney()">입금</button>
+                    <button type="button" class="btn btn-success" onclick="depositMoney()">예금</button>
                 </div>
             </div>
         </div>
@@ -521,7 +521,7 @@
         function depositMoney() {
             const amount = document.getElementById('depositAmount').value;
             if (!amount || parseFloat(amount) <= 0) {
-                alert('유효한 입금액을 입력해주세요.');
+                alert('유효한 예금액을 입력해 주세요.');
                 return;
             }
             
@@ -535,14 +535,14 @@
             .then(response => response.text())
             .then(result => {
                 if (result === 'success') {
-                    alert('입금이 완료되었습니다.');
+                    alert('예금이 완료되었습니다.');
                     location.reload();
                 } else {
-                    alert('입금 중 오류가 발생했습니다: ' + result);
+                    alert('예금 처리 중 오류가 발생했습니다: ' + result);
                 }
             })
             .catch(error => {
-                alert('입금 중 오류가 발생했습니다: ' + error);
+                alert('예금 처리 중 오류가 발생했습니다: ' + error);
             });
             
             bootstrap.Modal.getInstance(document.getElementById('depositModal')).hide();
@@ -551,7 +551,7 @@
         function withdrawMoney() {
             const amount = document.getElementById('withdrawAmount').value;
             if (!amount || parseFloat(amount) <= 0) {
-                alert('유효한 출금액을 입력해주세요.');
+                alert('유효한 출금액을 입력해 주세요.');
                 return;
             }
             
@@ -568,11 +568,11 @@
                     alert('출금이 완료되었습니다.');
                     location.reload();
                 } else {
-                    alert('출금 중 오류가 발생했습니다: ' + result);
+                    alert('출금 처리 중 오류가 발생했습니다: ' + result);
                 }
             })
             .catch(error => {
-                alert('출금 중 오류가 발생했습니다: ' + error);
+                alert('출금 처리 중 오류가 발생했습니다: ' + error);
             });
             
             bootstrap.Modal.getInstance(document.getElementById('withdrawModal')).hide();
@@ -580,7 +580,7 @@
         
         // 페이지 로드 시 실행
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('예금 상세 페이지 로드됨');
+            console.log('예금 상세 페이지 로드');
         });
     </script>
 </body>

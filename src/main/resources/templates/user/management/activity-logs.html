@@ -240,7 +240,7 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션바-->
+    <!-- ?�비게이?�바-->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="/home">
@@ -288,100 +288,100 @@
 
     <div class="container main-container" style="margin-top: 80px;">
         <div class="page-header">
-            <h1><i class="fas fa-history"></i> 활동 로그</h1>
-            <p>사용자 활동 로그를 조회하고 분석합니다</p>
+            <h1><i class="fas fa-history"></i> ?�동 로그</h1>
+            <p>?�용???�동 로그�?조회?�고 분석?�니??/p>
         </div>
         
         <div class="text-center">
             <a href="/user-management-web" class="btn-back">
-                <i class="fas fa-arrow-left"></i> 사용자 관리로 돌아가기
+                <i class="fas fa-arrow-left"></i> ?�용??관리로 ?�아가�?
             </a>
         </div>
         
-        <!-- 통계 카드 -->
+        <!-- ?�계 카드 -->
         <div class="row mb-4">
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">1,234</div>
-                    <div class="stats-label">오늘 활동</div>
+                    <div class="stats-label">?�늘 ?�동</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">8,567</div>
-                    <div class="stats-label">이번 주 활동</div>
+                    <div class="stats-label">?�번 �??�동</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">45</div>
-                    <div class="stats-label">실패한 로그</div>
+                    <div class="stats-label">?�패??로그</div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="stats-card">
                     <div class="stats-number">150</div>
-                    <div class="stats-label">활성 사용자</div>
+                    <div class="stats-label">?�성 ?�용??/div>
                 </div>
             </div>
         </div>
         
         <div class="content-container">
-            <!-- 필터 섹션 -->
+            <!-- ?�터 ?�션 -->
             <div class="filter-card">
-                <h5><i class="fas fa-filter"></i> 로그 필터</h5>
+                <h5><i class="fas fa-filter"></i> 로그 ?�터</h5>
                 <form method="get" class="row g-3">
                     <div class="col-md-3">
-                        <label for="userId" class="form-label">사용자 ID</label>
+                        <label for="userId" class="form-label">?�용??ID</label>
                         <input type="text" class="form-control" id="userId" name="userId" 
-                               th:value="${userId}" placeholder="사용자 ID를 입력하세요">
+                               th:value="${userId}" placeholder="?�용??ID�??�력?�세??>
                     </div>
                     <div class="col-md-3">
-                        <label for="activityType" class="form-label">활동 유형</label>
+                        <label for="activityType" class="form-label">?�동 ?�형</label>
                         <select class="form-control" id="activityType" name="activityType">
-                            <option value="">전체</option>
-                            <option value="LOGIN" th:selected="${activityType == 'LOGIN'}">로그인</option>
-                            <option value="LOGOUT" th:selected="${activityType == 'LOGOUT'}">로그아웃</option>
-                            <option value="CREATE" th:selected="${activityType == 'CREATE'}">생성</option>
-                            <option value="UPDATE" th:selected="${activityType == 'UPDATE'}">수정</option>
-                            <option value="DELETE" th:selected="${activityType == 'DELETE'}">삭제</option>
+                            <option value="">?�체</option>
+                            <option value="LOGIN" th:selected="${activityType == 'LOGIN'}">로그??/option>
+                            <option value="LOGOUT" th:selected="${activityType == 'LOGOUT'}">로그?�웃</option>
+                            <option value="CREATE" th:selected="${activityType == 'CREATE'}">?�성</option>
+                            <option value="UPDATE" th:selected="${activityType == 'UPDATE'}">?�정</option>
+                            <option value="DELETE" th:selected="${activityType == 'DELETE'}">??��</option>
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <label for="status" class="form-label">상태</label>
+                        <label for="status" class="form-label">?�태</label>
                         <select class="form-control" id="status" name="status">
-                            <option value="">전체</option>
-                            <option value="SUCCESS" th:selected="${status == 'SUCCESS'}">성공</option>
-                            <option value="FAILED" th:selected="${status == 'FAILED'}">실패</option>
-                            <option value="PENDING" th:selected="${status == 'PENDING'}">대기</option>
+                            <option value="">?�체</option>
+                            <option value="SUCCESS" th:selected="${status == 'SUCCESS'}">?�공</option>
+                            <option value="FAILED" th:selected="${status == 'FAILED'}">?�패</option>
+                            <option value="PENDING" th:selected="${status == 'PENDING'}">?��?/option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">&nbsp;</label>
                         <div>
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-search"></i> 검색
+                                <i class="fas fa-search"></i> 검??
                             </button>
                             <a href="/user-management-web/activity-logs" class="btn btn-secondary">
-                                <i class="fas fa-undo"></i> 초기화
+                                <i class="fas fa-undo"></i> 초기??
                             </a>
                         </div>
                     </div>
                 </form>
             </div>
             
-            <!-- 활동 로그 테이블 -->
+            <!-- ?�동 로그 ?�이�?-->
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>시간</th>
-                            <th>사용자 ID</th>
-                            <th>활동 유형</th>
-                            <th>설명</th>
+                            <th>?�간</th>
+                            <th>?�용??ID</th>
+                            <th>?�동 ?�형</th>
+                            <th>?�명</th>
                             <th>IP 주소</th>
-                            <th>상태</th>
-                            <th>상세 정보</th>
+                            <th>?�태</th>
+                            <th>?�세 ?�보</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -401,7 +401,7 @@
                                                       activity.activityType == 'DELETE' ? 'activity-delete' : ''}"
                                       th:text="${activity.activityType}">LOGIN</span>
                             </td>
-                            <td th:text="${activity.description}">사용자 로그인 성공</td>
+                            <td th:text="${activity.description}">?�용??로그???�공</td>
                             <td th:text="${activity.ipAddress}">192.168.1.100</td>
                             <td>
                                 <span class="status-badge" 
@@ -413,22 +413,22 @@
                             <td>
                                 <button class="btn btn-sm btn-outline-info" 
                                         th:onclick="'showDetails(\'' + ${activity.id} + '\')'">
-                                    <i class="fas fa-eye"></i> 상세
+                                    <i class="fas fa-eye"></i> ?�세
                                 </button>
                             </td>
                         </tr>
                         
-                        <!-- 샘플 데이터(실제 데이터가 없을 때 표시) -->
+                        <!-- ?�플 ?�이???�제 ?�이?��? ?�을 ???�시) -->
                         <tr th:if="${activities == null or activities.empty}">
                             <td>2024-01-15 14:30:25</td>
                             <td><strong>admin</strong></td>
                             <td><span class="activity-badge activity-login">LOGIN</span></td>
-                            <td>사용자 로그인 성공</td>
+                            <td>?�용??로그???�공</td>
                             <td>192.168.1.100</td>
                             <td><span class="status-badge status-success">SUCCESS</span></td>
                             <td>
                                 <button class="btn btn-sm btn-outline-info" onclick="showDetails('1')">
-                                    <i class="fas fa-eye"></i> 상세
+                                    <i class="fas fa-eye"></i> ?�세
                                 </button>
                             </td>
                         </tr>
@@ -436,12 +436,12 @@
                             <td>2024-01-15 14:25:10</td>
                             <td><strong>user001</strong></td>
                             <td><span class="activity-badge activity-create">CREATE</span></td>
-                            <td>새 사용자 등록</td>
+                            <td>???�용???�록</td>
                             <td>192.168.1.101</td>
                             <td><span class="status-badge status-success">SUCCESS</span></td>
                             <td>
                                 <button class="btn btn-sm btn-outline-info" onclick="showDetails('2')">
-                                    <i class="fas fa-eye"></i> 상세
+                                    <i class="fas fa-eye"></i> ?�세
                                 </button>
                             </td>
                         </tr>
@@ -449,12 +449,12 @@
                             <td>2024-01-15 14:20:45</td>
                             <td><strong>user002</strong></td>
                             <td><span class="activity-badge activity-logout">LOGOUT</span></td>
-                            <td>사용자 로그아웃</td>
+                            <td>?�용??로그?�웃</td>
                             <td>192.168.1.102</td>
                             <td><span class="status-badge status-success">SUCCESS</span></td>
                             <td>
                                 <button class="btn btn-sm btn-outline-info" onclick="showDetails('3')">
-                                    <i class="fas fa-eye"></i> 상세
+                                    <i class="fas fa-eye"></i> ?�세
                                 </button>
                             </td>
                         </tr>
@@ -462,12 +462,12 @@
                             <td>2024-01-15 14:15:30</td>
                             <td><strong>unknown</strong></td>
                             <td><span class="activity-badge activity-login">LOGIN</span></td>
-                            <td>로그인 시도 실패</td>
+                            <td>로그???�도 ?�패</td>
                             <td>192.168.1.103</td>
                             <td><span class="status-badge status-failed">FAILED</span></td>
                             <td>
                                 <button class="btn btn-sm btn-outline-info" onclick="showDetails('4')">
-                                    <i class="fas fa-eye"></i> 상세
+                                    <i class="fas fa-eye"></i> ?�세
                                 </button>
                             </td>
                         </tr>
@@ -475,12 +475,12 @@
                             <td>2024-01-15 14:10:15</td>
                             <td><strong>admin</strong></td>
                             <td><span class="activity-badge activity-update">UPDATE</span></td>
-                            <td>사용자 정보 수정</td>
+                            <td>?�용???�보 ?�정</td>
                             <td>192.168.1.100</td>
                             <td><span class="status-badge status-success">SUCCESS</span></td>
                             <td>
                                 <button class="btn btn-sm btn-outline-info" onclick="showDetails('5')">
-                                    <i class="fas fa-eye"></i> 상세
+                                    <i class="fas fa-eye"></i> ?�세
                                 </button>
                             </td>
                         </tr>
@@ -488,11 +488,11 @@
                 </table>
             </div>
             
-            <!-- 페이지네이션 -->
-            <nav aria-label="활동 로그 페이지네이션" class="mt-4">
+            <!-- ?�이지?�이??-->
+            <nav aria-label="?�동 로그 ?�이지?�이?? class="mt-4">
                 <ul class="pagination justify-content-center">
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">이전</a>
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">?�전</a>
                     </li>
                     <li class="page-item active">
                         <a class="page-link" href="#">1</a>
@@ -504,48 +504,48 @@
                         <a class="page-link" href="#">3</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="#">다음</a>
+                        <a class="page-link" href="#">?�음</a>
                     </li>
                 </ul>
             </nav>
             
-            <!-- 추가 기능 버튼들 -->
+            <!-- 추�? 기능 버튼??-->
             <div class="row mt-4">
                 <div class="col-md-6">
                     <a href="/user-management-web/activity-logs/date-range" class="btn btn-outline-primary">
-                        <i class="fas fa-calendar"></i> 기간별 조회
+                        <i class="fas fa-calendar"></i> 기간�?조회
                     </a>
                     <a href="/user-management-web/activity-logs/user/1" class="btn btn-outline-info">
-                        <i class="fas fa-user"></i> 사용자별 조회
+                        <i class="fas fa-user"></i> ?�용?�별 조회
                     </a>
                 </div>
                 <div class="col-md-6 text-end">
                     <button class="btn btn-success" onclick="exportLogs()">
-                        <i class="fas fa-download"></i> 로그 내보내기
+                        <i class="fas fa-download"></i> 로그 ?�보?�기
                     </button>
                     <button class="btn btn-warning" onclick="clearOldLogs()">
-                        <i class="fas fa-trash"></i> 오래된 로그 삭제
+                        <i class="fas fa-trash"></i> ?�래??로그 ??��
                     </button>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- 상세 정보 모달 -->
+    <!-- ?�세 ?�보 모달 -->
     <div class="modal fade" id="activityDetailModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">활동 상세 정보</h5>
+                    <h5 class="modal-title">?�동 ?�세 ?�보</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div id="activityDetails">
-                        <!-- 상세 정보가 여기에 동적으로 로드됩니다 -->
+                        <!-- ?�세 ?�보가 ?�기???�적?�로 로드?�니??-->
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">?�기</button>
                 </div>
             </div>
         </div>
@@ -554,26 +554,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function showDetails(activityId) {
-            // 실제 구현에서는 AJAX로 상세 정보를 가져옵니다
+            // ?�제 구현?�서??AJAX�??�세 ?�보�?가?�옵?�다
             const details = `
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>활동 ID:</strong> ${activityId}</p>
-                        <p><strong>사용자 ID:</strong> admin</p>
-                        <p><strong>활동 유형:</strong> LOGIN</p>
-                        <p><strong>상태:</strong> SUCCESS</p>
+                        <p><strong>?�동 ID:</strong> ${activityId}</p>
+                        <p><strong>?�용??ID:</strong> admin</p>
+                        <p><strong>?�동 ?�형:</strong> LOGIN</p>
+                        <p><strong>?�태:</strong> SUCCESS</p>
                     </div>
                     <div class="col-md-6">
                         <p><strong>IP 주소:</strong> 192.168.1.100</p>
-                        <p><strong>사용자 에이전트:</strong> Mozilla/5.0...</p>
-                        <p><strong>세션 ID:</strong> SESS_123456</p>
-                        <p><strong>처리 시간:</strong> 150ms</p>
+                        <p><strong>?�용???�이?�트:</strong> Mozilla/5.0...</p>
+                        <p><strong>?�션 ID:</strong> SESS_123456</p>
+                        <p><strong>처리 ?�간:</strong> 150ms</p>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-12">
-                        <p><strong>설명:</strong> 사용자가 성공적으로 로그인했습니다</p>
-                        <p><strong>추가 정보:</strong> 로그인 시도 횟수: 1, 마지막 로그인: 2024-01-15 10:30:00</p>
+                        <p><strong>?�명:</strong> ?�용?��? ?�공?�으�?로그?�했?�니??/p>
+                        <p><strong>추�? ?�보:</strong> 로그???�도 ?�수: 1, 마�?�?로그?? 2024-01-15 10:30:00</p>
                     </div>
                 </div>
             `;
@@ -583,12 +583,12 @@
         }
         
         function exportLogs() {
-            alert('로그 내보내기 기능이 구현되었습니다');
+            alert('로그 ?�보?�기 기능??구현?�었?�니??);
         }
         
         function clearOldLogs() {
-            if (confirm('30일 이상 된 로그를 삭제하시겠습니까?')) {
-                alert('오래된 로그가 삭제되었습니다');
+            if (confirm('30???�상 ??로그�???��?�시겠습?�까?')) {
+                alert('?�래??로그가 ??��?�었?�니??);
             }
         }
     </script>

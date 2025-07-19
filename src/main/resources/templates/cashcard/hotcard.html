@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}">?카??관리/title>
+    <title th:text="${title}">핫카드관리</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -212,36 +212,36 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i> ??/a></li>
                 <li class="breadcrumb-item"><a href="/cashcard">Cash Card</a></li>
-                <li class="breadcrumb-item active" aria-current="page">?카??관리</li>
+                <li class="breadcrumb-item active" aria-current="page">?�??관�?/li>
             </ol>
         </nav>
 
         <div class="page-header">
-            <h1><i class="fas fa-exclamation-triangle"></i> <span th:text="${pageTitle}">?카??관리</span></h1>
-            <p th:text="${description}">분실/?난 카드를 관리합니다</p>
+            <h1><i class="fas fa-exclamation-triangle"></i> <span th:text="${pageTitle}">?�??관�?/span></h1>
+            <p th:text="${description}">분실/???카드�?관리합?�다</p>
         </div>
         
         <div class="content-card">
             <div class="hotcard-grid">
                 <div class="hotcard-item">
                     <i class="fas fa-plus-circle hotcard-icon"></i>
-                    <div class="hotcard-title">?카드 등록</div>
+                    <div class="hotcard-title">?카드 ?�록</div>
                     <div class="hotcard-description">
-                        분실/?난 카드를 핫카드로 등록합니다
+                        분실/???카드�??�카?�로 ?�록?�니??
                     </div>
                     <a href="/cashcard/hotcard/register" class="btn btn-danger btn-hotcard">
-                        <i class="fas fa-plus"></i> 등록하기
+                        <i class="fas fa-plus"></i> ?�록?�기
                     </a>
                 </div>
                 
                 <div class="hotcard-item">
                     <i class="fas fa-check-circle hotcard-icon"></i>
-                    <div class="hotcard-title">?카드 제거</div>
+                    <div class="hotcard-title">?카드 ?�거</div>
                     <div class="hotcard-description">
-                        ?카드를 제거하고 상태를 변경합니다
+                        ?카드�??�거?�고 ?�태�?변경합?�다
                     </div>
                     <a href="/cashcard/hotcard/release" class="btn btn-success btn-hotcard">
-                        <i class="fas fa-check"></i> 제거하기
+                        <i class="fas fa-check"></i> ?�거?�기
                     </a>
                 </div>
                 
@@ -249,73 +249,73 @@
                     <i class="fas fa-search hotcard-icon"></i>
                     <div class="hotcard-title">?카드 조회</div>
                     <div class="hotcard-description">
-                        등록된 핫카드 목록을 조회합니다
+                        ?�록???�카??목록??조회?�니??
                     </div>
                     <a href="/cashcard/search" class="btn btn-primary btn-hotcard">
-                        <i class="fas fa-search"></i> 조회하기
+                        <i class="fas fa-search"></i> 조회?�기
                     </a>
                 </div>
                 
                 <div class="hotcard-item">
                     <i class="fas fa-chart-bar hotcard-icon"></i>
-                    <div class="hotcard-title">?계 현황</div>
+                    <div class="hotcard-title">?�??�황</div>
                     <div class="hotcard-description">
-                        ?카드 등록 현황을 통계로 보여드립니다
+                        ?카드 ?�록 ?�황???�계�?보여?�립?�다
                     </div>
                     <a href="#" class="btn btn-warning btn-hotcard">
-                        <i class="fas fa-chart-line"></i> 통계보기
+                        <i class="fas fa-chart-line"></i> ?�계보기
                     </a>
                 </div>
             </div>
         </div>
         
         <div class="content-card">
-            <h4><i class="fas fa-list"></i> 등록된 핫카드 목록</h4>
+            <h4><i class="fas fa-list"></i> ?�록???�카??목록</h4>
             
             <div class="hotcard-list">
                 <div class="hotcard-entry">
                     <div class="hotcard-header">
                         <span class="card-number">9876-5432-1098-7654</span>
-                        <span class="hotcard-status">핫카드</span>
+                        <span class="hotcard-status">?�카??/span>
                     </div>
                     <div class="hotcard-details">
                         <div class="detail-item">
-                            <div class="detail-label">고객명</div>
-                            <div class="detail-value">이영수</div>
+                            <div class="detail-label">고객�?/div>
+                            <div class="detail-value">?�영??/div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">계좌번호</div>
                             <div class="detail-value">456-789012-34-567</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">등록일</div>
+                            <div class="detail-label">?�록??/div>
                             <div class="detail-value">2024-01-20</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">등록자</div>
-                            <div class="detail-value">김관우</div>
+                            <div class="detail-label">?�록??/div>
+                            <div class="detail-value">김관??/div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">사유</div>
+                            <div class="detail-label">?�유</div>
                             <div class="detail-value">
-                                분실신고
-                                <span class="reason-badge">고객신고</span>
+                                분실?�고
+                                <span class="reason-badge">고객?�고</span>
                             </div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">상태</div>
-                            <div class="detail-value">처리완료</div>
+                            <div class="detail-label">?�태</div>
+                            <div class="detail-value">처리?�료</div>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
                         <a href="/cashcard/detail?cardNumber=9876-5432-1098-7654" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-eye"></i> 상세보기
+                            <i class="fas fa-eye"></i> ?�세보기
                         </a>
                         <a href="/cashcard/hotcard/release" class="btn btn-outline-success btn-sm">
-                            <i class="fas fa-check"></i> 제거하기
+                            <i class="fas fa-check"></i> ?�거?�기
                         </a>
                         <a href="#" class="btn btn-outline-info btn-sm">
-                            <i class="fas fa-edit"></i> 수정
+                            <i class="fas fa-edit"></i> ?�정
                         </a>
                     </div>
                 </div>
@@ -323,46 +323,46 @@
                 <div class="hotcard-entry">
                     <div class="hotcard-header">
                         <span class="card-number">1111-2222-3333-4444</span>
-                        <span class="hotcard-status">핫카드</span>
+                        <span class="hotcard-status">?�카??/span>
                     </div>
                     <div class="hotcard-details">
                         <div class="detail-item">
-                            <div class="detail-label">고객명</div>
-                            <div class="detail-value">박지민</div>
+                            <div class="detail-label">고객�?/div>
+                            <div class="detail-value">박�?�?/div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">계좌번호</div>
                             <div class="detail-value">789-123456-78-901</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">등록일</div>
+                            <div class="detail-label">?�록??/div>
                             <div class="detail-value">2024-01-18</div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">등록자</div>
-                            <div class="detail-value">최수연</div>
+                            <div class="detail-label">?�록??/div>
+                            <div class="detail-value">최수??/div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">사유</div>
+                            <div class="detail-label">?�유</div>
                             <div class="detail-value">
-                                도난신고
-                                <span class="reason-badge">경찰신고</span>
+                                ?�난?�고
+                                <span class="reason-badge">경찰?�고</span>
                             </div>
                         </div>
                         <div class="detail-item">
-                            <div class="detail-label">상태</div>
-                            <div class="detail-value">처리완료</div>
+                            <div class="detail-label">?�태</div>
+                            <div class="detail-value">처리?�료</div>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
                         <a href="/cashcard/detail?cardNumber=1111-2222-3333-4444" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-eye"></i> 상세보기
+                            <i class="fas fa-eye"></i> ?�세보기
                         </a>
                         <a href="/cashcard/hotcard/release" class="btn btn-outline-success btn-sm">
-                            <i class="fas fa-check"></i> 제거하기
+                            <i class="fas fa-check"></i> ?�거?�기
                         </a>
                         <a href="#" class="btn btn-outline-info btn-sm">
-                            <i class="fas fa-edit"></i> 수정
+                            <i class="fas fa-edit"></i> ?�정
                         </a>
                     </div>
                 </div>
@@ -370,26 +370,26 @@
         </div>
         
         <div class="content-card">
-            <h4><i class="fas fa-info-circle"></i> ?카드 관리 내용</h4>
+            <h4><i class="fas fa-info-circle"></i> ?카드 관�??�용</h4>
             <div class="row">
                 <div class="col-md-6">
-                    <h5>?카드 등록 사유</h5>
+                    <h5>?카드 ?�록 ?�유</h5>
                     <ul>
-                        <li>고객 분실 신고</li>
-                        <li>고객 도난 신고</li>
-                        <li>경찰 신고 수수</li>
-                        <li>?심?러??거래 감소</li>
-                        <li>관리자 단계적 처리</li>
+                        <li>고객 분실 ?�고</li>
+                        <li>고객 ?�난 ?�고</li>
+                        <li>경찰 ?�고 ?�수</li>
+                        <li>??????거래 감소</li>
+                        <li>관리자 ?�계??처리</li>
                     </ul>
                 </div>
                 <div class="col-md-6">
-                    <h5>?카드 제거 조건</h5>
+                    <h5>?카드 ?�거 조건</h5>
                     <ul>
-                        <li>고객 본인 신청 수수</li>
-                        <li>카드 발급 취소 수수</li>
-                        <li>보안 검증 과정</li>
-                        <li>관리자 승인</li>
-                        <li>?요?추가 예외 처리</li>
+                        <li>고객 본인 ?�청 ?�수</li>
+                        <li>카드 발급 취소 ?�수</li>
+                        <li>보안 검�?과정</li>
+                        <li>관리자 ?�인</li>
+                        <li>???추�? ?�외 처리</li>
                     </ul>
                 </div>
             </div>

@@ -11,7 +11,7 @@
     <relativePath/>
   </parent>
   
-  <groupId>com.skcc.oversea</groupId>
+  <groupId>com.skax.eatool</groupId>
   <artifactId>oversea</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>oversea</name>

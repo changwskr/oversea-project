@@ -63,10 +63,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">홈</a>
+                        <a class="nav-link" href="/">??/a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user-management-web">사용자 관리</a>
+                        <a class="nav-link" href="/user-management-web">?�용??관�?/a>
                     </li>
                 </ul>
             </div>
@@ -75,7 +75,7 @@
 
     <div class="main-content">
         <div class="container">
-            <!-- 알림 메시지 -->
+            <!-- ?�림 메시지 -->
             <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
                 <i class="fas fa-exclamation-triangle"></i>
                 <span th:text="${errorMessage}"></span>
@@ -86,7 +86,7 @@
                 <div class="col-12">
                     <div class="form-card">
                         <h2 class="mb-4">
-                            <i class="fas fa-user-edit"></i> 사용자 정보 수정
+                            <i class="fas fa-user-edit"></i> ?�용???�보 ?�정
                         </h2>
                         
                         <form th:action="@{/user-management-web/edit/{id}(id=${user.id})}" th:object="${user}" method="post">
@@ -94,20 +94,20 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">
-                                            사용자 ID <span class="required">*</span>
+                                            ?�용??ID <span class="required">*</span>
                                         </label>
                                         <input type="text" class="form-control" th:field="*{userId}" readonly>
-                                        <small class="form-text text-muted">사용자 ID는 수정할 수 없습니다.</small>
+                                        <small class="form-text text-muted">?�용??ID???�정?????�습?�다.</small>
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">
-                                            이메일 <span class="required">*</span>
+                                            ?�메??<span class="required">*</span>
                                         </label>
                                         <input type="email" class="form-control" th:field="*{email}" readonly>
-                                        <small class="form-text text-muted">이메일은 수정할 수 없습니다.</small>
+                                        <small class="form-text text-muted">?�메?��? ?�정?????�습?�다.</small>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">
-                                            이름 <span class="required">*</span>
+                                            ?�름 <span class="required">*</span>
                                         </label>
                                         <input type="text" class="form-control" th:field="*{name}" required>
                                     </div>
@@ -125,7 +125,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">
-                                            사용자명 <span class="required">*</span>
+                                            ?�용?�명 <span class="required">*</span>
                                         </label>
                                         <input type="text" class="form-control" th:field="*{username}" required>
                                     </div>
@@ -135,14 +135,14 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">전화번호</label>
+                                        <label class="form-label">?�화번호</label>
                                         <input type="tel" class="form-control" th:field="*{phone}">
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">나이</label>
+                                        <label class="form-label">?�이</label>
                                         <input type="number" class="form-control" th:field="*{age}" min="1" max="150">
                                     </div>
                                 </div>
@@ -163,7 +163,7 @@
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">회사</label>
+                                        <label class="form-label">?�사</label>
                                         <input type="text" class="form-control" th:field="*{company}">
                                     </div>
                                 </div>
@@ -172,7 +172,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">부서</label>
+                                        <label class="form-label">부??/label>
                                         <input type="text" class="form-control" th:field="*{department}">
                                     </div>
                                 </div>
@@ -188,24 +188,24 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">사용자 유형</label>
+                                        <label class="form-label">?�용???�형</label>
                                         <select class="form-select" th:field="*{userType}">
-                                            <option value="">선택하세요</option>
+                                            <option value="">?�택?�세??/option>
                                             <option value="ADMIN">관리자</option>
-                                            <option value="USER">일반 사용자</option>
-                                            <option value="MANAGER">매니저</option>
+                                            <option value="USER">?�반 ?�용??/option>
+                                            <option value="MANAGER">매니?�</option>
                                         </select>
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label">상태</label>
+                                        <label class="form-label">?�태</label>
                                         <select class="form-select" th:field="*{status}">
-                                            <option th:each="status : ${T(com.skcc.oversea.user.domain.UserStatus).values()}"
+                                            <option th:each="status : ${T(com.skax.eatool.user.domain.UserStatus).values()}"
                                                     th:value="${status}"
-                                                    th:text="${status == T(com.skcc.oversea.user.domain.UserStatus).ACTIVE ? '활성' : 
-                                                              status == T(com.skcc.oversea.user.domain.UserStatus).INACTIVE ? '비활성' : '대기'}">
+                                                    th:text="${status == T(com.skax.eatool.user.domain.UserStatus).ACTIVE ? '?�성' : 
+                                                              status == T(com.skax.eatool.user.domain.UserStatus).INACTIVE ? '비활?? : '?��?}">
                                             </option>
                                         </select>
                                     </div>
@@ -213,14 +213,14 @@
                             </div>
                             
                             <div class="form-group">
-                                <label class="form-label">새 비밀번호</label>
-                                <input type="password" class="form-control" name="password" placeholder="변경하지 않으려면 비워두세요">
-                                <small class="form-text text-muted">비밀번호를 변경하지 않으려면 비워두세요.</small>
+                                <label class="form-label">??비�?번호</label>
+                                <input type="password" class="form-control" name="password" placeholder="변경하지 ?�으?�면 비워?�세??>
+                                <small class="form-text text-muted">비�?번호�?변경하지 ?�으?�면 비워?�세??</small>
                             </div>
                             
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn btn-primary btn-submit">
-                                    <i class="fas fa-save"></i> 저장
+                                    <i class="fas fa-save"></i> ?�??
                                 </button>
                                 <a th:href="@{/user-management-web/detail/{id}(id=${user.id})}" class="btn btn-secondary btn-cancel">
                                     <i class="fas fa-times"></i> 취소

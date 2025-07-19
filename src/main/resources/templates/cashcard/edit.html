@@ -139,19 +139,19 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/home"><i class="fas fa-home"></i> 홈</a>
+                        <a class="nav-link" href="/home"><i class="fas fa-home"></i> ??/a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> 현금카드</a>
+                        <a class="nav-link active" href="/cashcard"><i class="fas fa-credit-card"></i> ?�금카드</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/deposit"><i class="fas fa-piggy-bank"></i> 예금</a>
+                        <a class="nav-link" href="/deposit"><i class="fas fa-piggy-bank"></i> ?�금</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/teller"><i class="fas fa-user-tie"></i> 은행원</a>
+                        <a class="nav-link" href="/teller"><i class="fas fa-user-tie"></i> ?�?�원</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user"><i class="fas fa-users"></i> 사용자</a>
+                        <a class="nav-link" href="/user"><i class="fas fa-users"></i> ?�용??/a>
                     </li>
                 </ul>
             </div>
@@ -161,127 +161,127 @@
     <div class="container main-content">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i> 홈</a></li>
-                <li class="breadcrumb-item"><a href="/cashcard">현금카드</a></li>
-                <li class="breadcrumb-item"><a href="/cashcard/manage">카드 관리</a></li>
-                <li class="breadcrumb-item active" aria-current="page">카드 정보 수정</li>
+                <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i> ??/a></li>
+                <li class="breadcrumb-item"><a href="/cashcard">?�금카드</a></li>
+                <li class="breadcrumb-item"><a href="/cashcard/manage">카드 관�?/a></li>
+                <li class="breadcrumb-item active" aria-current="page">카드 ?�보 ?�정</li>
             </ol>
         </nav>
 
         <div class="page-header">
-            <h1><i class="fas fa-edit"></i> <span th:text="${pageTitle}">카드 정보 수정</span></h1>
-            <p th:text="${description}">카드 정보를 수정할 수 있습니다.</p>
+            <h1><i class="fas fa-edit"></i> <span th:text="${pageTitle}">카드 ?�보 ?�정</span></h1>
+            <p th:text="${description}">카드 ?�보�??�정?????�습?�다.</p>
         </div>
         
-        <!-- 성공/실패 메시지 -->
+        <!-- ?�공/?�패 메시지 -->
         <div th:if="${successMessage}" class="alert alert-success" role="alert">
-            <i class="fas fa-check-circle"></i> <span th:text="${successMessage}">성공 메시지</span>
+            <i class="fas fa-check-circle"></i> <span th:text="${successMessage}">?�공 메시지</span>
         </div>
         
         <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-            <i class="fas fa-exclamation-triangle"></i> <span th:text="${errorMessage}">실패 메시지</span>
+            <i class="fas fa-exclamation-triangle"></i> <span th:text="${errorMessage}">?�패 메시지</span>
         </div>
         
         <div class="content-card">
-            <!-- 카드 정보가 없는 경우 -->
+            <!-- 카드 ?�보가 ?�는 경우 -->
             <div th:if="${cardInfo == null}" class="text-center py-5">
                 <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ffc107; margin-bottom: 1rem;"></i>
-                <h5 class="text-muted">카드 정보를 찾을 수 없습니다</h5>
+                <h5 class="text-muted">카드 ?�보�?찾을 ???�습?�다</h5>
                 <p class="text-muted">카드번호: <span th:text="${cardNumber}">카드번호</span></p>
                 <a href="/cashcard/manage" class="btn btn-warning">
-                    <i class="fas fa-arrow-left"></i> 관리 페이지로
+                    <i class="fas fa-arrow-left"></i> 관�??�이지�?
                 </a>
             </div>
             
-            <!-- 카드 정보 수정 폼 -->
+            <!-- 카드 ?�보 ?�정 ??-->
             <div th:if="${cardInfo != null}">
-                <!-- 카드 정보 표시 -->
+                <!-- 카드 ?�보 ?�시 -->
                 <div class="card-info-display">
                     <div class="card-number-text" th:text="${cardInfo.cardNumber}">카드번호</div>
-                    <div class="card-customer-text" th:text="${cardInfo.CIFName != null ? cardInfo.CIFName + ' 고객님' : '고객 정보 없음'}">고객명</div>
+                    <div class="card-customer-text" th:text="${cardInfo.CIFName != null ? cardInfo.CIFName + ' 고객?? : '고객 ?�보 ?�음'}">고객�?/div>
                 </div>
                 
                 <form th:action="@{/cashcard/manage/update}" method="post" th:object="${cardInfo}">
                     <input type="hidden" name="cardNumber" th:value="${cardInfo.cardNumber}" />
                     
-                    <!-- 한도 정보 -->
+                    <!-- ?�도 ?�보 -->
                     <div class="form-section">
-                        <h4><i class="fas fa-chart-line"></i> 한도 정보</h4>
+                        <h4><i class="fas fa-chart-line"></i> ?�도 ?�보</h4>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="dailyLimit" class="form-label">일일 한도 (KRW)</label>
+                                <label for="dailyLimit" class="form-label">?�일 ?�도 (KRW)</label>
                                 <input type="number" class="form-control" id="dailyLimit" name="dailyLimit" 
                                        th:value="${cardInfo.dailyLimitAmount != null ? cardInfo.dailyLimitAmount : 0}" 
                                        min="0" step="10000" required />
-                                <div class="form-text">일일 최대 출금/결제 한도를 설정합니다.</div>
+                                <div class="form-text">?�일 최�? 출금/결제 ?�도�??�정?�니??</div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="dailyTrfLimit" class="form-label">일일 체크 한도 (KRW)</label>
+                                <label for="dailyTrfLimit" class="form-label">?�일 체크 ?�도 (KRW)</label>
                                 <input type="number" class="form-control" id="dailyTrfLimit" name="dailyTrfLimit" 
                                        th:value="${cardInfo.dailyTrfLimitAmount != null ? cardInfo.dailyTrfLimitAmount : 0}" 
                                        min="0" step="10000" required />
-                                <div class="form-text">일일 최대 체크 한도를 설정합니다.</div>
+                                <div class="form-text">?�일 최�? 체크 ?�도�??�정?�니??</div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 상태 정보 -->
+                    <!-- ?�태 ?�보 -->
                     <div class="form-section">
-                        <h4><i class="fas fa-toggle-on"></i> 상태 정보</h4>
+                        <h4><i class="fas fa-toggle-on"></i> ?�태 ?�보</h4>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="status" class="form-label">카드 상태</label>
+                                <label for="status" class="form-label">카드 ?�태</label>
                                 <select class="form-select" id="status" name="status" required>
-                                    <option value="A" th:selected="${cardInfo.status == 'A'}">정상 (A)</option>
-                                    <option value="I" th:selected="${cardInfo.status == 'I'}">비활성 (I)</option>
-                                    <option value="S" th:selected="${cardInfo.status == 'S'}">정지 (S)</option>
-                                    <option value="P" th:selected="${cardInfo.status == 'P'}">휴면 (P)</option>
+                                    <option value="A" th:selected="${cardInfo.status == 'A'}">?�상 (A)</option>
+                                    <option value="I" th:selected="${cardInfo.status == 'I'}">비활??(I)</option>
+                                    <option value="S" th:selected="${cardInfo.status == 'S'}">?��? (S)</option>
+                                    <option value="P" th:selected="${cardInfo.status == 'P'}">?�면 (P)</option>
                                 </select>
-                                <div class="form-text">카드 사용 상태를 변경합니다.</div>
+                                <div class="form-text">카드 ?�용 ?�태�?변경합?�다.</div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="amendReason" class="form-label">변경 사유</label>
+                                <label for="amendReason" class="form-label">변�??�유</label>
                                 <textarea class="form-control" id="amendReason" name="amendReason" rows="3" 
-                                          placeholder="상태 변경 사유를 입력해주세요."></textarea>
-                                <div class="form-text">상태 변경 사유를 기록합니다.</div>
+                                          placeholder="?�태 변�??�유�??�력?�주?�요."></textarea>
+                                <div class="form-text">?�태 변�??�유�?기록?�니??</div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 기본 정보 (읽기 전용) -->
+                    <!-- 기본 ?�보 (?�기 ?�용) -->
                     <div class="form-section">
-                        <h4><i class="fas fa-info-circle"></i> 기본 정보 (읽기 전용)</h4>
+                        <h4><i class="fas fa-info-circle"></i> 기본 ?�보 (?�기 ?�용)</h4>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">고객명</label>
+                                <label class="form-label">고객�?/label>
                                 <input type="text" class="form-control readonly-field" 
-                                       th:value="${cardInfo.CIFName != null ? cardInfo.CIFName : '미등록'}" readonly />
+                                       th:value="${cardInfo.CIFName != null ? cardInfo.CIFName : '미등�?}" readonly />
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">고객번호</label>
                                 <input type="text" class="form-control readonly-field" 
-                                       th:value="${cardInfo.CIFNo != null ? cardInfo.CIFNo : '미등록'}" readonly />
+                                       th:value="${cardInfo.CIFNo != null ? cardInfo.CIFNo : '미등�?}" readonly />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">주계좌번호</label>
+                                <label class="form-label">주계좌번??/label>
                                 <input type="text" class="form-control readonly-field" 
-                                       th:value="${cardInfo.primaryAccountNo != null ? cardInfo.primaryAccountNo : '미등록'}" readonly />
+                                       th:value="${cardInfo.primaryAccountNo != null ? cardInfo.primaryAccountNo : '미등�?}" readonly />
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">카드 종류</label>
                                 <input type="text" class="form-control readonly-field" 
-                                       th:value="${cardInfo.type != null ? cardInfo.type : '현금카드'}" readonly />
+                                       th:value="${cardInfo.type != null ? cardInfo.type : '?�금카드'}" readonly />
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 버튼 영역 -->
+                    <!-- 버튼 ?�역 -->
                     <div class="text-center mt-4">
                         <a href="/cashcard/manage" class="btn-cancel">
                             <i class="fas fa-times"></i> 취소
                         </a>
                         <button type="submit" class="btn-submit">
-                            <i class="fas fa-save"></i> 수정 완료
+                            <i class="fas fa-save"></i> ?�정 ?�료
                         </button>
                     </div>
                 </form>
